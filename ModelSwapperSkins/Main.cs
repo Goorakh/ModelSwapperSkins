@@ -1,9 +1,12 @@
 using BepInEx;
+using R2API.Utils;
+using RoR2;
 using System.Diagnostics;
 
 namespace ModelSwapperSkins
 {
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
+    [BepInDependency(R2API.R2API.PluginGUID)]
     public class Main : BaseUnityPlugin
     {
         public const string PluginGUID = PluginAuthor + "." + PluginName;
@@ -16,6 +19,8 @@ namespace ModelSwapperSkins
             Stopwatch stopwatch = Stopwatch.StartNew();
 
             Log.Init(Logger);
+
+            SystemInitializerInjector.InjectDependency(typeof(SkinCatalog), typeof(DynamicSkinAdder));
 
             stopwatch.Stop();
             Log.Info_NoCallerPrefix($"Initialized in {stopwatch.Elapsed.TotalSeconds:F2} seconds");
