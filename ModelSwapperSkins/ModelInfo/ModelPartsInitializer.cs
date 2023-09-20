@@ -349,8 +349,6 @@ namespace ModelSwapperSkins.ModelInfo
             OverrideParts("RoR2/Base/Titan/TitanGoldBody.prefab",
                           new ModelPartConstructor("TitanArmature/ROOT/base/stomach/chest/upper_arm.r/lower_arm.r/hand.r/RightFist/Sword", ModelPartFlags.Weapon));
 
-            // Toolbot
-
             // Treebot
 
             OverrideParts("RoR2/DLC1/VoidSurvivor/VoidSurvivorBody.prefab",
