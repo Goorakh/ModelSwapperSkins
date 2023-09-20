@@ -1,0 +1,167 @@
+﻿using ModelSwapperSkins.Utils;
+using UnityEngine;
+
+namespace ModelSwapperSkins.BoneMapping
+{
+    public sealed class BoneInitializerRules_AutoName : BoneInitializerRules
+    {
+        public override BoneType? TryResolveBoneType(Transform modelTransform, Transform potentialBoneTransform)
+        {
+            switch (potentialBoneTransform.name.ToLower())
+            {
+                case "root":
+                    return BoneType.Root;
+                case "base":
+                    return BoneType.Base;
+                case "pelvis":
+                case "hip":
+                    return BoneType.Pelvis;
+                case "thigh.l":
+                    return BoneType.LegUpperL;
+                case "calf.l":
+                    return BoneType.LegLowerL;
+                case "foot.l":
+                case "footl":
+                    return BoneType.FootL;
+                case "toe.l":
+                    return BoneType.ToeL;
+                case "toe.l_end":
+                    return BoneType.ToeL_end;
+                case "thigh.r":
+                    return BoneType.LegUpperR;
+                case "calf.r":
+                    return BoneType.LegLowerR;
+                case "foot.r":
+                case "footr":
+                    return BoneType.FootR;
+                case "toe.r":
+                    return BoneType.ToeR;
+                case "toe.r_end":
+                    return BoneType.ToeR_end;
+                case "stomach":
+                    return BoneType.Stomach;
+                case "chest":
+                    return BoneType.Chest;
+                case "head":
+                    return BoneType.Head;
+                case "neck":
+                    return BoneType.Neck;
+                case "clavicle.l":
+                    return BoneType.ClavicleL;
+                case "upper_arm.l":
+                    return BoneType.ArmUpperL;
+                case "lower_arm.l":
+                    return BoneType.ArmLowerL;
+                case "hand.l":
+                case "handl":
+                    return BoneType.HandL;
+                case "hand.l_end":
+                    return BoneType.HandL_end;
+                case "palml":
+                    return BoneType.HandPalmL;
+                case "finger1.1.l":
+                case "finger1.l":
+                    return BoneType.IndexFinger1L;
+                case "finger1.2.l":
+                    return BoneType.IndexFinger2L;
+                case "finger1.3.l":
+                    return BoneType.IndexFinger3L;
+                case "finger1.3.l_end":
+                case "finger1.l_end":
+                    return BoneType.IndexFinger3L_end;
+                case "finger2.1.l":
+                case "finger2.l":
+                    return BoneType.MiddleFinger1L;
+                case "finger2.2.l":
+                    return BoneType.MiddleFinger2L;
+                case "finger2.3.l":
+                    return BoneType.MiddleFinger3L;
+                case "finger2.3.l_end":
+                case "finger2.l_end":
+                    return BoneType.MiddleFinger3L_end;
+                case "finger3.1.l":
+                    return BoneType.RingFinger1L;
+                case "finger3.2.l":
+                    return BoneType.RingFinger2L;
+                case "finger3.3.l":
+                    return BoneType.RingFinger3L;
+                case "finger3.3.l_end":
+                    return BoneType.RingFinger3L_end;
+                case "finger4.1.l":
+                    return BoneType.PinkyFinger1L;
+                case "finger4.2.l":
+                    return BoneType.PinkyFinger2L;
+                case "finger4.3.l":
+                    return BoneType.PinkyFinger3L;
+                case "finger4.3.l_end":
+                    return BoneType.PinkyFinger3L_end;
+                case "thumb.1.l":
+                case "thumb.l":
+                    return BoneType.Thumb1L;
+                case "thumb.2.l":
+                    return BoneType.Thumb2L;
+                case "thumb.2.l_end":
+                case "thumb.l_end":
+                    return BoneType.Thumb2L_end;
+                case "clavicle.r":
+                    return BoneType.ClavicleR;
+                case "upper_arm.r":
+                    return BoneType.ArmUpperR;
+                case "lower_arm.r":
+                    return BoneType.ArmLowerR;
+                case "hand.r":
+                case "handr":
+                    return BoneType.HandR;
+                case "finger1.1.r":
+                case "finger1.r":
+                    return BoneType.IndexFinger1R;
+                case "finger1.2.r":
+                    return BoneType.IndexFinger2R;
+                case "finger1.3.r":
+                    return BoneType.IndexFinger3R;
+                case "finger1.3.r_end":
+                case "finger1.r_end":
+                    return BoneType.IndexFinger3R_end;
+                case "finger2.1.r":
+                case "finger2.r":
+                    return BoneType.MiddleFinger1R;
+                case "finger2.2.r":
+                    return BoneType.MiddleFinger2R;
+                case "finger2.3.r":
+                    return BoneType.MiddleFinger3R;
+                case "finger2.3.r_end":
+                case "finger2.r_end":
+                    return BoneType.MiddleFinger3R_end;
+                case "finger3.1.r":
+                    return BoneType.RingFinger1R;
+                case "finger3.2.r":
+                    return BoneType.RingFinger2R;
+                case "finger3.3.r":
+                    return BoneType.RingFinger3R;
+                case "finger3.3.r_end":
+                    return BoneType.RingFinger3R_end;
+                case "finger4.1.r":
+                    return BoneType.PinkyFinger1R;
+                case "finger4.2.r":
+                    return BoneType.PinkyFinger2R;
+                case "finger4.3.r":
+                    return BoneType.PinkyFinger3R;
+                case "finger4.3.r_end":
+                    return BoneType.PinkyFinger3R_end;
+                case "thumb.1.r":
+                case "thumb.r":
+                    return BoneType.Thumb1R;
+                case "thumb.2.r":
+                    return BoneType.Thumb2R;
+                case "thumb.2.r_end":
+                case "thumb.r_end":
+                    return BoneType.Thumb2R_end;
+                default:
+#if DEBUG
+                    Log.Debug($"Unhandled bone in {modelTransform.name}: {TransformUtils.GetObjectPath(potentialBoneTransform, modelTransform)}");
+#endif
+                    return null;
+            }
+        }
+    }
+}

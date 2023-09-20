@@ -1,4 +1,6 @@
-﻿using HG;
+﻿using ModelSwapperSkins.BoneMapping;
+using ModelSwapperSkins.ModelInfo;
+using ModelSwapperSkins.Utils;
 using RoR2;
 using System;
 using System.Collections.Generic;
@@ -8,92 +10,85 @@ namespace ModelSwapperSkins
 {
     public static class DynamicSkinAdder
     {
-        [SystemInitializer(typeof(BodyCatalog), typeof(SurvivorCatalog))]
+        public delegate void AddSkinDelegate(SurvivorDef survivor, List<SkinDef> skins);
+        public static event AddSkinDelegate AddSkins;
+
+        [SystemInitializer(typeof(SurvivorCatalog), typeof(ModelPartsInitializer), typeof(BoneInitializer))]
         static void Init()
         {
+            // Bake is called from Awake, before we've had a chance to set all the fields, it will be called manually later instead
+            void SkinDef_Bake(On.RoR2.SkinDef.orig_Bake orig, SkinDef self)
+            {
+            }
+
+            On.RoR2.SkinDef.Bake += SkinDef_Bake;
+
             foreach (SurvivorDef survivor in SurvivorCatalog.allSurvivorDefs)
             {
-                if (!survivor)
-                    continue;
+                addSkinsTo(survivor);
+            }
 
-                GameObject bodyPrefab = survivor.bodyPrefab;
-                if (!bodyPrefab)
-                    continue;
+            On.RoR2.SkinDef.Bake -= SkinDef_Bake;
+        }
 
-                ModelLocator modelLocator = bodyPrefab.GetComponent<ModelLocator>();
-                if (!modelLocator)
-                    continue;
+        static void addSkinsTo(SurvivorDef survivor)
+        {
+            if (!survivor)
+                return;
 
-                Transform modelTransform = modelLocator.modelTransform;
-                if (!modelTransform)
-                    continue;
+            GameObject bodyPrefab = survivor.bodyPrefab;
+            if (!bodyPrefab)
+                return;
 
-                ModelSkinController modelSkinController = modelTransform.GetComponent<ModelSkinController>();
-                if (!modelSkinController)
+            ModelLocator modelLocator = bodyPrefab.GetComponent<ModelLocator>();
+            if (!modelLocator)
+                return;
+
+            Transform modelTransform = modelLocator.modelTransform;
+            if (!modelTransform)
+                return;
+
+            ModelSkinController modelSkinController = modelTransform.GetComponent<ModelSkinController>();
+            if (!modelSkinController)
+            {
+                Log.Warning($"Survivor {survivor.cachedName} body prefab ({bodyPrefab}) model is missing ModelSkinController");
+                return;
+            }
+
+            List<SkinDef> newSkins = new List<SkinDef>();
+            AddSkins?.Invoke(survivor, newSkins);
+
+            if (newSkins.Count > 0)
+            {
+                foreach (SkinDef skin in newSkins)
                 {
-                    Log.Warning($"Survivor {survivor.cachedName} body prefab ({bodyPrefab}) model is missing ModelSkinController");
-                    continue;
-                }
+                    skin.baseSkins ??= Array.Empty<SkinDef>();
 
-                void SkinDef_Bake(On.RoR2.SkinDef.orig_Bake orig, SkinDef self)
-                {
-                    if (self.baseSkins == null)
-                        self.baseSkins = Array.Empty<SkinDef>();
+                    if (!skin.rootObject)
+                        skin.rootObject = modelTransform.gameObject;
 
-                    if (!self.rootObject)
-                        self.rootObject = modelTransform.gameObject;
-
-                    orig(self);
-                }
-
-                On.RoR2.SkinDef.Bake += SkinDef_Bake;
-
-                List<SkinDef> newSkins = new List<SkinDef>();
-
-                foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
-                {
-                    if ((body.bodyFlags & CharacterBody.BodyFlags.Masterless) != 0)
-                        continue;
-
-                    if (body.gameObject == bodyPrefab)
-                        continue;
-
-                    SkinDef skinDef = ScriptableObject.CreateInstance<SkinDef>();
-
-                    skinDef.nameToken = body.baseNameToken;
-
-                    newSkins.Add(skinDef);
-                }
-
-                On.RoR2.SkinDef.Bake -= SkinDef_Bake;
-
-                if (newSkins.Count > 0)
-                {
-                    void appendSkins(ref SkinDef[] skins)
-                    {
-                        int skinsLength = skins.Length;
-                        Array.Resize(ref skins, skinsLength + newSkins.Count);
-                        newSkins.CopyTo(skins, skinsLength);
-                    }
-
-                    appendSkins(ref modelSkinController.skins);
-
-                    BodyIndex bodyIndex = BodyCatalog.FindBodyIndex(bodyPrefab);
-                    if (bodyIndex != BodyIndex.None)
-                    {
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
-                        SkinDef[][] skins = BodyCatalog.skins;
+                    skin.Bake();
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
-                        if ((int)bodyIndex < skins.Length)
-                        {
-                            appendSkins(ref skins[(int)bodyIndex]);
-                        }
+                }
+
+                ArrayUtil.Append(ref modelSkinController.skins, newSkins);
+
+                BodyIndex bodyIndex = BodyCatalog.FindBodyIndex(bodyPrefab);
+                if (bodyIndex != BodyIndex.None)
+                {
+#pragma warning disable Publicizer001 // Accessing a member that was not originally public
+                    SkinDef[][] skins = BodyCatalog.skins;
+#pragma warning restore Publicizer001 // Accessing a member that was not originally public
+                    if ((int)bodyIndex < skins.Length)
+                    {
+                        ArrayUtil.Append(ref skins[(int)bodyIndex], newSkins);
                     }
+                }
 
 #if DEBUG
-                    Log.Debug($"Added {newSkins.Count} skins to {survivor.cachedName}");
+                Log.Debug($"Added {newSkins.Count} skins to {survivor.cachedName}");
 #endif
-                }
             }
         }
     }
