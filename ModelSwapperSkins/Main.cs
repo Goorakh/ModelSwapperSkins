@@ -37,26 +37,23 @@ namespace ModelSwapperSkins
 
         static void DynamicSkinAdder_AddSkins(SurvivorDef survivor, List<SkinDef> skins)
         {
-            if (!survivor)
+            if (!survivor || !survivor.bodyPrefab)
                 return;
 
-            HashSet<Transform> usedModels = new HashSet<Transform>();
+            if (!survivor.bodyPrefab.TryGetComponent(out ModelLocator survivorModelLocator))
+                return;
 
-            ModelPartsProvider survivorPartsProvider = null;
-            BonesProvider survivorBonesProvider = null;
+            Transform survivorModelTransform = survivorModelLocator.modelTransform;
+            if (!survivorModelTransform)
+                return;
 
-            if (survivor.bodyPrefab && survivor.bodyPrefab.TryGetComponent(out ModelLocator survivorModelLocator))
+            if (!survivorModelTransform.TryGetComponent(out ModelPartsProvider survivorPartsProvider) ||
+                !survivorModelTransform.TryGetComponent(out BonesProvider survivorBonesProvider))
             {
-                Transform survivorModelTransform = survivorModelLocator.modelTransform;
-                if (survivorModelTransform)
-                {
-                    survivorPartsProvider = survivorModelTransform.GetComponent<ModelPartsProvider>();
-                    survivorBonesProvider = survivorModelTransform.GetComponent<BonesProvider>();
-                }
+                return;
             }
 
-            if (!survivorPartsProvider || !survivorBonesProvider)
-                return;
+            HashSet<Transform> usedModels = new HashSet<Transform>();
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
@@ -85,7 +82,8 @@ namespace ModelSwapperSkins
                 if (!bodyBonesProvider)
                     continue;
 
-                if (survivorBonesProvider.GetNumMatchingBones(bodyBonesProvider) < 5)
+                const int MIN_MATCHING_BONES = 10;
+                if (survivorBonesProvider.GetNumMatchingBones(bodyBonesProvider) < MIN_MATCHING_BONES)
                 {
 #if DEBUG
                     Log.Debug($"Not creating {body.name} skin for {survivor.cachedName}: Not enough common bones");

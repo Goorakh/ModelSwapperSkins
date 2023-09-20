@@ -23,25 +23,32 @@ namespace ModelSwapperSkins.BoneMapping
             set
             {
                 _bones = value;
-                _providedBoneTypes = value.Select(b => b.Type).Distinct().ToArray();
+                _providedBoneTypes = value.Select(b => b.Info.Type).Distinct().OrderBy(b => b).ToArray();
             }
+        }
+
+        public bool HasBone(BoneType boneType)
+        {
+            return Array.BinarySearch(_providedBoneTypes, boneType) >= 0;
         }
 
         public int GetNumMatchingBones(BonesProvider other)
         {
-            return _providedBoneTypes.Count(b => other._providedBoneTypes.Contains(b));
+            return _providedBoneTypes.Count(other.HasBone);
         }
 
         public void MapBonesTo(BonesProvider other)
         {
             foreach (Bone bone in Bones)
             {
-                Bone matchingBone = other.Bones.FirstOrDefault(b => b.Type == bone.Type);
-                if (matchingBone == null)
+                if (!other.HasBone(bone.Info.Type))
                     continue;
 
-                SyncTransform syncTransform = bone.BoneTransform.gameObject.AddComponent<SyncTransform>();
-                syncTransform.Target = matchingBone.BoneTransform;
+                Bone matchingBone = other.Bones.First(b => b.Info.Type == bone.Info.Type);
+
+                MatchBoneTransform matchBoneTransform = bone.BoneTransform.gameObject.AddComponent<MatchBoneTransform>();
+                matchBoneTransform.Bone = bone;
+                matchBoneTransform.TargetBone = matchingBone;
             }
         }
 

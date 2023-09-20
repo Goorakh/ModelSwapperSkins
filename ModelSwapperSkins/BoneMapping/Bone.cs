@@ -6,7 +6,7 @@ namespace ModelSwapperSkins.BoneMapping
     [Serializable]
     public class Bone
     {
-        public BoneType Type;
+        public BoneInfo Info;
         public Transform BoneTransform;
         public string ModelPath;
 
@@ -14,7 +14,7 @@ namespace ModelSwapperSkins.BoneMapping
         {
             return new Bone
             {
-                Type = Type,
+                Info = Info,
                 ModelPath = ModelPath,
                 BoneTransform = displayBonesProvider.transform.Find(ModelPath)
             };

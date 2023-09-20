@@ -2,6 +2,7 @@
 {
     public enum BoneType : byte
     {
+        None,
         Root,
         Base,
         Pelvis,
@@ -19,7 +20,7 @@
         Chest,
         Neck,
         Head,
-        ClavicleL,
+        ShoulderL,
         ArmUpperL,
         ArmLowerL,
         HandL,
@@ -44,7 +45,7 @@
         Thumb1L,
         Thumb2L,
         Thumb2L_end,
-        ClavicleR,
+        ShoulderR,
         ArmUpperR,
         ArmLowerR,
         HandR,
@@ -68,6 +69,14 @@
         PinkyFinger3R_end,
         Thumb1R,
         Thumb2R,
-        Thumb2R_end
+        Thumb2R_end,
+        Tail1,
+        Tail2,
+        Tail3,
+        Tail4,
+        Tail5,
+        Tail6,
+        Tail7,
+        Tail_end
     }
 }

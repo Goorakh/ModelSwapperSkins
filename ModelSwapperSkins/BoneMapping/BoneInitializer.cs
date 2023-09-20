@@ -1,10 +1,8 @@
-﻿using ModelSwapperSkins.ModelInfo;
+﻿using ModelSwapperSkins.BoneMapping.InitializerRules;
 using ModelSwapperSkins.Utils;
 using RoR2;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -12,7 +10,7 @@ namespace ModelSwapperSkins.BoneMapping
 {
     public static class BoneInitializer
     {
-        public static readonly BoneInitializerRules DefaultBoneRules = new BoneInitializerRules_AutoName();
+        public static readonly BoneInitializerRules DefaultBoneRules = BoneInitializerRules_AutoName.Instance;
 
         public static void AddBonesProvider(string bodyPrefabPath, BoneInitializerRules rules)
         {
@@ -49,17 +47,14 @@ namespace ModelSwapperSkins.BoneMapping
             }
 
             if (modelTransform.GetComponent<BonesProvider>())
-            {
-                Log.Warning($"Attempted to add duplicate model parts provider to {modelTransform.name}");
                 return;
-            }
 
             BonesProvider bonesProvider = modelTransform.gameObject.AddComponent<BonesProvider>();
 
             IEnumerable<Bone> bones = from bone in TransformUtils.GetAllChildrenRecursive(modelTransform)
-                                      let type = rules.TryResolveBoneType(modelTransform, bone)
-                                      where type.HasValue
-                                      select new Bone { BoneTransform = bone, Type = type.Value, ModelPath = TransformUtils.GetObjectPath(bone, modelTransform) };
+                                      let info = rules.GetBoneInfo(modelTransform, bone)
+                                      where info.Type != BoneType.None
+                                      select new Bone { BoneTransform = bone, Info = info, ModelPath = TransformUtils.GetObjectPath(bone, modelTransform) };
 
             bonesProvider.Bones = bones.ToArray();
 
@@ -82,7 +77,9 @@ namespace ModelSwapperSkins.BoneMapping
         [SystemInitializer(typeof(BodyCatalog))]
         static void Init()
         {
-            // addBonesProvider("RoR2/DLC1/AcidLarva/AcidLarvaBody.prefab", DefaultBoneRules);
+            AddBonesProvider("RoR2/DLC1/AcidLarva/AcidLarvaBody.prefab", BoneInitializerRules_Larva.Instance);
+
+            AddBonesProvider("RoR2/Base/Croco/CrocoBody.prefab", BoneInitializerRules_Acrid.Instance);
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
