@@ -354,8 +354,8 @@ namespace ModelSwapperSkins.ModelInfo
             // Treebot
 
             OverrideParts("RoR2/DLC1/VoidSurvivor/VoidSurvivorBody.prefab",
-                             new ModelPartConstructor("mdlVoidSurvivorMetal", ModelPartFlags.BodyFeature),
-                             new ModelPartConstructor("metalcollar.001", ModelPartFlags.Body));
+                          new ModelPartConstructor("mdlVoidSurvivorMetal", ModelPartFlags.BodyFeature),
+                          new ModelPartConstructor("metalcollar.001", ModelPartFlags.Body));
         }
     }
 }
