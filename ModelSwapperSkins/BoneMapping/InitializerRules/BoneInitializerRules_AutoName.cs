@@ -29,9 +29,19 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "footl":
                     return new BoneInfo(BoneType.FootL);
                 case "toe.l":
-                    return new BoneInfo(BoneType.ToeL);
+                case "toe1.l":
+                    return new BoneInfo(BoneType.Toe1L);
                 case "toe.l_end":
-                    return new BoneInfo(BoneType.ToeL_end);
+                case "toe1.l_end":
+                    return new BoneInfo(BoneType.Toe1L_end);
+                case "toe2.l":
+                    return new BoneInfo(BoneType.Toe2L);
+                case "toe2.l_end":
+                    return new BoneInfo(BoneType.Toe2L_end);
+                case "toe3.l":
+                    return new BoneInfo(BoneType.Toe3L);
+                case "toe3.l_end":
+                    return new BoneInfo(BoneType.Toe3L_end);
                 case "thigh.r":
                     return new BoneInfo(BoneType.LegUpperR);
                 case "calf.r":
@@ -40,15 +50,27 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "footr":
                     return new BoneInfo(BoneType.FootR);
                 case "toe.r":
-                    return new BoneInfo(BoneType.ToeR);
+                case "toe1.r":
+                    return new BoneInfo(BoneType.Toe1R);
                 case "toe.r_end":
-                    return new BoneInfo(BoneType.ToeR_end);
+                case "toe1.r_end":
+                    return new BoneInfo(BoneType.Toe1R_end);
+                case "toe2.r":
+                    return new BoneInfo(BoneType.Toe2R);
+                case "toe2.r_end":
+                    return new BoneInfo(BoneType.Toe2R_end);
+                case "toe3.r":
+                    return new BoneInfo(BoneType.Toe3R);
+                case "toe3.r_end":
+                    return new BoneInfo(BoneType.Toe3R_end);
                 case "stomach":
                     return new BoneInfo(BoneType.Stomach);
                 case "chest":
                     return new BoneInfo(BoneType.Chest);
                 case "head":
                     return new BoneInfo(BoneType.Head);
+                case "head_end":
+                    return new BoneInfo(BoneType.Head_end);
                 case "neck":
                     return new BoneInfo(BoneType.Neck);
                 case "clavicle.l":
@@ -58,6 +80,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "upperarm.l":
                     return new BoneInfo(BoneType.ArmUpperL);
                 case "lower_arm.l":
+                case "lowerarm.l":
                 case "forearm.l":
                     return new BoneInfo(BoneType.ArmLowerL);
                 case "hand.l":
@@ -88,12 +111,14 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "finger2.l_end":
                     return new BoneInfo(BoneType.MiddleFinger3L_end);
                 case "finger3.1.l":
+                case "finger3.l":
                     return new BoneInfo(BoneType.RingFinger1L);
                 case "finger3.2.l":
                     return new BoneInfo(BoneType.RingFinger2L);
                 case "finger3.3.l":
                     return new BoneInfo(BoneType.RingFinger3L);
                 case "finger3.3.l_end":
+                case "finger3.l_end":
                     return new BoneInfo(BoneType.RingFinger3L_end);
                 case "finger4.1.l":
                     return new BoneInfo(BoneType.PinkyFinger1L);
@@ -118,6 +143,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "upperarm.r":
                     return new BoneInfo(BoneType.ArmUpperR);
                 case "lower_arm.r":
+                case "lowerarm.r":
                 case "forearm.r":
                     return new BoneInfo(BoneType.ArmLowerR);
                 case "hand.r":
@@ -144,12 +170,14 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "finger2.r_end":
                     return new BoneInfo(BoneType.MiddleFinger3R_end);
                 case "finger3.1.r":
+                case "finger3.r":
                     return new BoneInfo(BoneType.RingFinger1R);
                 case "finger3.2.r":
                     return new BoneInfo(BoneType.RingFinger2R);
                 case "finger3.3.r":
                     return new BoneInfo(BoneType.RingFinger3R);
                 case "finger3.3.r_end":
+                case "finger3.r_end":
                     return new BoneInfo(BoneType.RingFinger3R_end);
                 case "finger4.1.r":
                     return new BoneInfo(BoneType.PinkyFinger1R);
