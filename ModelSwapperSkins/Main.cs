@@ -103,15 +103,9 @@ namespace ModelSwapperSkins
                 }
 
                 Sprite skinSprite = null;
-                if (body.portraitIcon)
+                if (body.portraitIcon is Texture2D iconTexture)
                 {
-                    // if (body.portraitIcon.name == "texMysteryIcon" || body.portraitIcon.name == "texNullIcon")
-                    //     continue;
-                    
-                    if (body.portraitIcon is Texture2D iconTexture)
-                    {
-                        skinSprite = Sprite.Create(iconTexture, new Rect(0f, 0f, iconTexture.width, iconTexture.height), Vector2.one / 2f);
-                    }
+                    skinSprite = Sprite.Create(iconTexture, new Rect(0f, 0f, iconTexture.width, iconTexture.height), Vector2.one / 2f);
                 }
 
                 if (!usedModels.Add(modelTransform))
