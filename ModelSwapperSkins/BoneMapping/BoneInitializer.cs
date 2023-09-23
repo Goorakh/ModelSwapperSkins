@@ -81,6 +81,8 @@ namespace ModelSwapperSkins.BoneMapping
 
             AddBonesProvider("RoR2/Base/Croco/CrocoBody.prefab", BoneInitializerRules_Acrid.Instance);
 
+            AddBonesProvider("RoR2/DLC1/VoidSurvivor/VoidSurvivorBody.prefab", BoneInitializerRules_VoidFiend.Instance);
+
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
                 AddBonesProvider(body, DefaultBoneRules);

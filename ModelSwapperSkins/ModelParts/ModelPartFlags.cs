@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModelSwapperSkins.ModelInfo
+namespace ModelSwapperSkins.ModelParts
 {
     [Flags]
     public enum ModelPartFlags : byte

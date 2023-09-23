@@ -1,5 +1,6 @@
 ﻿using ModelSwapperSkins.BoneMapping;
-using ModelSwapperSkins.ModelInfo;
+using ModelSwapperSkins.ModelInfos;
+using ModelSwapperSkins.ModelParts;
 using RoR2;
 using System.Collections;
 using System.Collections.Generic;
@@ -133,6 +134,16 @@ namespace ModelSwapperSkins
                     }
                 }
             }
+
+            ModelInfo mainModelInfo = ModelInfoProvider.GetModelInfo(modelTransform.gameObject);
+            ModelInfo skinModelInfo = ModelInfoProvider.GetModelInfo(skinModelTransfom.gameObject);
+
+            float skinScale = mainModelInfo.HeightScale / skinModelInfo.HeightScale;
+            skinModelTransfom.localScale = new Vector3(skinScale, skinScale, skinScale);
+
+#if DEBUG
+            Log.Debug($"Skin model {skinModelTransfom.name} scale for {modelTransform.name}: {skinScale}");
+#endif
 
             if (modelTransform.TryGetComponent(out BonesProvider modelBonesProvider) && skinModelTransfom.TryGetComponent(out BonesProvider skinBonesProvider))
             {

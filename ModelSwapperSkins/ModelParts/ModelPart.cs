@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace ModelSwapperSkins.ModelInfo
+namespace ModelSwapperSkins.ModelParts
 {
     [Serializable]
     public class ModelPart

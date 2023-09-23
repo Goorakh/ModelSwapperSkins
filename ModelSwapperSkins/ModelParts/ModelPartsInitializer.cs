@@ -7,7 +7,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace ModelSwapperSkins.ModelInfo
+namespace ModelSwapperSkins.ModelParts
 {
     public static class ModelPartsInitializer
     {
@@ -298,7 +298,7 @@ namespace ModelSwapperSkins.ModelInfo
 
             OverrideParts("RoR2/Base/Gravekeeper/GravekeeperBody.prefab",
                           new ModelPartConstructor("GravekeeperMaskMesh", ModelPartFlags.BodyFeature),
-                          new ModelPartConstructor("Sphere", ModelPartFlags.BodyFeature));
+                          new ModelPartConstructor("Sphere", ModelPartFlags.Decoration));
 
             OverrideParts("RoR2/Junk/HAND/HANDBody.prefab",
                           new ModelPartConstructor("HANDArmature/hammerBone/HANDHammerMesh", ModelPartFlags.Weapon));
@@ -332,19 +332,24 @@ namespace ModelSwapperSkins.ModelInfo
                           new ModelPartConstructor("RailGunnerArmature/ROOT/base/GunRoot/GunBarrel/SMG/SMGBarrel/SMGLaser", ModelPartFlags.Weapon));
 
             OverrideParts("RoR2/Base/Scav/ScavBody.prefab",
-                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon));
+                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
 
             OverrideParts("RoR2/Base/ScavLunar/ScavLunar1Body.prefab",
-                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon));
+                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
 
             OverrideParts("RoR2/Base/ScavLunar/ScavLunar2Body.prefab",
-                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon));
+                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
 
             OverrideParts("RoR2/Base/ScavLunar/ScavLunar3Body.prefab",
-                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon));
+                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
 
             OverrideParts("RoR2/Base/ScavLunar/ScavLunar4Body.prefab",
-                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon));
+                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
 
             OverrideParts("RoR2/Base/Titan/TitanGoldBody.prefab",
                           new ModelPartConstructor("TitanArmature/ROOT/base/stomach/chest/upper_arm.r/lower_arm.r/hand.r/RightFist/Sword", ModelPartFlags.Weapon));

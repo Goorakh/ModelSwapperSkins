@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace ModelSwapperSkins.ModelInfo
+namespace ModelSwapperSkins.ModelParts
 {
     public class ModelPartsProvider : MonoBehaviour
     {

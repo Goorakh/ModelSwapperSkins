@@ -1,6 +1,6 @@
 using BepInEx;
 using ModelSwapperSkins.BoneMapping;
-using ModelSwapperSkins.ModelInfo;
+using ModelSwapperSkins.ModelParts;
 using ModelSwapperSkins.Utils.Extensions;
 using R2API.Utils;
 using RoR2;
@@ -73,6 +73,17 @@ namespace ModelSwapperSkins
                 Transform modelTransform = modelLocator.modelTransform;
                 if (!modelTransform || modelTransform.childCount == 0)
                     continue;
+
+                switch (body.name)
+                {
+                    case "BeetleBody": // Bone mapping doesn't work for some reason, blacklist for now
+                    case "BeetleGuardCrystalBody": // Bad material, logspam
+                    case "BomberBody": // Just Commando
+                    case "CommandoPerformanceTestBody": // Just Commando
+                    case "EnforcerBody": // Literally just a cube
+                    case "GolemBodyInvincible": // Just Stone Golem
+                        continue;
+                }
 
                 ModelPartsProvider bodyModelPartsProvider = modelTransform.GetComponent<ModelPartsProvider>();
                 if (!bodyModelPartsProvider)

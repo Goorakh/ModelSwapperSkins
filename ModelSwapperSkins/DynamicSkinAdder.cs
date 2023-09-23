@@ -1,5 +1,5 @@
 ﻿using ModelSwapperSkins.BoneMapping;
-using ModelSwapperSkins.ModelInfo;
+using ModelSwapperSkins.ModelParts;
 using ModelSwapperSkins.Utils;
 using RoR2;
 using System;
