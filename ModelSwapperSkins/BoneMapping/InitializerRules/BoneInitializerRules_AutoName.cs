@@ -71,6 +71,23 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     return new BoneInfo(BoneType.Head);
                 case "head_end":
                     return new BoneInfo(BoneType.Head_end);
+                case "jaw":
+                    return new BoneInfo(BoneType.Jaw);
+                case "tongue.1":
+                case "tongue1":
+                    return new BoneInfo(BoneType.Tongue1);
+                case "tongue.2":
+                case "tongue2":
+                    return new BoneInfo(BoneType.Tongue2);
+                case "tongue.3":
+                case "tongue3":
+                    return new BoneInfo(BoneType.Tongue3);
+                case "tongue.4":
+                case "tongue4":
+                    return new BoneInfo(BoneType.Tongue4);
+                case "tongue.4_end":
+                case "tongue4_end":
+                    return new BoneInfo(BoneType.Tongue_end);
                 case "neck":
                     return new BoneInfo(BoneType.Neck);
                 case "clavicle.l":
