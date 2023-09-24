@@ -83,6 +83,10 @@ namespace ModelSwapperSkins.BoneMapping
 
             AddBonesProvider("RoR2/DLC1/VoidSurvivor/VoidSurvivorBody.prefab", BoneInitializerRules_VoidFiend.Instance);
 
+            AddBonesProvider("RoR2/Base/Brother/BrotherBody.prefab", BoneInitializerRules_Mithrix.Instance);
+            AddBonesProvider("RoR2/Junk/BrotherGlass/BrotherGlassBody.prefab", BoneInitializerRules_Mithrix.Instance);
+            AddBonesProvider("RoR2/Base/Brother/BrotherHurtBody.prefab", BoneInitializerRules_Mithrix.Instance);
+
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
                 AddBonesProvider(body, DefaultBoneRules);
