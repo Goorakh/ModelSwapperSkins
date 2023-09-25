@@ -13,7 +13,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 #if DEBUG
             if (result.Type == BoneType.None)
             {
-                Log.Debug($"Unhandled bone in {modelTransform.name}: {TransformUtils.GetObjectPath(potentialBoneTransform, modelTransform)}");
+                if (!potentialBoneTransform.GetComponent<RoR2.HurtBox>())
+                {
+                    Log.Debug($"Unhandled bone in {modelTransform.name}: {TransformUtils.GetObjectPath(potentialBoneTransform, modelTransform)}");
+                }
             }
 #endif
             return result;
