@@ -13,6 +13,8 @@ namespace ModelSwapperSkins.BoneMapping
         public Quaternion RotationOffset = RotationOffset;
         public Vector3 Scale = Scale;
 
+        public BoneMatchFlags MatchFlags = BoneMatchFlags.AllowCompleteMatch;
+
         public readonly Matrix4x4 OffsetMatrix => Matrix4x4.TRS(PositionOffset, RotationOffset, Scale);
 
         public BoneInfo(BoneType type) : this(type, Vector3.zero, Quaternion.identity, Vector3.one)

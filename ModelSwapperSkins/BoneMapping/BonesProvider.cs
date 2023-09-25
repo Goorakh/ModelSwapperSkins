@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping
@@ -41,10 +39,10 @@ namespace ModelSwapperSkins.BoneMapping
         {
             foreach (Bone bone in Bones)
             {
-                if (!other.HasBone(bone.Info.Type))
+                if ((bone.Info.MatchFlags & BoneMatchFlags.MatchToOther) == 0 || !other.HasBone(bone.Info.Type))
                     continue;
 
-                Bone matchingBone = other.Bones.First(b => b.Info.Type == bone.Info.Type);
+                Bone matchingBone = other.Bones.First(b => (b.Info.MatchFlags & BoneMatchFlags.AllowMatchTo) != 0 && b.Info.Type == bone.Info.Type);
 
                 MatchBoneTransform matchBoneTransform = bone.BoneTransform.gameObject.AddComponent<MatchBoneTransform>();
                 matchBoneTransform.Bone = bone;
