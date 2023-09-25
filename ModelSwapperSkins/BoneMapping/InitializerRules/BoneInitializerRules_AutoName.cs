@@ -22,6 +22,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "pelvis":
                 case "pelvis_jnt":
                 case "hip":
+                case "hips":
                     return new BoneInfo(BoneType.Pelvis);
                 case "thigh.l":
                 case "l_thigh_jnt":

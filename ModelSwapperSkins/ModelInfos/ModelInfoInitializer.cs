@@ -104,6 +104,7 @@ namespace ModelSwapperSkins.ModelInfos
         {
             SetModelInfo("AcidLarvaBody", new ModelInfo(15f));
             SetModelInfo("AltarSkeletonBody", new ModelInfo(2f));
+            SetModelInfo("BeetleQueen2Body", new ModelInfo(20f));
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
