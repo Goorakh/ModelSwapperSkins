@@ -91,6 +91,8 @@ namespace ModelSwapperSkins.BoneMapping
 
             AddBonesProvider("RoR2/Base/Beetle/BeetleQueen2Body.prefab", BoneInitializerRules_BeetleQueen.Instance);
 
+            AddBonesProvider("RoR2/Base/Bison/BisonBody.prefab", BoneInitializerRules_Bison.Instance);
+
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
                 AddBonesProvider(body, DefaultBoneRules);
