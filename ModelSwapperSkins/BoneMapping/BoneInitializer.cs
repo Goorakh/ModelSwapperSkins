@@ -1,6 +1,7 @@
 ﻿using ModelSwapperSkins.BoneMapping.InitializerRules;
 using ModelSwapperSkins.Utils;
 using RoR2;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,27 +13,49 @@ namespace ModelSwapperSkins.BoneMapping
     {
         public static readonly BoneInitializerRules DefaultBoneRules = BoneInitializerRules_AutoName.Instance;
 
-        public static void AddBonesProvider(string bodyPrefabPath, BoneInitializerRules rules)
-        {
-            GameObject bodyPrefab = Addressables.LoadAssetAsync<GameObject>(bodyPrefabPath).WaitForCompletion();
-            if (!bodyPrefab)
-            {
-                Log.Warning($"{bodyPrefabPath} is not a valid GameObject asset");
-                return;
-            }
+        static readonly HashSet<BoneInitializerRules> _overrideInitializerRules = new HashSet<BoneInitializerRules>();
 
-            if (bodyPrefab.TryGetComponent(out CharacterBody body))
+        public static void AddCustomBoneInitializerRules(BoneInitializerRules initializerRules)
+        {
+            _overrideInitializerRules.Add(initializerRules);
+        }
+
+        public static BoneInitializerRules FindInitializerRulesFor(BodyIndex bodyIndex)
+        {
+            return _overrideInitializerRules.FirstOrDefault(r => r.AppliesTo(bodyIndex)) ?? DefaultBoneRules;
+        }
+
+        [SystemInitializer(typeof(BodyCatalog))]
+        static void Init()
+        {
+            AddCustomBoneInitializerRules(BoneInitializerRules_Larva.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Acrid.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_VoidFiend.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Mithrix.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Assassin2.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_BeetleQueen.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Bison.Instance);
+
+            foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
-                AddBonesProvider(body, rules);
-            }
-            else
-            {
-                Log.Warning($"{bodyPrefabPath} has no CharacterBody component");
+                BoneInitializerRules initializerRules = FindInitializerRulesFor(body.bodyIndex);
+
+#if DEBUG
+                Log.Debug($"Using bone intializer rules {initializerRules} for {body.name}");
+#endif
+
+                initializeBones(body, initializerRules);
             }
         }
 
-        public static void AddBonesProvider(CharacterBody bodyPrefab, BoneInitializerRules rules)
+        static void initializeBones(CharacterBody bodyPrefab, BoneInitializerRules rules)
         {
+            if (!bodyPrefab)
+                throw new ArgumentNullException(nameof(bodyPrefab));
+
+            if (rules is null)
+                throw new ArgumentNullException(nameof(rules));
+
             if (!bodyPrefab.TryGetComponent(out ModelLocator modelLocator))
             {
                 Log.Warning($"{bodyPrefab} has no ModelLocator component");
@@ -72,31 +95,6 @@ namespace ModelSwapperSkins.BoneMapping
 #if DEBUG
             Log.Debug($"Added BonesProvider component ({bonesProvider.Bones.Length} bone(s)) to {modelTransform.name} ({bodyPrefab.name})");
 #endif
-        }
-
-        [SystemInitializer(typeof(BodyCatalog))]
-        static void Init()
-        {
-            AddBonesProvider("RoR2/DLC1/AcidLarva/AcidLarvaBody.prefab", BoneInitializerRules_Larva.Instance);
-
-            AddBonesProvider("RoR2/Base/Croco/CrocoBody.prefab", BoneInitializerRules_Acrid.Instance);
-
-            AddBonesProvider("RoR2/DLC1/VoidSurvivor/VoidSurvivorBody.prefab", BoneInitializerRules_VoidFiend.Instance);
-
-            AddBonesProvider("RoR2/Base/Brother/BrotherBody.prefab", BoneInitializerRules_Mithrix.Instance);
-            AddBonesProvider("RoR2/Junk/BrotherGlass/BrotherGlassBody.prefab", BoneInitializerRules_Mithrix.Instance);
-            AddBonesProvider("RoR2/Base/Brother/BrotherHurtBody.prefab", BoneInitializerRules_Mithrix.Instance);
-
-            AddBonesProvider("RoR2/DLC1/Assassin2/Assassin2Body.prefab", BoneInitializerRules_Assassin.Instance);
-
-            AddBonesProvider("RoR2/Base/Beetle/BeetleQueen2Body.prefab", BoneInitializerRules_BeetleQueen.Instance);
-
-            AddBonesProvider("RoR2/Base/Bison/BisonBody.prefab", BoneInitializerRules_Bison.Instance);
-
-            foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
-            {
-                AddBonesProvider(body, DefaultBoneRules);
-            }
         }
     }
 }

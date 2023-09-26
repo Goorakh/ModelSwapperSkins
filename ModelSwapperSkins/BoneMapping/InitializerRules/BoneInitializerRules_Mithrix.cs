@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RoR2;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -11,6 +9,19 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 
         protected BoneInitializerRules_Mithrix() : base()
         {
+        }
+
+        public override bool AppliesTo(BodyIndex bodyIndex)
+        {
+            switch (BodyCatalog.GetBodyName(bodyIndex))
+            {
+                case "BrotherBody":
+                case "BrotherGlassBody":
+                case "BrotherHurtBody":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         protected override BoneInfo getBoneInfo(Transform modelTransform, Transform potentialBoneTransform)

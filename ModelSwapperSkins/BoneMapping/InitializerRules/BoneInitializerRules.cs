@@ -1,10 +1,13 @@
 ﻿using ModelSwapperSkins.Utils;
+using RoR2;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
     public abstract class BoneInitializerRules
     {
+        public abstract bool AppliesTo(BodyIndex bodyIndex);
+
         protected abstract BoneInfo getBoneInfo(Transform modelTransform, Transform potentialBoneTransform);
 
         public BoneInfo GetBoneInfo(Transform modelTransform, Transform potentialBoneTransform)

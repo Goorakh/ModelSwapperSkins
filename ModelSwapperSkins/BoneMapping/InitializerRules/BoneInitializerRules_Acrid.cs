@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RoR2;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -11,6 +9,11 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 
         protected BoneInitializerRules_Acrid() : base()
         {
+        }
+
+        public override bool AppliesTo(BodyIndex bodyIndex)
+        {
+            return bodyIndex == BodyCatalog.FindBodyIndex("CrocoBody");
         }
 
         protected override BoneInfo getBoneInfo(Transform modelTransform, Transform potentialBoneTransform)

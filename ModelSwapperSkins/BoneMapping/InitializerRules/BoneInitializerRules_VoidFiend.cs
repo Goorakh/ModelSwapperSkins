@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RoR2;
+using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
@@ -8,6 +9,11 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 
         protected BoneInitializerRules_VoidFiend() : base()
         {
+        }
+
+        public override bool AppliesTo(BodyIndex bodyIndex)
+        {
+            return bodyIndex == BodyCatalog.FindBodyIndex("VoidSurvivorBody");
         }
 
         protected override BoneInfo getBoneInfo(Transform modelTransform, Transform potentialBoneTransform)

@@ -1,13 +1,19 @@
-﻿using UnityEngine;
+﻿using RoR2;
+using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
-    public class BoneInitializerRules_Assassin : BoneInitializerRules_AutoName
+    public class BoneInitializerRules_Assassin2 : BoneInitializerRules_AutoName
     {
-        public static new readonly BoneInitializerRules_Assassin Instance = new BoneInitializerRules_Assassin();
+        public static new readonly BoneInitializerRules_Assassin2 Instance = new BoneInitializerRules_Assassin2();
 
-        protected BoneInitializerRules_Assassin() : base()
+        protected BoneInitializerRules_Assassin2() : base()
         {
+        }
+
+        public override bool AppliesTo(BodyIndex bodyIndex)
+        {
+            return bodyIndex == BodyCatalog.FindBodyIndex("Assassin2Body");
         }
 
         protected override BoneInfo getBoneInfo(Transform modelTransform, Transform potentialBoneTransform)
