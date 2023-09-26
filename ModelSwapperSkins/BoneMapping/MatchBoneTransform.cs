@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ModelSwapperSkins.Utils;
+using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping
 {
@@ -19,6 +20,7 @@ namespace ModelSwapperSkins.BoneMapping
 
                 _bone = value;
                 _boneTransform = _bone?.BoneTransform;
+                _baseLocalScale = _boneTransform.localScale;
 
                 recalculateOffsets();
             }
@@ -44,9 +46,37 @@ namespace ModelSwapperSkins.BoneMapping
             }
         }
 
+        MatchBoneTransform _parentBone;
+        public MatchBoneTransform ParentBone
+        {
+            get
+            {
+                return _parentBone;
+            }
+            set
+            {
+                if (_parentBone == value)
+                    return;
+
+                _parentBone = value;
+
+                recalculateOffsets();
+            }
+        }
+
+        Vector3 calculateTargetScaleMultiplier()
+        {
+            Vector3 targetBoneScale = _targetBone != null ? _targetBone.Info.Scale : Vector3.one;
+            Vector3 boneScale = _bone != null ? _bone.Info.Scale : Vector3.one;
+
+            return VectorUtils.Divide(targetBoneScale, boneScale);
+        }
+
         Vector3 _localTargetPositionOffset;
         Quaternion _localTargetRotationOffset;
         Vector3 _localTargetScaleMultiplier;
+
+        Vector3 _baseLocalScale;
 
         void Awake()
         {
@@ -59,6 +89,13 @@ namespace ModelSwapperSkins.BoneMapping
             {
                 _localTargetPositionOffset = _targetBone.Info.PositionOffset - _bone.Info.PositionOffset;
                 _localTargetRotationOffset = _targetBone.Info.RotationOffset * Quaternion.Inverse(_bone.Info.RotationOffset);
+
+                _localTargetScaleMultiplier = calculateTargetScaleMultiplier();
+
+                if (ParentBone)
+                {
+                    _localTargetScaleMultiplier = VectorUtils.Divide(_localTargetScaleMultiplier, ParentBone.calculateTargetScaleMultiplier());
+                }
             }
             else
             {
@@ -87,7 +124,7 @@ namespace ModelSwapperSkins.BoneMapping
 
             _boneTransform.rotation = Quaternion.LookRotation(boneTargetForward, boneTargetUp);
 
-            // _boneTransform.localScale = (Matrix4x4.Scale(_targetTransform.localScale) * (_targetTransform.localToWorldMatrix * Matrix4x4.Scale(_localTargetScaleMultiplier) * _targetTransform.worldToLocalMatrix)).lossyScale;
+            _boneTransform.localScale = Vector3.Scale(_baseLocalScale, _localTargetScaleMultiplier);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -37,6 +38,8 @@ namespace ModelSwapperSkins.BoneMapping
 
         public void MapBonesTo(BonesProvider other)
         {
+            List<MatchBoneTransform> boneMatches = new List<MatchBoneTransform>();
+
             foreach (Bone bone in Bones)
             {
                 if ((bone.Info.MatchFlags & BoneMatchFlags.MatchToOther) == 0 || !other.HasBone(bone.Info.Type))
@@ -47,6 +50,25 @@ namespace ModelSwapperSkins.BoneMapping
                 MatchBoneTransform matchBoneTransform = bone.BoneTransform.gameObject.AddComponent<MatchBoneTransform>();
                 matchBoneTransform.Bone = bone;
                 matchBoneTransform.TargetBone = matchingBone;
+
+                boneMatches.Add(matchBoneTransform);
+            }
+
+            foreach (MatchBoneTransform matchBone in boneMatches)
+            {
+                Transform boneTransform = matchBone.Bone?.BoneTransform;
+                if (!boneTransform)
+                    continue;
+
+                Transform boneParent = boneTransform.parent;
+                if (!boneParent)
+                    continue;
+
+                MatchBoneTransform parentBoneMatch = boneParent.GetComponentInParent<MatchBoneTransform>();
+                if (parentBoneMatch)
+                {
+                    matchBone.ParentBone = parentBoneMatch;
+                }
             }
         }
 
