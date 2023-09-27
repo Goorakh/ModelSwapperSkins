@@ -108,6 +108,7 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("ClayBruiserBody", new ModelInfo(4f));
             SetModelInfo("ClayGrenadierBody", new ModelInfo(3f));
             SetModelInfo("FlyingVerminBody", new ModelInfo(5f));
+            SetModelInfo("GrandParentBody", new ModelInfo(50f));
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
