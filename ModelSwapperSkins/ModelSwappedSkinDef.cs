@@ -13,6 +13,7 @@ namespace ModelSwapperSkins
     {
         public CharacterBody NewModelBodyPrefab;
         public Transform NewModelTransformPrefab;
+        public SkinDef ModelSkin;
 
         public void Initialize(ModelPartsProvider modelPartsProvider, ModelPartsProvider skinModelPartsProvider)
         {
@@ -49,6 +50,11 @@ namespace ModelSwapperSkins
         public Transform OnAppliedTo(Transform modelTransform)
         {
             Transform skinModelTransfom = GameObject.Instantiate(NewModelTransformPrefab, modelTransform);
+
+            if (ModelSkin)
+            {
+                ModelSkin.Apply(skinModelTransfom.gameObject);
+            }
 
             foreach (HurtBox hurtBox in skinModelTransfom.GetComponentsInChildren<HurtBox>(true))
             {
