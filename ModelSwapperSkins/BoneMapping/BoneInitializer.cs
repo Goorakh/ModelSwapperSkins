@@ -17,7 +17,10 @@ namespace ModelSwapperSkins.BoneMapping
 
         public static void AddCustomBoneInitializerRules(BoneInitializerRules initializerRules)
         {
-            _overrideInitializerRules.Add(initializerRules);
+            if (!_overrideInitializerRules.Add(initializerRules))
+            {
+                Log.Warning($"Attempting to add duplicate initializer rules: {initializerRules}");
+            }
         }
 
         public static BoneInitializerRules FindInitializerRulesFor(BodyIndex bodyIndex)
