@@ -37,6 +37,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_Bison.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Captain.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_ClayBruiser.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_ClayGrenadier.Instance);
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {

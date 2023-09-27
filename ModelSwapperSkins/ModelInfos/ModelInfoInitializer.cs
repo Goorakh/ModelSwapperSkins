@@ -106,6 +106,7 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("AltarSkeletonBody", new ModelInfo(2f));
             SetModelInfo("BeetleQueen2Body", new ModelInfo(20f));
             SetModelInfo("ClayBruiserBody", new ModelInfo(4f));
+            SetModelInfo("ClayGrenadierBody", new ModelInfo(3f));
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
