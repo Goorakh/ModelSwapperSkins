@@ -145,10 +145,12 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "l_index_1_jnt":
                     return new BoneInfo(BoneType.IndexFinger1L);
                 case "finger1.2.l":
+                case "finger1.l.001":
                 case "index2.l":
                 case "l_index_2_jnt":
                     return new BoneInfo(BoneType.IndexFinger2L);
                 case "finger1.3.l":
+                case "finger1.l.002":
                 case "index3.l":
                 case "l_index_3_jnt":
                     return new BoneInfo(BoneType.IndexFinger3L);
@@ -161,10 +163,12 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "l_middle_1_jnt":
                     return new BoneInfo(BoneType.MiddleFinger1L);
                 case "finger2.2.l":
+                case "finger2.l.001":
                 case "middle2.l":
                 case "l_middle_2_jnt":
                     return new BoneInfo(BoneType.MiddleFinger2L);
                 case "finger2.3.l":
+                case "finger2.l.002":
                 case "middle3.l":
                 case "l_middle_3_jnt":
                     return new BoneInfo(BoneType.MiddleFinger3L);
@@ -177,10 +181,12 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "l_ring_1_jnt":
                     return new BoneInfo(BoneType.RingFinger1L);
                 case "finger3.2.l":
+                case "finger3.l.001":
                 case "ring2.l":
                 case "l_ring_2_jnt":
                     return new BoneInfo(BoneType.RingFinger2L);
                 case "finger3.3.l":
+                case "finger3.l.002":
                 case "ring3.l":
                 case "l_ring_3_jnt":
                     return new BoneInfo(BoneType.RingFinger3L);
@@ -207,6 +213,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "l_thumb_1_jnt":
                     return new BoneInfo(BoneType.Thumb1L);
                 case "thumb.2.l":
+                case "thumb.l.001":
                 case "thumb2.l":
                 case "l_thumb_2_jnt":
                     return new BoneInfo(BoneType.Thumb2L);
@@ -237,9 +244,11 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "index1.r":
                     return new BoneInfo(BoneType.IndexFinger1R);
                 case "finger1.2.r":
+                case "finger1.r.001":
                 case "index2.r":
                     return new BoneInfo(BoneType.IndexFinger2R);
                 case "finger1.3.r":
+                case "finger1.r.002":
                 case "index3.r":
                     return new BoneInfo(BoneType.IndexFinger3R);
                 case "finger1.3.r_end":
@@ -250,9 +259,11 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "middle1.r":
                     return new BoneInfo(BoneType.MiddleFinger1R);
                 case "finger2.2.r":
+                case "finger2.r.001":
                 case "middle2.r":
                     return new BoneInfo(BoneType.MiddleFinger2R);
                 case "finger2.3.r":
+                case "finger2.r.002":
                 case "middle3.r":
                     return new BoneInfo(BoneType.MiddleFinger3R);
                 case "finger2.3.r_end":
@@ -263,9 +274,11 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "ring1.r":
                     return new BoneInfo(BoneType.RingFinger1R);
                 case "finger3.2.r":
+                case "finger3.r.001":
                 case "ring2.r":
                     return new BoneInfo(BoneType.RingFinger2R);
                 case "finger3.3.r":
+                case "finger3.r.002":
                 case "ring3.r":
                     return new BoneInfo(BoneType.RingFinger3R);
                 case "finger3.3.r_end":
@@ -287,6 +300,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "thumb.r":
                     return new BoneInfo(BoneType.Thumb1R);
                 case "thumb.2.r":
+                case "thumb.r.001":
                 case "thumb2.r":
                     return new BoneInfo(BoneType.Thumb2R);
                 case "thumb.2.r_end":
