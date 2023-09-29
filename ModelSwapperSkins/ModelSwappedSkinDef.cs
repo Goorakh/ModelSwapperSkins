@@ -141,6 +141,13 @@ namespace ModelSwapperSkins
                 }
             }
 
+            foreach (Animator mainModelAnimator in modelTransform.GetComponents<Animator>())
+            {
+                // Not overriding this makes *some* characters not animate properly for some reason,
+                // super inconsistent which ones are affected by this, but this seems to fix it
+                mainModelAnimator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+            }
+
             ModelInfo mainModelInfo = ModelInfoProvider.GetModelInfo(modelTransform.gameObject);
             ModelInfo skinModelInfo = ModelInfoProvider.GetModelInfo(skinModelTransfom.gameObject);
 
