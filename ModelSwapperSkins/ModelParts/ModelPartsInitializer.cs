@@ -226,7 +226,8 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("Bandit2AccessoriesMesh", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BanditArmature/ROOT/base/MainWeapon/BanditShotgunMesh", ModelPartFlags.Weapon),
                           new ModelPartConstructor("BanditArmature/ROOT/base/stomach/chest/head/hat/Bandit2HatMesh", ModelPartFlags.BodyFeature),
-                          new ModelPartConstructor("BanditArmature/SideWeapon/SideWeaponSpinner/BanditPistolMesh", ModelPartFlags.Weapon));
+                          new ModelPartConstructor("BanditArmature/SideWeapon/SideWeaponSpinner/BanditPistolMesh", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("BanditArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/lower_arm.l/hand.l/BladeMesh", ModelPartFlags.None));
 
             OverrideParts("RoR2/Junk/Bandit/BanditBody.prefab",
                           new ModelPartConstructor("BanditArmature/ROOT/base/stomach/BanditPistolMeshHip", ModelPartFlags.Weapon),
