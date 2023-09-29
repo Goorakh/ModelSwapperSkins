@@ -58,12 +58,12 @@ namespace ModelSwapperSkins
 
             foreach (HurtBox hurtBox in skinModelTransfom.GetComponentsInChildren<HurtBox>(true))
             {
-                Destroy(hurtBox);
+                hurtBox.enabled = false;
             }
 
             foreach (Collider collider in skinModelTransfom.GetComponentsInChildren<Collider>(true))
             {
-                Destroy(collider);
+                collider.enabled = false;
             }
 
             bool isToolbot = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ToolbotBody");
@@ -123,22 +123,7 @@ namespace ModelSwapperSkins
 
             foreach (AkEvent ak in skinModelTransfom.GetComponentsInChildren<AkEvent>(true))
             {
-                Destroy(ak);
-            }
-
-            foreach (Renderer renderer in skinModelTransfom.GetComponentsInChildren<Renderer>(true))
-            {
-                if (!renderer)
-                    continue;
-
-                foreach (Material material in renderer.materials)
-                {
-                    const string PRINT_ENABLED_KEYWORD = "PRINT_CUTOFF";
-                    if (material.IsKeywordEnabled(PRINT_ENABLED_KEYWORD))
-                    {
-                        material.DisableKeyword(PRINT_ENABLED_KEYWORD);
-                    }
-                }
+                ak.enabled = false;
             }
 
             foreach (Animator mainModelAnimator in modelTransform.GetComponents<Animator>())
