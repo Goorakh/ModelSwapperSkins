@@ -92,8 +92,55 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "chest_jnt":
                     return new BoneInfo(BoneType.Chest);
                 case "neck":
+                case "neck.1":
+                case "neck1":
                 case "neck_jnt":
-                    return new BoneInfo(BoneType.Neck);
+                    return new BoneInfo(BoneType.Neck1);
+                case "neck.2":
+                case "neck2":
+                    return new BoneInfo(BoneType.Neck2);
+                case "neck.3":
+                case "neck3":
+                    return new BoneInfo(BoneType.Neck3);
+                case "neck.4":
+                case "neck4":
+                    return new BoneInfo(BoneType.Neck4);
+                case "neck.5":
+                case "neck5":
+                    return new BoneInfo(BoneType.Neck5);
+                case "neck.6":
+                case "neck6":
+                    return new BoneInfo(BoneType.Neck6);
+                case "neck.7":
+                case "neck7":
+                    return new BoneInfo(BoneType.Neck7);
+                case "neck.8":
+                case "neck8":
+                    return new BoneInfo(BoneType.Neck8);
+                case "neck.9":
+                case "neck9":
+                    return new BoneInfo(BoneType.Neck9);
+                case "neck.10":
+                case "neck10":
+                    return new BoneInfo(BoneType.Neck10);
+                case "neck.11":
+                case "neck11":
+                    return new BoneInfo(BoneType.Neck11);
+                case "neck.12":
+                case "neck12":
+                    return new BoneInfo(BoneType.Neck12);
+                case "neck.13":
+                case "neck13":
+                    return new BoneInfo(BoneType.Neck13);
+                case "neck.14":
+                case "neck14":
+                    return new BoneInfo(BoneType.Neck14);
+                case "neck.15":
+                case "neck15":
+                    return new BoneInfo(BoneType.Neck15);
+                case "neck.16":
+                case "neck16":
+                    return new BoneInfo(BoneType.Neck16);
                 case "head":
                 case "head_jnt":
                     return new BoneInfo(BoneType.Head);
