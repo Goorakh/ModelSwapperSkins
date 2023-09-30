@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
-    public class BoneInitializerRules_Acrid : BoneInitializerRules_AutoName
+    public class BoneInitializerRules_Croco : BoneInitializerRules_AutoName
     {
-        public static new readonly BoneInitializerRules_Acrid Instance = new BoneInitializerRules_Acrid();
+        public static new readonly BoneInitializerRules_Croco Instance = new BoneInitializerRules_Croco();
 
-        protected BoneInitializerRules_Acrid() : base()
+        protected BoneInitializerRules_Croco() : base()
         {
         }
 

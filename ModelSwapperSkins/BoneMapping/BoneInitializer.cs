@@ -36,12 +36,12 @@ namespace ModelSwapperSkins.BoneMapping
         [SystemInitializer(typeof(BodyCatalog))]
         static void Init()
         {
-            AddCustomBoneInitializerRules(BoneInitializerRules_Larva.Instance);
-            AddCustomBoneInitializerRules(BoneInitializerRules_Acrid.Instance);
-            AddCustomBoneInitializerRules(BoneInitializerRules_VoidFiend.Instance);
-            AddCustomBoneInitializerRules(BoneInitializerRules_Mithrix.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_AcidLarva.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Croco.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_VoidSurvivor.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Brother.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Assassin2.Instance);
-            AddCustomBoneInitializerRules(BoneInitializerRules_BeetleQueen.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_BeetleQueen2.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Bison.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Captain.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_ClayBruiser.Instance);
