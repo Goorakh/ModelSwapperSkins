@@ -85,11 +85,9 @@ namespace ModelSwapperSkins
                         ArrayUtil.Append(ref skins[(int)bodyIndex], newSkins);
                     }
                 }
-
-#if DEBUG
-                Log.Debug($"Added {newSkins.Count} skins to {survivor.cachedName}");
-#endif
             }
+
+            Log.Info_NoCallerPrefix($"Created {newSkins.Count} skin(s) for {survivor.cachedName}");
         }
     }
 }
