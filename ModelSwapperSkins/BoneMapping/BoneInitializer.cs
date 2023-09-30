@@ -28,6 +28,11 @@ namespace ModelSwapperSkins.BoneMapping
             return _overrideInitializerRules.FirstOrDefault(r => r.AppliesTo(bodyIndex)) ?? DefaultBoneRules;
         }
 
+        public static bool HasCustomIntializerRules(BodyIndex bodyIndex)
+        {
+            return FindInitializerRulesFor(bodyIndex) != DefaultBoneRules;
+        }
+
         [SystemInitializer(typeof(BodyCatalog))]
         static void Init()
         {
