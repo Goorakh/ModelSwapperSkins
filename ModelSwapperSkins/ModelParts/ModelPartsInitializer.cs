@@ -202,9 +202,6 @@ namespace ModelSwapperSkins.ModelParts
                 }
             }
 
-            OverrideParts("RoR2/DLC1/AcidLarva/AcidLarvaBody.prefab",
-                          new ModelPartConstructor("mdlAcidLarvaSacs", ModelPartFlags.BodyFeature));
-
             OverrideParts("RoR2/Junk/AncientWisp/AncientWispBody.prefab",
                           new ModelPartConstructor("AncientWispArmature/Head/GameObject", ModelPartFlags.Decoration));
 
@@ -225,7 +222,6 @@ namespace ModelSwapperSkins.ModelParts
             OverrideParts("RoR2/Base/Bandit2/Bandit2Body.prefab",
                           new ModelPartConstructor("Bandit2AccessoriesMesh", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BanditArmature/ROOT/base/MainWeapon/BanditShotgunMesh", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("BanditArmature/ROOT/base/stomach/chest/head/hat/Bandit2HatMesh", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BanditArmature/SideWeapon/SideWeaponSpinner/BanditPistolMesh", ModelPartFlags.Weapon),
                           new ModelPartConstructor("BanditArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/lower_arm.l/hand.l/BladeMesh", ModelPartFlags.None));
 
@@ -236,26 +232,20 @@ namespace ModelSwapperSkins.ModelParts
             OverrideParts("RoR2/Base/Beetle/BeetleWard.prefab",
                           new ModelPartConstructor("Indicator", ModelPartFlags.Decoration));
 
-            OverrideParts("RoR2/Base/Bison/BisonBody.prefab",
-                          new ModelPartConstructor("BisonHairMesh", ModelPartFlags.BodyFeature));
-
             OverrideParts("RoR2/Base/Brother/BrotherBody.prefab",
                           new ModelPartConstructor("BrotherClothPieces", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature),
-                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/neck/head/BrotherHeadArmorMesh", ModelPartFlags.BodyFeature));
+                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature));
 
             OverrideParts("RoR2/Junk/BrotherGlass/BrotherGlassBody.prefab",
                           new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon));
 
             OverrideParts("RoR2/Base/Brother/BrotherHurtBody.prefab",
                           new ModelPartConstructor("BrotherClothPieces", ModelPartFlags.BodyFeature),
-                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature),
-                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/neck/head/BrotherHeadArmorMesh", ModelPartFlags.BodyFeature));
+                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature));
 
             OverrideParts("RoR2/Base/Captain/CaptainBody.prefab",
-                          new ModelPartConstructor("CaptainGunArm", ModelPartFlags.BodyFeature),
-                          new ModelPartConstructor("CaptainArmature/ROOT/base/stomach/chest/neck/head/CaptainHat", ModelPartFlags.BodyFeature));
+                          new ModelPartConstructor("CaptainGunArm", ModelPartFlags.BodyFeature));
 
             OverrideParts("RoR2/Junk/ClayMan/ClayBody.prefab",
                           new ModelPartConstructor("ClaymanArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/lower_arm.l/hand.l/shield/ClaymanShieldMesh", ModelPartFlags.Weapon),
@@ -290,9 +280,6 @@ namespace ModelSwapperSkins.ModelParts
             OverrideParts("RoR2/Base/Drones/FlameDroneBody.prefab",
                           new ModelPartConstructor("BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature));
-
-            OverrideParts("RoR2/DLC1/FlyingVermin/FlyingVerminBody.prefab",
-                          new ModelPartConstructor("mdlFlyingVerminMouth", ModelPartFlags.BodyFeature));
 
             OverrideParts("RoR2/Base/Grandparent/GrandParentBody.prefab",
                           new ModelPartConstructor("GrandparentLowMesh", ModelPartFlags.Decoration));
