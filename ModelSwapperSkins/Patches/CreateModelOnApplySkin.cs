@@ -18,10 +18,7 @@ namespace ModelSwapperSkins.Patches
         {
             if (modelObject.TryGetComponent(out SkinModelObjectTracker existingModelObjectTracker))
             {
-                if (self is ModelSwappedSkinDef modelSkin)
-                {
-                    modelSkin.RemoveFrom(modelObject.transform, existingModelObjectTracker.SkinModelObject);
-                }
+                existingModelObjectTracker.AppliedSkin.RemoveFrom(modelObject.transform, existingModelObjectTracker.SkinModelObject);
 
                 GameObject.Destroy(existingModelObjectTracker);
             }
@@ -34,11 +31,13 @@ namespace ModelSwapperSkins.Patches
 
                 SkinModelObjectTracker modelObjectTracker = modelObject.AddComponent<SkinModelObjectTracker>();
                 modelObjectTracker.SkinModelObject = skinModelTransform.gameObject;
+                modelObjectTracker.AppliedSkin = modelSwappedSkin;
             }
         }
 
         class SkinModelObjectTracker : MonoBehaviour
         {
+            public ModelSwappedSkinDef AppliedSkin;
             public GameObject SkinModelObject;
 
             void OnDestroy()
