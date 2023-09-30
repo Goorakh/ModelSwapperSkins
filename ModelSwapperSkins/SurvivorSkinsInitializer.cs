@@ -115,12 +115,6 @@ namespace ModelSwapperSkins
 
             ModelPartsProvider bodyModelPartsProvider = modelTransform.GetComponent<ModelPartsProvider>();
 
-            Sprite skinSprite = null;
-            if (body.portraitIcon is Texture2D iconTexture)
-            {
-                skinSprite = Sprite.Create(iconTexture, new Rect(0f, 0f, iconTexture.width, iconTexture.height), Vector2.one / 2f);
-            }
-
             ModelSwappedSkinDef createSkinDef(string nameSuffix, SkinDef baseSkin, int baseSkinIndex)
             {
                 ModelSwappedSkinDef skinDef = ScriptableObject.CreateInstance<ModelSwappedSkinDef>();
@@ -156,7 +150,7 @@ namespace ModelSwapperSkins
 
                 LanguageAPI.Add(skinTokenAdditions);
 
-                skinDef.icon = skinSprite;
+                skinDef.icon = SkinIconGenerator.GetOrCreateSkinIcon(body.portraitIcon as Texture2D, baseSkin);
 
                 skinDef.Initialize(_survivorPartsProvider, bodyModelPartsProvider);
 
