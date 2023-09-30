@@ -53,6 +53,7 @@ namespace ModelSwapperSkins.BoneMapping
             // AddCustomBoneInitializerRules(BoneInitializerRules_Heretic.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_HermitCrab.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Jellyfish.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Lemurian.Instance);
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
