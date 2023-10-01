@@ -5,7 +5,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
     public class BoneInitializerRules_FlyingVermin : BoneInitializerRules_AutoName
     {
-        public static readonly new BoneInitializerRules_FlyingVermin Instance = new BoneInitializerRules_FlyingVermin();
+        public static new readonly BoneInitializerRules_FlyingVermin Instance = new BoneInitializerRules_FlyingVermin();
 
         protected BoneInitializerRules_FlyingVermin() : base()
         {

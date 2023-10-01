@@ -209,10 +209,6 @@ namespace ModelSwapperSkins
                 mainModel.baseLightInfos = lightInfos.ToArray();
             }
 
-            // Vector3 modelScale = modelTransform.lossyScale;
-            // Vector3 skinModelScale = skinModelTransfom.localScale;
-            // skinModelTransfom.localScale = new Vector3(modelScale.x / skinModelScale.x, modelScale.y / skinModelScale.y, modelScale.z / skinModelScale.z);
-
             return skinModelTransfom;
         }
     }
