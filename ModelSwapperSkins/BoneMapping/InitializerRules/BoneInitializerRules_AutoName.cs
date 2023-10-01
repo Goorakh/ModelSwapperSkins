@@ -253,10 +253,12 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "r_hand_jnt":
                     return new BoneInfo(BoneType.HandR);
                 case "finger1.1.r":
+                case "finger.1.1.r":
                 case "finger1.r":
                 case "index1.r":
                     return new BoneInfo(BoneType.IndexFinger1R);
                 case "finger1.2.r":
+                case "finger.1.2.r":
                 case "finger1.r.001":
                 case "index2.r":
                     return new BoneInfo(BoneType.IndexFinger2R);
@@ -265,10 +267,12 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "index3.r":
                     return new BoneInfo(BoneType.IndexFinger3R);
                 case "finger2.1.r":
+                case "finger.2.1.r":
                 case "finger2.r":
                 case "middle1.r":
                     return new BoneInfo(BoneType.MiddleFinger1R);
                 case "finger2.2.r":
+                case "finger.2.2.r":
                 case "finger2.r.001":
                 case "middle2.r":
                     return new BoneInfo(BoneType.MiddleFinger2R);
