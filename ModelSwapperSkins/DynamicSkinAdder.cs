@@ -13,12 +13,18 @@ namespace ModelSwapperSkins
         public delegate void AddSkinDelegate(SurvivorDef survivor, List<SkinDef> skins);
         public static event AddSkinDelegate AddSkins;
 
+        static bool _skinBakeDisabled = false;
+
         [SystemInitializer(typeof(SurvivorCatalog), typeof(ModelPartsInitializer), typeof(BoneInitializer))]
         static void Init()
         {
             // Bake is called from Awake, before we've had a chance to set all the fields, it will be called manually later instead
             void SkinDef_Bake(On.RoR2.SkinDef.orig_Bake orig, SkinDef self)
             {
+                if (_skinBakeDisabled)
+                    return;
+
+                orig(self);
             }
 
             On.RoR2.SkinDef.Bake += SkinDef_Bake;
@@ -56,7 +62,10 @@ namespace ModelSwapperSkins
             }
 
             List<SkinDef> newSkins = new List<SkinDef>();
+
+            _skinBakeDisabled = true;
             AddSkins?.Invoke(survivor, newSkins);
+            _skinBakeDisabled = false;
 
             if (newSkins.Count > 0)
             {
