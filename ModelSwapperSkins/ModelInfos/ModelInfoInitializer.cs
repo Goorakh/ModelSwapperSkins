@@ -99,6 +99,27 @@ namespace ModelSwapperSkins.ModelInfos
             }
         }
 
+        public static bool TryGetModelInfo(BodyIndex bodyIndex, out ModelInfo modelInfo)
+        {
+            return TryGetModelInfo(BodyCatalog.GetBodyPrefabBodyComponent(bodyIndex), out modelInfo);
+        }
+
+        public static bool TryGetModelInfo(CharacterBody bodyPrefab, out ModelInfo modelInfo)
+        {
+            if (bodyPrefab && bodyPrefab.TryGetComponent(out ModelLocator modelLocator))
+            {
+                Transform modelTransform = modelLocator.modelTransform;
+                if (modelTransform && modelTransform.TryGetComponent(out ModelInfoProvider modelInfoProvider))
+                {
+                    modelInfo = modelInfoProvider.ModelInfo;
+                    return true;
+                }
+            }
+
+            modelInfo = default;
+            return false;
+        }
+
         [SystemInitializer(typeof(BodyCatalog), typeof(SurvivorCatalog))]
         static void Init()
         {
@@ -114,6 +135,7 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("JellyfishBody", new ModelInfo(7.5f));
             SetModelInfo("LunarExploderBody", new ModelInfo(5f));
             SetModelInfo("RailgunnerBody", new ModelInfo(1.5f));
+            SetModelInfo("ToolbotBody", new ModelInfo(20f));
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
@@ -121,24 +143,35 @@ namespace ModelSwapperSkins.ModelInfos
             }
         }
 
-#if DEBUG
-        [ConCommand(commandName = "set_model_height_scale")]
-        static void CCSetModelHeightScale(ConCommandArgs args)
+        [ConCommand(commandName = "model_height_scale", helpText = "Overrides the height of a character's model. Used if the automatic scale calculation isn't correct. 1-2 arguments: [body name] (optional: [new height]). if no height is provided, the current height is printed to the console")]
+        static void CCModelHeightScale(ConCommandArgs args)
         {
-            args.CheckArgumentCount(2);
+            args.CheckArgumentCount(1);
 
             BodyIndex targetBodyIndex = args.GetArgBodyIndex(0);
             if (targetBodyIndex == BodyIndex.None)
                 return;
-            
-            float newHeightScale = args.GetArgFloat(1);
 
             CharacterBody bodyPrefab = BodyCatalog.GetBodyPrefabBodyComponent(targetBodyIndex);
             if (!bodyPrefab)
                 return;
 
-            SetModelInfo(bodyPrefab, new ModelInfo(newHeightScale));
+            if (args.Count == 1)
+            {
+                if (TryGetModelInfo(bodyPrefab, out ModelInfo modelInfo))
+                {
+                    Debug.Log($"{bodyPrefab.name} height scale: {modelInfo.HeightScale}");
+                }
+                else
+                {
+                    Debug.Log($"{bodyPrefab.name} has not model info provider");
+                }
+            }
+            else
+            {
+                float newHeightScale = args.GetArgFloat(1);
+                SetModelInfo(bodyPrefab, new ModelInfo(newHeightScale));
+            }
         }
-#endif
     }
 }
