@@ -35,9 +35,6 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     case "Index3":
                         boneInfo = new BoneInfo(BoneType.IndexFinger3L);
                         break;
-                    case "IndexEnd":
-                        boneInfo = new BoneInfo(BoneType.IndexFinger3L_end);
-                        break;
                     case "Middle1":
                         boneInfo = new BoneInfo(BoneType.MiddleFinger1L);
                         break;
@@ -46,9 +43,6 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         break;
                     case "Middle3":
                         boneInfo = new BoneInfo(BoneType.MiddleFinger3L);
-                        break;
-                    case "MiddleEnd":
-                        boneInfo = new BoneInfo(BoneType.MiddleFinger3L_end);
                         break;
                     case "Pinky1":
                         boneInfo = new BoneInfo(BoneType.PinkyFinger1L);
@@ -59,9 +53,6 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     case "PinkyEnd":
                         boneInfo = new BoneInfo(BoneType.PinkyFinger3L);
                         break;
-                    case "PinkyEnd_end":
-                        boneInfo = new BoneInfo(BoneType.PinkyFinger3L_end);
-                        break;
                     case "Ring1":
                         boneInfo = new BoneInfo(BoneType.RingFinger1L);
                         break;
@@ -70,9 +61,6 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         break;
                     case "Ring3":
                         boneInfo = new BoneInfo(BoneType.RingFinger3L);
-                        break;
-                    case "RingEnd":
-                        boneInfo = new BoneInfo(BoneType.RingFinger3L_end);
                         break;
                     case "Thumb1":
                         boneInfo = new BoneInfo(BoneType.Thumb1L);
