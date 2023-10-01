@@ -165,7 +165,7 @@ namespace ModelSwapperSkins.ModelInfos
                 }
                 else
                 {
-                    Debug.Log($"{bodyPrefab.name} has not model info provider");
+                    Debug.Log($"{bodyPrefab.name} has no model info provider");
                 }
             }
             else
