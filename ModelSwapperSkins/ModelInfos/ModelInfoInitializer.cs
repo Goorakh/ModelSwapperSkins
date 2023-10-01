@@ -26,7 +26,9 @@ namespace ModelSwapperSkins.ModelInfos
 
             if (!Util.GuessRenderBoundsMeshOnly(modelTransform.gameObject, out Bounds modelBounds))
             {
-                Log.Warning($"Unable to calculate model bounds for {modelTransform.name} ({bodyPrefab.name})");
+#if DEBUG
+                Log.Debug($"Unable to calculate model bounds for {modelTransform.name} ({bodyPrefab.name})");
+#endif
                 return;
             }
 

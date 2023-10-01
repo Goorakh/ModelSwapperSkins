@@ -85,7 +85,9 @@ namespace ModelSwapperSkins.BoneMapping
 
             if (!bodyPrefab.TryGetComponent(out ModelLocator modelLocator))
             {
-                Log.Warning($"{bodyPrefab} has no ModelLocator component");
+#if DEBUG
+                Log.Debug($"{bodyPrefab} has no ModelLocator component");
+#endif
                 return;
             }
 
