@@ -2,6 +2,7 @@
 using ModelSwapperSkins.ModelParts;
 using R2API;
 using RoR2;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -53,6 +54,23 @@ namespace ModelSwapperSkins
             }
         }
 
+        bool hasEnoughBonesToMatchWith(BonesProvider otherBonesProvider)
+        {
+            bool boneTest(BoneType bone)
+            {
+                return _survivorBonesProvider.HasBone(bone) && otherBonesProvider.HasBone(bone);
+            }
+
+            bool anyBonesValidMatch(params BoneType[] bones)
+            {
+                return Array.Exists(bones, boneTest);
+            }
+
+            return anyBonesValidMatch(BoneType.Head, BoneType.Chest, BoneType.Stomach, BoneType.Pelvis) &&
+                   (anyBonesValidMatch(BoneType.ArmUpperL, BoneType.ArmLowerL, BoneType.ArmUpperL, BoneType.ArmLowerR) ||
+                    anyBonesValidMatch(BoneType.LegUpperL, BoneType.LegLowerL, BoneType.LegUpperR, BoneType.LegLowerR));
+        }
+
         bool shouldCreateSkin(CharacterBody body)
         {
             if (!body)
@@ -91,13 +109,10 @@ namespace ModelSwapperSkins
             if (!bodyBonesProvider)
                 return false;
 
-            const int MIN_MATCHING_BONES = 10;
-            bool canMatchBones = BoneInitializer.HasCustomIntializerRules(body.bodyIndex) || _survivorBonesProvider.GetNumMatchingBones(bodyBonesProvider) >= MIN_MATCHING_BONES;
-
-            if (!canMatchBones)
+            if (!hasEnoughBonesToMatchWith(bodyBonesProvider))
             {
 #if DEBUG
-                Log.Debug($"Not creating {body.name} skin for {_survivor.cachedName}: Not enough common bones (only {_survivorBonesProvider.GetNumMatchingBones(bodyBonesProvider)}, {MIN_MATCHING_BONES} required)");
+                Log.Debug($"Not creating {body.name} skin for {_survivor.cachedName}: Not enough common bones");
 #endif
                 return false;
             }
