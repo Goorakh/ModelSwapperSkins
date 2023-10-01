@@ -42,10 +42,12 @@ namespace ModelSwapperSkins.BoneMapping
 
             foreach (Bone bone in Bones)
             {
-                if ((bone.Info.MatchFlags & BoneMatchFlags.MatchToOther) == 0 || !other.HasBone(bone.Info.Type))
+                if ((bone.Info.MatchFlags & BoneMatchFlags.MatchToOther) == 0)
                     continue;
 
-                Bone matchingBone = other.Bones.First(b => (b.Info.MatchFlags & BoneMatchFlags.AllowMatchTo) != 0 && b.Info.Type == bone.Info.Type);
+                Bone matchingBone = other.Bones.FirstOrDefault(b => (b.Info.MatchFlags & BoneMatchFlags.AllowMatchTo) != 0 && b.Info.Type == bone.Info.Type);
+                if (matchingBone == null)
+                    continue;
 
                 MatchBoneTransform matchBoneTransform = bone.BoneTransform.gameObject.AddComponent<MatchBoneTransform>();
                 matchBoneTransform.Bone = bone;
