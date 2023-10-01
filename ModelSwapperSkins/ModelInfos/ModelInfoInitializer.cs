@@ -1,5 +1,4 @@
-﻿using ModelSwapperSkins.ModelParts;
-using RoR2;
+﻿using RoR2;
 using System;
 using UnityEngine;
 

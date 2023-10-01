@@ -1,5 +1,4 @@
-﻿using ModelSwapperSkins.BoneMapping;
-using ModelSwapperSkins.Utils;
+﻿using ModelSwapperSkins.Utils;
 using RoR2;
 using System;
 using System.Collections.Generic;
