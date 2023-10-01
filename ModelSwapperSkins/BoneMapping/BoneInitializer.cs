@@ -58,6 +58,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_LunarExploder.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Mage.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Parent.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Railgunner.Instance);
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {

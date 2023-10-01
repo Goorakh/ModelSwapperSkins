@@ -113,6 +113,7 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("ImpBossBody", new ModelInfo(12.5f));
             SetModelInfo("JellyfishBody", new ModelInfo(7.5f));
             SetModelInfo("LunarExploderBody", new ModelInfo(5f));
+            SetModelInfo("RailgunnerBody", new ModelInfo(1.5f));
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
