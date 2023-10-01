@@ -51,61 +51,61 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
             switch (bone.Type)
             {
                 case BoneType.Head when (bone.MatchFlags & BoneMatchFlags.AllowMatchTo) != 0:
-                    bone.RotationOffset = Quaternion.Euler(0f, 90f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 90f, 0f);
                     break;
 
                 case BoneType.Pelvis:
-                    bone.RotationOffset = Quaternion.Euler(90f, 270f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(90f, 270f, 0f);
                     break;
 
                 case BoneType.Chest:
-                    bone.RotationOffset = Quaternion.Euler(270f, 90f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(270f, 90f, 0f);
                     break;
 
                 case BoneType.LegUpperL:
-                    bone.RotationOffset = Quaternion.Euler(0f, 0f, 270f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 0f, 270f);
                     break;
                 case BoneType.LegLowerL:
-                    bone.RotationOffset = Quaternion.Euler(0f, 180f, 90f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 180f, 90f);
                     break;
                 case BoneType.FootL:
-                    bone.RotationOffset = Quaternion.Euler(0f, 90f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 90f, 0f);
                     break;
                 case BoneType.Toe1L:
-                    bone.RotationOffset = Quaternion.Euler(270f, 270f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(270f, 270f, 0f);
                     break;
 
                 case BoneType.LegUpperR:
-                    bone.RotationOffset = Quaternion.Euler(0f, 0f, 90f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 0f, 90f);
                     break;
                 case BoneType.LegLowerR:
-                    bone.RotationOffset = Quaternion.Euler(0f, 180f, 270f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 180f, 270f);
                     break;
                 case BoneType.FootR:
-                    bone.RotationOffset = Quaternion.Euler(0f, 270f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
                     break;
                 case BoneType.Toe1R:
-                    bone.RotationOffset = Quaternion.Euler(90f, 270f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(90f, 270f, 0f);
                     break;
 
                 case BoneType.ArmUpperL:
-                    bone.RotationOffset = Quaternion.Euler(0f, 0f, 270f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 0f, 270f);
                     break;
                 case BoneType.ArmLowerL:
-                    bone.RotationOffset = Quaternion.Euler(0f, 0f, 270f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 0f, 270f);
                     break;
                 case BoneType.HandL:
-                    bone.RotationOffset = Quaternion.Euler(270f, 90f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(270f, 90f, 0f);
                     break;
 
                 case BoneType.ArmUpperR:
-                    bone.RotationOffset = Quaternion.Euler(0f, 0f, 90f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 0f, 90f);
                     break;
                 case BoneType.ArmLowerR:
-                    bone.RotationOffset = Quaternion.Euler(0f, 0f, 90f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 0f, 90f);
                     break;
                 case BoneType.HandR:
-                    bone.RotationOffset = Quaternion.Euler(90f, 270f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(90f, 270f, 0f);
                     break;
             }
 

@@ -31,10 +31,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
             switch (boneInfo.Type)
             {
                 case BoneType.Toe1L:
-                    boneInfo.RotationOffset = Quaternion.Euler(0f, 90f, 0f);
+                    boneInfo.RotationOffset *= Quaternion.Euler(0f, 90f, 0f);
                     break;
                 case BoneType.Toe1R:
-                    boneInfo.RotationOffset = Quaternion.Euler(0f, 270f, 0f);
+                    boneInfo.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
                     break;
             }
 

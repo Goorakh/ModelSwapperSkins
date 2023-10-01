@@ -71,15 +71,15 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
             switch (bone.Type)
             {
                 case BoneType.Head:
-                    bone.RotationOffset = Quaternion.Euler(315f, 180f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(315f, 180f, 0f);
                     break;
                 case BoneType.Pelvis:
                 case BoneType.Stomach:
-                    bone.RotationOffset = Quaternion.Euler(0f, 180f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     break;
                 case BoneType.Chest:
-                    bone.RotationOffset = Quaternion.Euler(0f, 180f, 0f);
-                    bone.Scale = new Vector3(2f, 2f, 2f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
+                    bone.Scale *= 2f;
                     break;
             }
 
