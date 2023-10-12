@@ -15,6 +15,12 @@
     <DebugType>portable</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <BuildDir>$(SolutionDir)build/</BuildDir>
+    <TSPackageDir>$(BuildDir)/package/</TSPackageDir>
+    <TSPackagePluginDir>$(TSPackageDir)/plugins/$(SolutionName)/</TSPackagePluginDir>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="libs\**" />
     <EmbeddedResource Remove="libs\**" />
@@ -85,8 +91,18 @@
     </Reference>
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="set /p modPluginPath=&lt;&quot;$(SolutionDir)\ModPluginPath.txt&quot;&#xD;&#xA;&#xD;&#xA;copy /Y &quot;$(OutDir)&quot; &quot;%25modPluginPath%25&quot;&#xD;&#xA;&#xD;&#xA;copy &quot;$(SolutionDir)manifest.json&quot; &quot;$(SolutionDir)build&quot;&#xD;&#xA;copy &quot;$(SolutionDir)README.md&quot; &quot;$(SolutionDir)build&quot;&#xD;&#xA;copy &quot;$(SolutionDir)CHANGELOG.md&quot; &quot;$(SolutionDir)build&quot;&#xD;&#xA;&#xD;&#xA;copy /Y &quot;$(OutDir)/$(AssemblyName).dll&quot; &quot;$(SolutionDir)build/plugins/ModelSwapperSkins&quot;&#xD;&#xA;" />
+  <Target Name="BuildTSPackage" AfterTargets="Build">
+    <MakeDir Directories="$(TSPackageDir);$(TSPackagePluginDir)" />
+    <Copy SourceFiles="$(SolutionDir)manifest.json;$(SolutionDir)README.md;$(SolutionDir)CHANGELOG.md" DestinationFolder="$(TSPackageDir)" />
+    
+    <Copy SourceFiles="$(BuildDir)icon.png" DestinationFolder="$(TSPackageDir)" ContinueOnError="true" />
+    
+    <Copy SourceFiles="$(OutDir)/$(AssemblyName).dll" DestinationFolder="$(TSPackagePluginDir)" />
+    
+    <Copy SourceFiles="$(OutDir)/$(AssemblyName).pdb" DestinationFolder="$(TSPackagePluginDir)" Condition="'$(Configuration)'=='Debug'" />
+    <Delete Files="$(TSPackagePluginDir)/$(AssemblyName).pdb" Condition="'$(Configuration)'=='Release'" />
+    
+    <ZipDirectory SourceDirectory="$(TSPackageDir)" DestinationFile="$(BuildDir)/$(SolutionName).zip" Overwrite="true" />
   </Target>
 
 </Project>

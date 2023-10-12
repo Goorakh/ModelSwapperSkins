@@ -397,7 +397,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-build/*
-!build/*.png
-!build/*.xcf
+build/package/*
+build/*.zip
 ModPluginPath.txt
