@@ -79,7 +79,7 @@ namespace ModelSwapperSkins
             if (body.gameObject == _survivor.bodyPrefab)
                 return false;
 
-            if (string.IsNullOrWhiteSpace(body.baseNameToken) || Language.GetString(body.baseNameToken) == body.baseNameToken)
+            if (string.IsNullOrWhiteSpace(body.baseNameToken) || Language.IsTokenInvalid(body.baseNameToken))
                 return false;
 
             switch (body.name)
