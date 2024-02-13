@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace ModelSwapperSkins.Utils
@@ -10,22 +11,23 @@ namespace ModelSwapperSkins.Utils
             if (obj == root)
                 return obj.name;
 
-            string path = string.Empty;
+            StringBuilder sb = new StringBuilder();
+
             do
             {
-                if (string.IsNullOrEmpty(path))
+                if (sb.Length == 0)
                 {
-                    path = obj.name;
+                    sb.Append(obj.name);
                 }
                 else
                 {
-                    path = obj.name + "/" + path;
+                    sb.Insert(0, obj.name + "/");
                 }
 
                 obj = obj.parent;
             } while (obj != null && obj != root);
 
-            return path;
+            return sb.ToString();
         }
 
         public static IEnumerable<Transform> GetAllChildrenRecursive(Transform root)
