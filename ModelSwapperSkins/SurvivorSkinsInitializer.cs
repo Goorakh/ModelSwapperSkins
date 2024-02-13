@@ -67,7 +67,7 @@ namespace ModelSwapperSkins
             }
 
             return anyBonesValidMatch(BoneType.Head, BoneType.Chest, BoneType.Stomach, BoneType.Pelvis) &&
-                   (anyBonesValidMatch(BoneType.ArmUpperL, BoneType.ArmLowerL, BoneType.ArmUpperL, BoneType.ArmLowerR) ||
+                   (anyBonesValidMatch(BoneType.ArmUpperL, BoneType.ArmLowerL, BoneType.ArmUpperR, BoneType.ArmLowerR) ||
                     anyBonesValidMatch(BoneType.LegUpperL, BoneType.LegLowerL, BoneType.LegUpperR, BoneType.LegLowerR));
         }
 
