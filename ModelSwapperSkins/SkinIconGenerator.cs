@@ -10,7 +10,7 @@ namespace ModelSwapperSkins
     {
         record SkinIconKey(Texture2D bodyPortrait, Sprite background);
 
-        static readonly Dictionary<SkinIconKey, Sprite> _cachedIcons = new Dictionary<SkinIconKey, Sprite>();
+        static readonly Dictionary<SkinIconKey, Sprite> _cachedIcons = [];
 
         public static Sprite GetOrCreateSkinIcon(Texture2D bodyPortrait, SkinDef backgroundSkin)
         {

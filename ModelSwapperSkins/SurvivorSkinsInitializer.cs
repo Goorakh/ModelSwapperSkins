@@ -16,7 +16,7 @@ namespace ModelSwapperSkins
         readonly ModelPartsProvider _survivorPartsProvider;
         readonly BonesProvider _survivorBonesProvider;
 
-        readonly HashSet<Transform> _usedModelTransforms = new HashSet<Transform>();
+        readonly HashSet<Transform> _usedModelTransforms = [];
 
         public SurvivorSkinsInitializer(SurvivorDef survivor)
         {
@@ -139,12 +139,12 @@ namespace ModelSwapperSkins
                 string skinNameToken = $"SKIN_{_survivor.cachedName.ToUpper()}_{body.name.ToUpper()}{nameSuffix.ToUpper()}";
                 skinDef.nameToken = skinNameToken;
 
-                Dictionary<string, Dictionary<string, string>> skinTokenAdditions = new Dictionary<string, Dictionary<string, string>>();
+                Dictionary<string, Dictionary<string, string>> skinTokenAdditions = [];
                 foreach (Language language in Language.GetAllLanguages())
                 {
                     if (!skinTokenAdditions.TryGetValue(language.name, out Dictionary<string, string> tokenDictionaryForLanguage))
                     {
-                        tokenDictionaryForLanguage = new Dictionary<string, string>();
+                        tokenDictionaryForLanguage = [];
                         skinTokenAdditions.Add(language.name, tokenDictionaryForLanguage);
                     }
 
