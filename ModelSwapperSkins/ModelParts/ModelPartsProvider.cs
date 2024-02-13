@@ -6,7 +6,7 @@ namespace ModelSwapperSkins.ModelParts
 {
     public class ModelPartsProvider : MonoBehaviour
     {
-        public ModelPart[] Parts = Array.Empty<ModelPart>();
+        public ModelPart[] Parts = [];
 
         public void CopyTo(ModelPartsProvider other)
         {

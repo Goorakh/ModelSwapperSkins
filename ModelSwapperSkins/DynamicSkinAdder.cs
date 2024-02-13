@@ -61,7 +61,7 @@ namespace ModelSwapperSkins
                 return;
             }
 
-            List<SkinDef> newSkins = new List<SkinDef>();
+            List<SkinDef> newSkins = [];
 
             _skinBakeDisabled = true;
             AddSkins?.Invoke(survivor, newSkins);
@@ -71,7 +71,7 @@ namespace ModelSwapperSkins
             {
                 foreach (SkinDef skin in newSkins)
                 {
-                    skin.baseSkins ??= Array.Empty<SkinDef>();
+                    skin.baseSkins ??= [];
 
                     if (!skin.rootObject)
                         skin.rootObject = modelTransform.gameObject;

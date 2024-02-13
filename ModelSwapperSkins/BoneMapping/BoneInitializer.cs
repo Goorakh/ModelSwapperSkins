@@ -12,7 +12,7 @@ namespace ModelSwapperSkins.BoneMapping
     {
         public static readonly BoneInitializerRules DefaultBoneRules = BoneInitializerRules_AutoName.Instance;
 
-        static readonly HashSet<BoneInitializerRules> _overrideInitializerRules = new HashSet<BoneInitializerRules>();
+        static readonly HashSet<BoneInitializerRules> _overrideInitializerRules = [];
 
         public static void AddCustomBoneInitializerRules(BoneInitializerRules initializerRules)
         {

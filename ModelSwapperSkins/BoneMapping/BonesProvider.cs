@@ -38,7 +38,7 @@ namespace ModelSwapperSkins.BoneMapping
 
         public void MapBonesTo(BonesProvider other)
         {
-            List<MatchBoneTransform> boneMatches = new List<MatchBoneTransform>();
+            List<MatchBoneTransform> boneMatches = [];
 
             foreach (Bone bone in Bones)
             {
