@@ -35,15 +35,20 @@ namespace ModelSwapperSkins
             {
                 List<CharacterModel.LightInfo> lights = characterModel.baseLightInfos.ToList();
 
+                bool anyChange = false;
                 for (int i = lights.Count - 1; i >= 0; i--)
                 {
                     if (!lights[i].light || lights[i].light.transform.IsChildOf(skinModelObject.transform))
                     {
                         lights.RemoveAt(i);
+                        anyChange = true;
                     }
                 }
 
-                characterModel.baseLightInfos = lights.ToArray();
+                if (anyChange)
+                {
+                    characterModel.baseLightInfos = lights.ToArray();
+                }
             }
         }
 
