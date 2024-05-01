@@ -25,11 +25,14 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Main":
                     return new BoneInfo(BoneType.Base);
                 case "Root_M":
-                    return new BoneInfo(BoneType.Pelvis);
+                    return new BoneInfo(BoneType.Pelvis)
+                    {
+                        RotationOffset = Quaternion.Euler(90f, 90f, 0f)
+                    };
                 case "Spine1_M":
                     return new BoneInfo(BoneType.Stomach)
                     {
-                        RotationOffset = Quaternion.Euler(0f, 270f, 180f)
+                        RotationOffset = Quaternion.Euler(270f, 90f, 0f)
                     };
                 case "Chest_M":
                     return new BoneInfo(BoneType.Chest)
@@ -39,17 +42,23 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Head_M":
                     return new BoneInfo(BoneType.Head)
                     {
+                        PositionOffset = new Vector3(0f, -0.25f, 0f),
                         RotationOffset = Quaternion.Euler(270f, 90f, 0f)
+                    };
+                case "Jaw_M":
+                    return new BoneInfo(BoneType.Jaw)
+                    {
+                        RotationOffset = Quaternion.Euler(45f, 270f, 0f)
                     };
                 case "Hip_L":
                     return new BoneInfo(BoneType.LegUpperL)
                     {
-                        RotationOffset = Quaternion.Euler(0f, 0f, 270f)
+                        RotationOffset = Quaternion.Euler(90f, 90f, 0f)
                     };
                 case "Knee_L":
                     return new BoneInfo(BoneType.LegLowerL)
                     {
-                        RotationOffset = Quaternion.Euler(0f, 180f, 90f)
+                        RotationOffset = Quaternion.Euler(270f, 270f, 0f)
                     };
                 case "Ankle_L":
                     return new BoneInfo(BoneType.FootL)
@@ -60,7 +69,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Hip_R":
                     return new BoneInfo(BoneType.LegUpperR)
                     {
-                        RotationOffset = Quaternion.Euler(0f, 0f, 90f)
+                        RotationOffset = Quaternion.Euler(270f, 90f, 0f)
                     };
                 case "Knee_R":
                     return new BoneInfo(BoneType.LegLowerR)
@@ -74,21 +83,35 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         RotationOffset = Quaternion.Euler(0f, 270f, 0f)
                     };
                 case "Scapula_L":
-                    return new BoneInfo(BoneType.ShoulderL);
+                    return new BoneInfo(BoneType.ShoulderL)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 0f, 270f)
+                    };
                 case "Shoulder_L":
-                    return new BoneInfo(BoneType.ArmUpperL);
+                    return new BoneInfo(BoneType.ArmUpperL)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 0f, 270f)
+                    };
                 case "Elbow_L":
-                    return new BoneInfo(BoneType.ArmLowerL);
-                case "Elbow1_L":
-                    return new BoneInfo(BoneType.HandL);
+                    return new BoneInfo(BoneType.ArmLowerL)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 0f, 270f)
+                    };
                 case "Scapula_R":
-                    return new BoneInfo(BoneType.ShoulderR);
+                    return new BoneInfo(BoneType.ShoulderR)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 180f, 270f)
+                    };
                 case "Shoulder_R":
-                    return new BoneInfo(BoneType.ArmUpperR);
+                    return new BoneInfo(BoneType.ArmUpperR)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 180f, 270f)
+                    };
                 case "Elbow_R":
-                    return new BoneInfo(BoneType.ArmLowerR);
-                case "Elbow1_R":
-                    return new BoneInfo(BoneType.HandR);
+                    return new BoneInfo(BoneType.ArmLowerR)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 180f, 270f)
+                    };
                 default:
                     return BoneInfo.None;
             }

@@ -49,7 +49,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_GrandParent.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Gravekeeper.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_GreaterWisp.Instance);
-            // AddCustomBoneInitializerRules(BoneInitializerRules_Heretic.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Heretic.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_HermitCrab.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Jellyfish.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Lemurian.Instance);
