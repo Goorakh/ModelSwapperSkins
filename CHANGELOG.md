@@ -19,6 +19,7 @@
   * Blind Pest feet rotation
   * Stone Golem model scale and particles
   * Lemurian model scale and upper arm position
+  * Elder Lemurian model scale and upper arm position
 
 **1.0.0 Changes:**
 
