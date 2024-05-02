@@ -37,14 +37,13 @@ namespace ModelSwapperSkins.BoneMapping
         {
             AddCustomBoneInitializerRules(BoneInitializerRules_AcidLarva.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_AltarSkeleton.Instance);
-            AddCustomBoneInitializerRules(BoneInitializerRules_Bandit2.Instance);
-            AddCustomBoneInitializerRules(BoneInitializerRules_Croco.Instance);
-            AddCustomBoneInitializerRules(BoneInitializerRules_VoidSurvivor.Instance);
-            AddCustomBoneInitializerRules(BoneInitializerRules_Brother.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Assassin2.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Bandit2.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_BeetleQueen2.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Bison.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Brother.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Captain.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Croco.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_ClayBruiser.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_ClayGrenadier.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_FlyingVermin.Instance);
@@ -64,6 +63,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_Shopkeeper.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Toolbot.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Treebot.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_VoidSurvivor.Instance);
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
