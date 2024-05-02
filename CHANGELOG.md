@@ -4,6 +4,7 @@
   * Heretic skins
 
 * Fixed:
+  * Physical bones (eg. coats, tails) jittering
   * Altar Skeleton head position
   * Bandit head position
   * Mithrix model scale and head position

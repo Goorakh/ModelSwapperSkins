@@ -166,6 +166,23 @@ namespace ModelSwapperSkins
 
             if (modelTransform.TryGetComponent(out CharacterModel mainModel))
             {
+                foreach (DynamicBone dynamicBone in skinModelTransfom.GetComponentsInChildren<DynamicBone>())
+                {
+                    dynamicBone.enabled = false;
+
+                    static IEnumerator waitThenSetEnabled(Behaviour behaviour)
+                    {
+                        yield return new WaitForEndOfFrame();
+
+                        if (behaviour)
+                        {
+                            behaviour.enabled = true;
+                        }
+                    }
+
+                    mainModel.StartCoroutine(waitThenSetEnabled(dynamicBone));
+                }
+
                 ModelPartsProvider mainModelPartsProvider = modelTransform.GetComponent<ModelPartsProvider>();
                 bool shouldShow(Component component, bool isMainModel)
                 {
