@@ -7,6 +7,7 @@
   * Altar Skeleton head position
   * Bandit head position
   * Mithrix model scale and head position
+  * Captain head position
 
 **1.0.0 Changes:**
 
