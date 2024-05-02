@@ -5,6 +5,7 @@
 
 * Fixed:
   * Physical bones (eg. coats, tails) jittering
+  * Skin icons being blurry if texture resolution setting was anything below Full
   * Altar Skeleton head position
   * Bandit head position
   * Mithrix model scale and head position

@@ -55,7 +55,7 @@ namespace ModelSwapperSkins
             int width = bodyPortrait.width;
             int height = bodyPortrait.height;
 
-            Texture2D iconTexture = new Texture2D(width, height);
+            Texture2D iconTexture = new Texture2D(width, height, TextureFormat.ARGB32, false);
 
             for (int x = 0; x < width; x++)
             {
