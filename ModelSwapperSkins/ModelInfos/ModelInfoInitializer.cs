@@ -130,6 +130,7 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("ImpBody", new ModelInfo(2f));
             SetModelInfo("ImpBossBody", new ModelInfo(12.5f));
             SetModelInfo("JellyfishBody", new ModelInfo(7.5f));
+            SetModelInfo("LemurianBody", new ModelInfo(20f));
             SetModelInfo("LunarExploderBody", new ModelInfo(5f));
             SetModelInfo("RailgunnerBody", new ModelInfo(1.5f));
             SetModelInfo("ToolbotBody", new ModelInfo(20f));
