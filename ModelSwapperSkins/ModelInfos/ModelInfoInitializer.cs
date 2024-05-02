@@ -35,19 +35,9 @@ namespace ModelSwapperSkins.ModelInfos
             float worldSpaceModelHeight = modelBounds.max.y - modelBounds.min.y;
             float modelHeightScale = worldSpaceModelHeight / modelTransform.localScale.y;
 
-            ModelInfoProvider modelInfoProvider = modelTransform.gameObject.AddComponent<ModelInfoProvider>();
-            modelInfoProvider.ModelInfo = new ModelInfo(modelHeightScale);
+            ModelInfo modelInfo = new ModelInfo(modelHeightScale);
 
-            SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab.gameObject);
-            if (survivorDef && survivorDef.displayPrefab)
-            {
-                CharacterModel displayPrefabCharacterModel = survivorDef.displayPrefab.GetComponentInChildren<CharacterModel>();
-                if (displayPrefabCharacterModel && !displayPrefabCharacterModel.GetComponent<ModelInfoProvider>())
-                {
-                    ModelInfoProvider displayModelInfoProvider = displayPrefabCharacterModel.gameObject.AddComponent<ModelInfoProvider>();
-                    modelInfoProvider.CopyTo(displayModelInfoProvider);
-                }
-            }
+            SetModelInfo(bodyPrefab, modelInfo);
         }
 
         public static void SetModelInfo(string bodyName, ModelInfo modelInfo)
