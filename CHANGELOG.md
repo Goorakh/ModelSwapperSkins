@@ -20,6 +20,7 @@
   * Stone Golem model scale and particles
   * Lemurian model scale and upper arm position
   * Elder Lemurian model scale and upper arm position
+  * Mercenary toe rotation
 
 **1.0.0 Changes:**
 
