@@ -37,6 +37,7 @@ namespace ModelSwapperSkins.BoneMapping
         {
             AddCustomBoneInitializerRules(BoneInitializerRules_AcidLarva.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_AltarSkeleton.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Bandit2.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Croco.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_VoidSurvivor.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Brother.Instance);

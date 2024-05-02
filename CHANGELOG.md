@@ -5,6 +5,7 @@
 
 * Fixed:
   * Altar Skeleton head position on most characters
+  * Bandit head position
 
 **1.0.0 Changes:**
 
