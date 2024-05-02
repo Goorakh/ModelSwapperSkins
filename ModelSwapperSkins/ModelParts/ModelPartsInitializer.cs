@@ -315,6 +315,9 @@ namespace ModelSwapperSkins.ModelParts
             OverrideParts("RoR2/Base/Loader/LoaderBody.prefab",
                           new ModelPartConstructor("LoaderMechMesh", ModelPartFlags.Decoration));
 
+            OverrideParts("RoR2/Base/Mage/MageBody.prefab",
+                          new ModelPartConstructor("MageCapeMesh", ModelPartFlags.BodyFeature));
+
             OverrideParts("RoR2/Base/Merc/MercBody.prefab",
                           new ModelPartConstructor("MercSwordMesh", ModelPartFlags.Weapon));
 
