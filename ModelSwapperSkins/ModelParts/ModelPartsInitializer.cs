@@ -280,6 +280,14 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature));
 
+            OverrideParts("RoR2/Base/Golem/GolemBody.prefab",
+                          new ModelPartConstructor("GolemArmature/ROOT/base/pelvis/thigh.l/Debris", ModelPartFlags.Decoration),
+                          new ModelPartConstructor("GolemArmature/ROOT/base/pelvis/thigh.r/Debris", ModelPartFlags.Decoration),
+                          new ModelPartConstructor("GolemArmature/ROOT/base/stomach/chest/upper_arm.l/Debris", ModelPartFlags.Decoration),
+                          new ModelPartConstructor("GolemArmature/ROOT/base/stomach/chest/upper_arm.l/upper_arm.l.001/Debris", ModelPartFlags.Decoration),
+                          new ModelPartConstructor("GolemArmature/ROOT/base/stomach/chest/upper_arm.r/Debris", ModelPartFlags.Decoration),
+                          new ModelPartConstructor("GolemArmature/ROOT/base/stomach/chest/upper_arm.r/upper_arm.r.001/upper_arm.r.002/Debris", ModelPartFlags.Decoration));
+
             OverrideParts("RoR2/Base/Grandparent/GrandParentBody.prefab",
                           new ModelPartConstructor("GrandparentLowMesh", ModelPartFlags.Decoration));
 
