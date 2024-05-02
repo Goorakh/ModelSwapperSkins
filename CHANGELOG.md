@@ -10,6 +10,7 @@
   * Mithrix model scale and head position
   * Captain head position
   * Clay Man head position
+  * Clay Templar model scale and head position
 
 **1.0.0 Changes:**
 
