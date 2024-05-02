@@ -9,6 +9,7 @@
   * Bandit head position
   * Mithrix model scale and head position
   * Captain head position
+  * Clay Man head position
 
 **1.0.0 Changes:**
 
