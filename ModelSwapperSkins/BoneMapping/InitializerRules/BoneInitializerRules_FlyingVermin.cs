@@ -21,6 +21,16 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
             BoneInfo bone = base.getBoneInfo(modelTransform, potentialBoneTransform);
             if (bone.Type != BoneType.None)
             {
+                switch (bone.Type)
+                {
+                    case BoneType.FootL:
+                        bone.RotationOffset *= Quaternion.Euler(270f, 0f, 0f);
+                        break;
+                    case BoneType.FootR:
+                        bone.RotationOffset *= Quaternion.Euler(270f, 0f, 0f);
+                        break;
+                }
+
                 return bone;
             }
 

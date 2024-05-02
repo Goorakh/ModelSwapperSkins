@@ -12,6 +12,7 @@
   * Clay Man head position
   * Clay Templar model scale and head position
   * Acrid model scale
+  * Blind Pest feet rotation
 
 **1.0.0 Changes:**
 
