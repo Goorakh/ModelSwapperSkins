@@ -1,6 +1,7 @@
 **?.?.? Changes:**
 
-* Added Heretic skins
+* Added:
+  * Heretic skins
 
 * Fixed:
   * Altar Skeleton head position on most characters
