@@ -65,6 +65,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_Shopkeeper.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Toolbot.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Treebot.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Vermin.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_VoidSurvivor.Instance);
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)

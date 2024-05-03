@@ -136,6 +136,7 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("RailgunnerBody", new ModelInfo(1.5f));
             SetModelInfo("ToolbotBody", new ModelInfo(20f));
             SetModelInfo("TreebotBody", new ModelInfo(5f));
+            SetModelInfo("VerminBody", new ModelInfo(5f));
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {

@@ -21,6 +21,7 @@
   * Lemurian model scale and upper arm position
   * Elder Lemurian model scale and upper arm position
   * Mercenary toe rotation
+  * Blind Vermin model scale and several body part rotations
 
 **1.0.0 Changes:**
 
