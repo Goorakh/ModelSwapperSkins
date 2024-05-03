@@ -79,9 +79,6 @@ namespace ModelSwapperSkins
             if (body.gameObject == _survivor.bodyPrefab)
                 return false;
 
-            if (string.IsNullOrWhiteSpace(body.baseNameToken) || Language.IsTokenInvalid(body.baseNameToken))
-                return false;
-
             ModelLocator modelLocator = body.GetComponent<ModelLocator>();
             if (!modelLocator)
                 return false;
