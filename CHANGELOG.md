@@ -5,6 +5,7 @@
 
 * Changed:
   * Made Artificer cloth visible when using different model skin
+  * Alloy Vulture wing feathers are no longer visible when using it as a skin
 
 * Fixed:
   * Physical bones (eg. coats, tails) jittering
@@ -22,6 +23,7 @@
   * Elder Lemurian model scale and upper arm position
   * Mercenary toe rotation
   * Blind Vermin model scale and several body part rotations
+  * Alloy Vulture body part alignment
 
 * Removed:
   * Void Devastator skins

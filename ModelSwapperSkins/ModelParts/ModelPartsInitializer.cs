@@ -355,6 +355,10 @@ namespace ModelSwapperSkins.ModelParts
             OverrideParts("RoR2/DLC1/VoidSurvivor/VoidSurvivorBody.prefab",
                           new ModelPartConstructor("mdlVoidSurvivorMetal", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("metalcollar.001", ModelPartFlags.Body));
+
+            OverrideParts("RoR2/Base/Vulture/VultureBody.prefab",
+                          new ModelPartConstructor("VultureWingFeatherMesh", ModelPartFlags.Decoration),
+                          new ModelPartConstructor("VultureWingFeatherMeshSet2", ModelPartFlags.Decoration));
         }
     }
 }
