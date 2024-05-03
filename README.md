@@ -5,17 +5,17 @@ Adds most characters as selectable survivor skins (~70 skins per survivor).
 <details>
 <summary>Screenshots</summary>
 
-![](https://cdn.discordapp.com/attachments/526159007442927648/1158098725563019425/Loader_Engineer.jpg)
+![](https://raw.githubusercontent.com/Goorakh/ModelSwapperSkins/master/Thunderstore/20240503181818_1.jpg)
 
-![](https://cdn.discordapp.com/attachments/526159007442927648/1158098726338973716/Mercerary_Imp.jpg)
+![](https://raw.githubusercontent.com/Goorakh/ModelSwapperSkins/master/Thunderstore/20240503181910_1.jpg)
 
-![](https://cdn.discordapp.com/attachments/526159007442927648/1158098726645153972/Railgunner_Huntress.jpg)
+![](https://raw.githubusercontent.com/Goorakh/ModelSwapperSkins/master/Thunderstore/20240503182018_1.jpg)
 
-![](https://cdn.discordapp.com/attachments/526159007442927648/1158098671825600615/Bandit_Mithrix.jpg)
+![](https://raw.githubusercontent.com/Goorakh/ModelSwapperSkins/master/Thunderstore/20240503182214_1.jpg)
 
-![](https://cdn.discordapp.com/attachments/526159007442927648/1158098673520099398/Commando_BlindPest.jpg)
+![](https://raw.githubusercontent.com/Goorakh/ModelSwapperSkins/master/Thunderstore/20240503182506_1.jpg)
 
-![](https://cdn.discordapp.com/attachments/526159007442927648/1158098674031800430/Huntress_Templar.jpg)
+![](https://raw.githubusercontent.com/Goorakh/ModelSwapperSkins/master/Thunderstore/20240503182634_1.jpg)
 
 </details>
 
