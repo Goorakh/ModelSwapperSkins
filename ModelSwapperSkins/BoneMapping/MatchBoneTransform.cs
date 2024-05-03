@@ -116,9 +116,6 @@ namespace ModelSwapperSkins.BoneMapping
 
             _boneTransform.position = (Matrix4x4.Translate(_targetTransform.position) * (_targetTransform.localToWorldMatrix * Matrix4x4.Translate(_localTargetPositionOffset) * _targetTransform.worldToLocalMatrix)).GetColumn(3);
 
-            Vector3 boneForward = _boneTransform.TransformDirection(_bone.Info.RotationOffset * Vector3.forward);
-            Vector3 boneUp = _boneTransform.TransformDirection(_bone.Info.RotationOffset * Vector3.up);
-
             Vector3 boneTargetForward = _targetTransform.TransformDirection(_localTargetRotationOffset * Vector3.forward);
             Vector3 boneTargetUp = _targetTransform.TransformDirection(_localTargetRotationOffset * Vector3.up);
 
