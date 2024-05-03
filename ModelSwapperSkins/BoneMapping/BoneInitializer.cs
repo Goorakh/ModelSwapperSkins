@@ -79,8 +79,8 @@ namespace ModelSwapperSkins.BoneMapping
                     switch (body.name)
                     {
                         case "AncientWispBody": // Weird parenting issues, blacklist for now
-                        case "BeetleBody": // Bone mapping doesn't work for some reason, blacklist for now
-                        case "BeetleCrystalBody": // Bone mapping doesn't work for some reason, blacklist for now
+                        case "BeetleBody": // Has no bones, is animated by black magic
+                        case "BeetleCrystalBody": // Has no bones, is animated by black magic
                         case "BeetleGuardCrystalBody": // Bad material, logspam
                         case "BomberBody": // Just Commando
                         case "CommandoPerformanceTestBody": // Just Commando
