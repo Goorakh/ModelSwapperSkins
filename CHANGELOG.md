@@ -23,6 +23,9 @@
   * Mercenary toe rotation
   * Blind Vermin model scale and several body part rotations
 
+* Removed:
+  * Void Devastator skins
+
 **1.0.0 Changes:**
 
 * First release

@@ -82,17 +82,6 @@ namespace ModelSwapperSkins
             if (string.IsNullOrWhiteSpace(body.baseNameToken) || Language.IsTokenInvalid(body.baseNameToken))
                 return false;
 
-            switch (body.name)
-            {
-                case "BeetleBody": // Bone mapping doesn't work for some reason, blacklist for now
-                case "BeetleGuardCrystalBody": // Bad material, logspam
-                case "BomberBody": // Just Commando
-                case "CommandoPerformanceTestBody": // Just Commando
-                case "EnforcerBody": // Literally just a cube
-                case "GolemBodyInvincible": // Just Stone Golem
-                    return false;
-            }
-
             ModelLocator modelLocator = body.GetComponent<ModelLocator>();
             if (!modelLocator)
                 return false;

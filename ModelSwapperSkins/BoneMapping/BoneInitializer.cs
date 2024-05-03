@@ -72,6 +72,22 @@ namespace ModelSwapperSkins.BoneMapping
             {
                 BoneInitializerRules initializerRules = FindInitializerRulesFor(body.bodyIndex);
 
+                if (initializerRules == DefaultBoneRules)
+                {
+                    switch (body.name)
+                    {
+                        case "BeetleBody": // Bone mapping doesn't work for some reason, blacklist for now
+                        case "BeetleGuardCrystalBody": // Bad material, logspam
+                        case "BomberBody": // Just Commando
+                        case "CommandoPerformanceTestBody": // Just Commando
+                        case "EnforcerBody": // Literally just a cube
+                        case "GolemBodyInvincible": // Just Stone Golem
+                        case "VoidMegaCrabBody": // No easy mappings, blacklist for now
+                        case "VoidMegaCrabAllyBody": // No easy mappings, blacklist for now
+                            continue;
+                    }
+                }
+
 #if DEBUG
                 Log.Debug($"Using bone intializer rules {initializerRules} for {body.name}");
 #endif
