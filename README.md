@@ -1,4 +1,4 @@
-# Model-Swap Skinpack
+# Model Swapper Skins
 
 Adds most characters as selectable survivor skins (~70 skins per survivor).
 
@@ -18,6 +18,12 @@ Adds most characters as selectable survivor skins (~70 skins per survivor).
 ![](https://cdn.discordapp.com/attachments/526159007442927648/1158098674031800430/Huntress_Templar.jpg)
 
 </details>
+
+### Known Issues
+
+Using this mod in combination with CustomEmotesAPI introduces various scale and alignment issues, a fix for this is not planned.
+
+<hr>
 
 The skins are procedurally generated when the game loads, so it should theoretically work with any character mods, but expect janky-ness with non-vanilla characters.
 
