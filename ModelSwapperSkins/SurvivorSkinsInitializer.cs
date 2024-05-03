@@ -134,16 +134,30 @@ namespace ModelSwapperSkins
                         skinTokenAdditions.Add(language.name, tokenDictionaryForLanguage);
                     }
 
-                    string skinName = Language.GetString(body.baseNameToken, language.name);
+                    string skinName = Language.IsTokenInvalid(body.baseNameToken) ? "???" : Language.GetString(body.baseNameToken, language.name);
                     if (baseSkin)
                     {
-                        string baseSkinName = Language.GetString(baseSkin.nameToken, language.name);
-                        if (string.IsNullOrWhiteSpace(baseSkinName))
+                        string baseSkinName;
+                        if (Language.IsTokenInvalid(baseSkin.nameToken))
                         {
-                            baseSkinName = $"Variant {baseSkinIndex + 1}";
+                            if (baseSkinIndex < 0)
+                            {
+                                baseSkinName = string.Empty;
+                            }
+                            else
+                            {
+                                baseSkinName = $"Variant {baseSkinIndex + 1}";
+                            }
+                        }
+                        else
+                        {
+                            baseSkinName = Language.GetString(baseSkin.nameToken, language.name);
                         }
 
-                        skinName += $" ({baseSkinName})";
+                        if (!string.IsNullOrWhiteSpace(baseSkinName))
+                        {
+                            skinName += $" ({baseSkinName})";
+                        }
                     }
 
                     tokenDictionaryForLanguage.Add(skinNameToken, skinName);
