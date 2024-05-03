@@ -85,6 +85,7 @@ namespace ModelSwapperSkins.BoneMapping
                         case "CommandoPerformanceTestBody": // Just Commando
                         case "EnforcerBody": // Literally just a cube
                         case "GolemBodyInvincible": // Just Stone Golem
+                        case "SniperBody": // Broken texture commando model
                         case "VoidMegaCrabBody": // No easy mappings, blacklist for now
                         case "VoidMegaCrabAllyBody": // No easy mappings, blacklist for now
                             continue;
