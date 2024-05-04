@@ -1,6 +1,6 @@
 # Model Swapper Skins
 
-Adds most characters as selectable survivor skins (~70 skins per survivor).
+Adds most characters as selectable survivor skins (~80 skins per survivor).
 
 <details>
 <summary>Screenshots</summary>

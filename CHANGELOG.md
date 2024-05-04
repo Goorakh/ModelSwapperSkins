@@ -1,4 +1,4 @@
-**?.?.? Changes:**
+**1.1.0 Changes:**
 
 * Added:
   * Heretic skins
