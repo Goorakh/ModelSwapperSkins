@@ -131,6 +131,11 @@ namespace ModelSwapperSkins
                 ak.enabled = false;
             }
 
+            foreach (StriderLegController striderLegController in skinModelTransfom.GetComponentsInChildren<StriderLegController>())
+            {
+                striderLegController.enabled = false;
+            }
+
             foreach (Animator mainModelAnimator in modelTransform.GetComponents<Animator>())
             {
                 // Not overriding this makes *some* characters not animate properly for some reason,
@@ -202,7 +207,35 @@ namespace ModelSwapperSkins
 
                 if (skinModelTransfom.TryGetComponent(out CharacterModel skinModel) && (skinModel.baseRendererInfos.Length > 0 || skinModel.baseLightInfos.Length > 0))
                 {
-                    rendererInfos = rendererInfos.Concat(skinModel.baseRendererInfos);
+                    IEnumerable<CharacterModel.RendererInfo> skinRendererInfos = skinModel.baseRendererInfos;
+
+                    if (NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("MiniVoidRaidCrabBodyBase"))
+                    {
+                        skinRendererInfos = skinRendererInfos.Select(r =>
+                        {
+                            if (r.renderer)
+                            {
+                                switch (r.renderer.name)
+                                {
+                                    case "EyePupilMesh":
+                                    case "VoidRaidCrabEye":
+                                        r.ignoreOverlays = true;
+                                        break;
+                                    case "VoidRaidCrabHead":
+                                    case "VoidRaidCrabMetalLegRingsMesh":
+                                    case "VoidRaidCrabMetalMesh":
+                                    case "VoidRaidCrabBrain":
+                                        r.ignoreOverlays = false;
+                                        break;
+                                }
+                            }
+
+                            return r;
+                        });
+                    }
+
+                    rendererInfos = rendererInfos.Concat(skinRendererInfos);
+
                     lightInfos = lightInfos.Concat(skinModel.baseLightInfos);
 
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public

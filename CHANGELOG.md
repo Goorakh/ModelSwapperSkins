@@ -3,6 +3,7 @@
 * Added:
   * Heretic skins
   * Void Reaver skins
+  * Voidling skins
 
 * Changed:
   * Made Artificer cloth visible when using different model skin
