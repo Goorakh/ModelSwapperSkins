@@ -59,6 +59,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_LunarExploder.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Mage.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Merc.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_MiniMushroom.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_MiniVoidRaidCrab.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Nullifier.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Parent.Instance);
