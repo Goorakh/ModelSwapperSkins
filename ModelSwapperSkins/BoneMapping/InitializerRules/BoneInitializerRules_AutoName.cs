@@ -5,7 +5,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
     public class BoneInitializerRules_AutoName : BoneInitializerRules
     {
-        public static readonly BoneInitializerRules_AutoName Instance = new BoneInitializerRules_AutoName();
+        public static BoneInitializerRules_AutoName Instance { get; } = new BoneInitializerRules_AutoName();
 
         protected BoneInitializerRules_AutoName()
         {

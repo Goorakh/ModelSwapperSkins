@@ -7,6 +7,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
     {
         public static new BoneInitializerRules_Vermin Instance { get; } = new BoneInitializerRules_Vermin();
 
+        BoneInitializerRules_Vermin() : base()
+        {
+        }
+
         public override bool AppliesTo(BodyIndex bodyIndex)
         {
             return bodyIndex == BodyCatalog.FindBodyIndex("VerminBody");

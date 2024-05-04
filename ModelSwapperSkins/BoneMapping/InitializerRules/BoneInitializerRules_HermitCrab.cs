@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
-    public class BoneInitializerRules_HermitCrab : BoneInitializerRules
+    public sealed class BoneInitializerRules_HermitCrab : BoneInitializerRules
     {
-        public static readonly BoneInitializerRules_HermitCrab Instance = new BoneInitializerRules_HermitCrab();
+        public static BoneInitializerRules_HermitCrab Instance { get; } = new BoneInitializerRules_HermitCrab();
 
-        public BoneInitializerRules_HermitCrab() : base()
+        BoneInitializerRules_HermitCrab() : base()
         {
         }
 

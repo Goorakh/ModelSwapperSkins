@@ -7,6 +7,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
     {
         public static new BoneInitializerRules_Clay Instance { get; } = new BoneInitializerRules_Clay();
 
+        BoneInitializerRules_Clay() : base()
+        {
+        }
+
         public override bool AppliesTo(BodyIndex bodyIndex)
         {
             return bodyIndex == BodyCatalog.FindBodyIndex("ClayBody");

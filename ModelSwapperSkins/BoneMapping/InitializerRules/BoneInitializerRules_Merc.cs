@@ -7,6 +7,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
     {
         public static new BoneInitializerRules_Merc Instance { get; } = new BoneInitializerRules_Merc();
 
+        BoneInitializerRules_Merc() : base()
+        {
+        }
+
         public override bool AppliesTo(BodyIndex bodyIndex)
         {
             return bodyIndex == BodyCatalog.FindBodyIndex("MercBody");

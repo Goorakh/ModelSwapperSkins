@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
-    public class BoneInitializerRules_LunarExploder : BoneInitializerRules
+    public sealed class BoneInitializerRules_LunarExploder : BoneInitializerRules
     {
-        public static readonly BoneInitializerRules_LunarExploder Instance = new BoneInitializerRules_LunarExploder();
+        public static BoneInitializerRules_LunarExploder Instance { get; } = new BoneInitializerRules_LunarExploder();
 
-        protected BoneInitializerRules_LunarExploder() : base()
+        BoneInitializerRules_LunarExploder() : base()
         {
         }
 

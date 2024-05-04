@@ -1,7 +1,4 @@
 ﻿using RoR2;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -9,6 +6,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
     public sealed class BoneInitializerRules_Nullifier : BoneInitializerRules
     {
         public static BoneInitializerRules_Nullifier Instance { get; } = new BoneInitializerRules_Nullifier();
+
+        BoneInitializerRules_Nullifier() : base()
+        {
+        }
 
         public override bool AppliesTo(BodyIndex bodyIndex)
         {

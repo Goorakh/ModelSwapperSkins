@@ -7,6 +7,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
     {
         public static new BoneInitializerRules_Vulture Instance { get; } = new BoneInitializerRules_Vulture();
 
+        BoneInitializerRules_Vulture() : base()
+        {
+        }
+
         public override bool AppliesTo(BodyIndex bodyIndex)
         {
             return bodyIndex == BodyCatalog.FindBodyIndex("VultureBody");

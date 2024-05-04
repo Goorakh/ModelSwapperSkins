@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
-    public class BoneInitializerRules_Shopkeeper : BoneInitializerRules_AutoName
+    public sealed class BoneInitializerRules_Shopkeeper : BoneInitializerRules_AutoName
     {
-        public static new readonly BoneInitializerRules_Shopkeeper Instance = new BoneInitializerRules_Shopkeeper();
+        public static new BoneInitializerRules_Shopkeeper Instance { get; } = new BoneInitializerRules_Shopkeeper();
 
-        protected BoneInitializerRules_Shopkeeper() : base()
+        BoneInitializerRules_Shopkeeper() : base()
         {
         }
 

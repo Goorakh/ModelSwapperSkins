@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
-    public class BoneInitializerRules_Railgunner : BoneInitializerRules_AutoName
+    public sealed class BoneInitializerRules_Railgunner : BoneInitializerRules_AutoName
     {
-        public static new readonly BoneInitializerRules_Railgunner Instance = new BoneInitializerRules_Railgunner();
+        public static new BoneInitializerRules_Railgunner Instance { get; } = new BoneInitializerRules_Railgunner();
 
-        protected BoneInitializerRules_Railgunner() : base()
+        BoneInitializerRules_Railgunner() : base()
         {
         }
 

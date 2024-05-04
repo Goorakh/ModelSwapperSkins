@@ -7,6 +7,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
     {
         public static new BoneInitializerRules_Bandit2 Instance { get; } = new BoneInitializerRules_Bandit2();
 
+        BoneInitializerRules_Bandit2() : base()
+        {
+        }
+
         public override bool AppliesTo(BodyIndex bodyIndex)
         {
             return bodyIndex == BodyCatalog.FindBodyIndex("Bandit2Body");

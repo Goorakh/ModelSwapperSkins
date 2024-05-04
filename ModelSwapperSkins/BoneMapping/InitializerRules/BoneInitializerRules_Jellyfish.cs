@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
-    public class BoneInitializerRules_Jellyfish : BoneInitializerRules
+    public sealed class BoneInitializerRules_Jellyfish : BoneInitializerRules
     {
-        public static readonly BoneInitializerRules_Jellyfish Instance = new BoneInitializerRules_Jellyfish();
+        public static BoneInitializerRules_Jellyfish Instance { get; } = new BoneInitializerRules_Jellyfish();
 
-        public BoneInitializerRules_Jellyfish() : base()
+        BoneInitializerRules_Jellyfish() : base()
         {
         }
 

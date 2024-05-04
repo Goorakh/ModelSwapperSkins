@@ -7,6 +7,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
     {
         public static new BoneInitializerRules_AltarSkeleton Instance { get; } = new BoneInitializerRules_AltarSkeleton();
 
+        BoneInitializerRules_AltarSkeleton() : base()
+        {
+        }
+
         public override bool AppliesTo(BodyIndex bodyIndex)
         {
             return bodyIndex == BodyCatalog.FindBodyIndex("AltarSkeletonBody");

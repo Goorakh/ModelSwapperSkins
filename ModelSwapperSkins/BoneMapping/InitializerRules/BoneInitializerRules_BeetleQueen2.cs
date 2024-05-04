@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
-    public class BoneInitializerRules_BeetleQueen2 : BoneInitializerRules_AutoName
+    public sealed class BoneInitializerRules_BeetleQueen2 : BoneInitializerRules_AutoName
     {
-        public static new readonly BoneInitializerRules_BeetleQueen2 Instance = new BoneInitializerRules_BeetleQueen2();
+        public static new BoneInitializerRules_BeetleQueen2 Instance { get; } = new BoneInitializerRules_BeetleQueen2();
 
-        protected BoneInitializerRules_BeetleQueen2()
+        BoneInitializerRules_BeetleQueen2() : base()
         {
         }
 

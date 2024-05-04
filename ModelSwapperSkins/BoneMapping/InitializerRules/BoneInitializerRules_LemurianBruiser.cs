@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
-    public class BoneInitializerRules_LemurianBruiser : BoneInitializerRules_AutoName
+    public sealed class BoneInitializerRules_LemurianBruiser : BoneInitializerRules_AutoName
     {
-        public static new readonly BoneInitializerRules_LemurianBruiser Instance = new BoneInitializerRules_LemurianBruiser();
+        public static new BoneInitializerRules_LemurianBruiser Instance { get; } = new BoneInitializerRules_LemurianBruiser();
 
-        protected BoneInitializerRules_LemurianBruiser() : base()
+        BoneInitializerRules_LemurianBruiser() : base()
         {
         }
 
