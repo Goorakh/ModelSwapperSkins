@@ -57,8 +57,8 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_Lemurian.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_LemurianBruiser.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_LunarExploder.Instance);
-            AddCustomBoneInitializerRules(BoneInitializerRules_Merc.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Mage.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Merc.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Nullifier.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Parent.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Railgunner.Instance);
