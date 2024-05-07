@@ -3,6 +3,7 @@
 * Fixed:
   * Mul-t pelvis rotation
   * Engineer head matching
+  * Huntress head position
 
 **1.1.0 Changes:**
 
