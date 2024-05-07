@@ -32,7 +32,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     return new BoneInfo(BoneType.Head)
                     {
                         PositionOffset = new Vector3(0f, 0f, -0.1f),
-                        RotationOffset = Quaternion.Euler(300f, 180f, 0f)
+                        RotationOffset = Quaternion.Euler(300f, 180f, 0f),
+                        MatchFlags = BoneMatchFlags.MatchToOther
                     };
                 case "Beak.Upper":
                     return new BoneInfo(BoneType.Head)
