@@ -1,5 +1,6 @@
 ﻿using ModelSwapperSkins.Utils;
 using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -23,6 +24,11 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
             }
 #endif
             return result;
+        }
+
+        public virtual IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
+        {
+            yield break;
         }
     }
 }

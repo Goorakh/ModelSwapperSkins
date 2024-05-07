@@ -43,10 +43,11 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_Bison.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Brother.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Captain.Instance);
-            AddCustomBoneInitializerRules(BoneInitializerRules_Croco.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_ClayBruiser.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_ClayGrenadier.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Clay.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Croco.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Engi.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_FlyingVermin.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_GrandParent.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Gravekeeper.Instance);
@@ -131,10 +132,16 @@ namespace ModelSwapperSkins.BoneMapping
 
             BonesProvider bonesProvider = modelTransform.gameObject.AddComponent<BonesProvider>();
 
-            IEnumerable<Bone> bones = from bone in TransformUtils.GetAllChildrenRecursive(modelTransform)
-                                      let info = rules.GetBoneInfo(modelTransform, bone)
-                                      where info.Type != BoneType.None
-                                      select new Bone { BoneTransform = bone, Info = info, ModelPath = TransformUtils.GetObjectPath(bone, modelTransform) };
+            List<Bone> bones = TransformUtils.GetAllChildrenRecursive(modelTransform).Select(boneTransform =>
+            {
+                BoneInfo boneInfo = rules.GetBoneInfo(modelTransform, boneTransform);
+                if (boneInfo.Type == BoneType.None)
+                    return null;
+
+                return new Bone(boneInfo, modelTransform, boneTransform);
+            }).Where(b => b != null).ToList();
+
+            bones.AddRange(rules.GetAdditionalBones(modelTransform, bones));
 
             bonesProvider.Bones = bones.ToArray();
 
