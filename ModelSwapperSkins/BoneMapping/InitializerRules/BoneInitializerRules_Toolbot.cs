@@ -37,7 +37,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     break;
                 case BoneType.Pelvis:
-                    bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
                     break;
                 case BoneType.None:
                     switch (potentialBoneTransform.name)
