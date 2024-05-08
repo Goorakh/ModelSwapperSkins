@@ -1,5 +1,8 @@
 **?.?.? Changes:**
 
+* Added:
+  * Void Jailer skins
+
 * Fixed:
   * Mul-t pelvis rotation
   * Engineer head matching
