@@ -19,12 +19,12 @@ Adds most characters as selectable survivor skins (~80 skins per survivor).
 
 </details>
 
+The skins are procedurally generated when the game loads, so it should theoretically work with any character and skin mod, but expect janky-ness with modded characters.
+
 ### Known Issues
 
 Using this mod in combination with CustomEmotesAPI introduces various scale and alignment issues, a fix for this is not planned.
 
 <hr>
-
-The skins are procedurally generated when the game loads, so it should theoretically work with any character mods, but expect janky-ness with non-vanilla characters.
 
 If you've encountered a bug, want to suggest a new feature, or need any other reason to contact me, please open a [GitHub issue](https://github.com/Goorakh/ModelSwapperSkins/issues/new), but feel free to also DM/ping me on Discord (@gorakh) if you'd prefer.
