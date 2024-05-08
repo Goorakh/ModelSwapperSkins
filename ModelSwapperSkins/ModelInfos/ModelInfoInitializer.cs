@@ -137,7 +137,7 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("MiniVoidRaidCrabBodyBase", new ModelInfo(250f));
             SetModelInfo("NullifierBody", new ModelInfo(10f));
             SetModelInfo("NullifierAllyBody", new ModelInfo(10f));
-            SetModelInfo("RailgunnerBody", new ModelInfo(1.5f));
+            SetModelInfo("RailgunnerBody", new ModelInfo(2f));
             SetModelInfo("ToolbotBody", new ModelInfo(20f));
             SetModelInfo("TreebotBody", new ModelInfo(5f));
             SetModelInfo("VerminBody", new ModelInfo(5f));

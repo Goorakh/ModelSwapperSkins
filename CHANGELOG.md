@@ -7,6 +7,7 @@
   * Mul-t pelvis rotation
   * Engineer head matching
   * Huntress head position
+  * Railgunner model scale
 
 **1.1.0 Changes:**
 
