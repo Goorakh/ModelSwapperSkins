@@ -8,6 +8,7 @@
   * Engineer head matching
   * Huntress head position
   * Railgunner model scale
+  * REX model matching
 
 **1.1.0 Changes:**
 
