@@ -9,6 +9,7 @@
   * Huntress head position
   * Railgunner model scale
   * REX model matching
+  * Lunar Exploder back leg rotation
 
 **1.1.0 Changes:**
 

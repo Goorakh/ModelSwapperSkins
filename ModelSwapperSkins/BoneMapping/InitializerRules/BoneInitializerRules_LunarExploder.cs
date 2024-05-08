@@ -38,11 +38,17 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "backThigh.l":
                     return new BoneInfo(BoneType.LegUpperL);
                 case "backFoot.l":
-                    return new BoneInfo(BoneType.LegLowerL);
+                    return new BoneInfo(BoneType.LegLowerL)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 270f, 0f)
+                    };
                 case "backThigh.r":
                     return new BoneInfo(BoneType.LegUpperR);
                 case "backFoot.r":
-                    return new BoneInfo(BoneType.LegLowerR);
+                    return new BoneInfo(BoneType.LegLowerR)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 90f, 0f)
+                    };
                 default:
                     return BoneInfo.None;
             }
