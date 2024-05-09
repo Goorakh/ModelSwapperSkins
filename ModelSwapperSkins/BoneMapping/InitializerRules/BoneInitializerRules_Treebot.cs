@@ -76,50 +76,148 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 yield return bone;
             }
 
-            Bone stomachBone = existingBones.Find(b => b.Info.Type == BoneType.Stomach && (b.Info.MatchFlags & BoneMatchFlags.MatchToOther) != 0);
-            if (stomachBone != null)
-            {
-                Bone stomachBoneTemplate = stomachBone.Clone();
+            Bone stomachBoneTemplate = null;
+            Bone lowerRightArmBoneTemplate = null;
+            Bone lowerLeftArmBoneTemplate = null;
+            Bone lowerRightLegBoneTemplate = null;
+            Bone lowerLeftLegBoneTemplate = null;
 
+            foreach (Bone bone in existingBones)
+            {
+                switch (bone.Info.Type)
                 {
-                    Bone fakePelvisBone = stomachBoneTemplate.Clone();
-                    fakePelvisBone.Info = new BoneInfo(BoneType.Pelvis)
+                    case BoneType.Stomach when bone.Info.MatchFlags == BoneMatchFlags.MatchToOther:
+                        stomachBoneTemplate ??= bone.Clone();
+                        break;
+                    case BoneType.ArmLowerR:
+                        lowerRightArmBoneTemplate ??= bone.Clone();
+                        break;
+                    case BoneType.ArmLowerL:
+                        lowerLeftArmBoneTemplate ??= bone.Clone();
+                        break;
+                    case BoneType.LegLowerR:
+                        lowerRightLegBoneTemplate ??= bone.Clone();
+                        break;
+                    case BoneType.LegLowerL:
+                        lowerLeftLegBoneTemplate ??= bone.Clone();
+                        break;
+                    default:
+                        continue;
+                }
+
+                if (stomachBoneTemplate != null
+                    && lowerRightArmBoneTemplate != null
+                    && lowerLeftArmBoneTemplate != null
+                    && lowerRightLegBoneTemplate != null
+                    && lowerLeftLegBoneTemplate != null)
+                {
+                    break;
+                }
+            }
+
+            if (stomachBoneTemplate != null)
+            {
+                yield return new Bone(stomachBoneTemplate)
+                {
+                    Info = new BoneInfo(BoneType.Pelvis)
                     {
                         PositionOffset = new Vector3(0f, 0.2f, 0f),
                         RotationOffset = Quaternion.Euler(90f, 0f, 0f),
                         MatchFlags = BoneMatchFlags.AllowMatchTo
-                    };
+                    }
+                };
 
-                    yield return fakePelvisBone;
-                }
-
+                yield return new Bone(stomachBoneTemplate)
                 {
-                    Bone fakeChestBone = stomachBoneTemplate.Clone();
-                    fakeChestBone.Info = new BoneInfo(BoneType.Chest)
+                    Info = new BoneInfo(BoneType.Chest)
                     {
                         PositionOffset = new Vector3(0f, 0.2f, -0.3f),
                         RotationOffset = Quaternion.Euler(270f, 0f, 0f),
                         MatchFlags = BoneMatchFlags.AllowMatchTo
-                    };
+                    }
+                };
 
-                    yield return fakeChestBone;
-                }
-
+                yield return new Bone(stomachBoneTemplate)
                 {
-                    Bone fakeHeadBone = stomachBoneTemplate.Clone();
-                    fakeHeadBone.Info = new BoneInfo(BoneType.Head)
+                    Info = new BoneInfo(BoneType.Head)
                     {
                         PositionOffset = new Vector3(0f, 0.3f, -1.3f),
                         RotationOffset = Quaternion.Euler(320f, 180f, 180f),
                         MatchFlags = BoneMatchFlags.AllowMatchTo
-                    };
-
-                    yield return fakeHeadBone;
-                }
+                    }
+                };
             }
             else
             {
                 Log.Error("Missing stomach bone");
+            }
+
+            if (lowerRightArmBoneTemplate != null)
+            {
+                yield return new Bone(lowerRightArmBoneTemplate)
+                {
+                    Info = new BoneInfo(BoneType.HandR)
+                    {
+                        PositionOffset = new Vector3(0f, 1.3f, 0f),
+                        RotationOffset = Quaternion.Euler(270f, 180f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Missing lower right arm bone");
+            }
+
+            if (lowerLeftArmBoneTemplate != null)
+            {
+                yield return new Bone(lowerLeftArmBoneTemplate)
+                {
+                    Info = new BoneInfo(BoneType.HandL)
+                    {
+                        PositionOffset = new Vector3(0f, 1.3f, 0f),
+                        RotationOffset = Quaternion.Euler(270f, 180f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Missing lower left arm bone");
+            }
+
+            if (lowerRightLegBoneTemplate != null)
+            {
+                yield return new Bone(lowerRightLegBoneTemplate)
+                {
+                    Info = new BoneInfo(BoneType.FootR)
+                    {
+                        PositionOffset = new Vector3(0f, 1.3f, 0f),
+                        RotationOffset = Quaternion.Euler(270f, 180f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Missing lower right leg bone");
+            }
+
+            if (lowerLeftLegBoneTemplate != null)
+            {
+                yield return new Bone(lowerLeftLegBoneTemplate)
+                {
+                    Info = new BoneInfo(BoneType.FootL)
+                    {
+                        PositionOffset = new Vector3(0f, 1.3f, 0f),
+                        RotationOffset = Quaternion.Euler(270f, 180f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Missing lower left leg bone");
             }
         }
     }

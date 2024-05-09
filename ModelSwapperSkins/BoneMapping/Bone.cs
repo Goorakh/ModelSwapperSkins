@@ -18,6 +18,10 @@ namespace ModelSwapperSkins.BoneMapping
             ModelPath = modelPath;
         }
 
+        public Bone(Bone other) : this(other.Info, other.BoneTransform, other.ModelPath)
+        {
+        }
+
         public Bone(BoneInfo info, string modelPath, Transform rootTransform) : this(info, rootTransform.Find(modelPath), modelPath)
         {
         }
@@ -33,7 +37,7 @@ namespace ModelSwapperSkins.BoneMapping
 
         public Bone Clone()
         {
-            return new Bone(Info, BoneTransform, ModelPath);
+            return new Bone(this);
         }
 
         object ICloneable.Clone()
