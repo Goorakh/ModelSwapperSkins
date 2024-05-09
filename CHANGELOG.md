@@ -1,4 +1,4 @@
-**?.?.? Changes:**
+**1.2.0 Changes:**
 
 * Added:
   * Void Jailer skins
