@@ -10,6 +10,7 @@
   * Railgunner model scale
   * REX model matching
   * Lunar Exploder back leg rotation
+  * Bandit foot rotation
 
 **1.1.0 Changes:**
 
