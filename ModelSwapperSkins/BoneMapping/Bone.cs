@@ -44,5 +44,10 @@ namespace ModelSwapperSkins.BoneMapping
         {
             return Clone();
         }
+
+        public override string ToString()
+        {
+            return $"{Info.Type} ({Info.MatchFlags}): {ModelPath}";
+        }
     }
 }
