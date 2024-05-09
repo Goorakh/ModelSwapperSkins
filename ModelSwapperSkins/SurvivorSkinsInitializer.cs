@@ -58,7 +58,7 @@ namespace ModelSwapperSkins
         {
             bool boneTest(BoneType bone)
             {
-                return _survivorBonesProvider.HasBone(bone) && otherBonesProvider.HasBone(bone);
+                return _survivorBonesProvider.HasMatchForBone(bone) && otherBonesProvider.CanMatchToBone(bone);
             }
 
             bool anyBonesValidMatch(params BoneType[] bones)

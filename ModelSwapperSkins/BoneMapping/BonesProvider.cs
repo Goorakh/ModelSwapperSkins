@@ -8,7 +8,10 @@ namespace ModelSwapperSkins.BoneMapping
     public class BonesProvider : MonoBehaviour
     {
         [SerializeField]
-        BoneType[] _providedBoneTypes;
+        BoneType[] _matchableBoneTypes;
+
+        [SerializeField]
+        BoneType[] _canMatchToBoneTypes;
 
         [SerializeField]
         Bone[] _bones;
@@ -22,18 +25,20 @@ namespace ModelSwapperSkins.BoneMapping
             set
             {
                 _bones = value;
-                _providedBoneTypes = value.Select(b => b.Info.Type).Distinct().OrderBy(b => b).ToArray();
+
+                _matchableBoneTypes = value.Where(b => (b.Info.MatchFlags & BoneMatchFlags.AllowMatchTo) != 0).Select(b => b.Info.Type).Distinct().OrderBy(b => b).ToArray();
+                _canMatchToBoneTypes = value.Where(b => (b.Info.MatchFlags & BoneMatchFlags.MatchToOther) != 0).Select(b => b.Info.Type).Distinct().OrderBy(b => b).ToArray();
             }
         }
 
-        public bool HasBone(BoneType boneType)
+        public bool HasMatchForBone(BoneType boneType)
         {
-            return Array.BinarySearch(_providedBoneTypes, boneType) >= 0;
+            return Array.BinarySearch(_matchableBoneTypes, boneType) >= 0;
         }
 
-        public int GetNumMatchingBones(BonesProvider other)
+        public bool CanMatchToBone(BoneType boneType)
         {
-            return _providedBoneTypes.Count(other.HasBone);
+            return Array.BinarySearch(_canMatchToBoneTypes, boneType) >= 0;
         }
 
         public void MapBonesTo(BonesProvider other)
