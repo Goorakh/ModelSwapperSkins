@@ -5,6 +5,7 @@ using RoR2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace ModelSwapperSkins
@@ -45,7 +46,57 @@ namespace ModelSwapperSkins
 
             _usedModelTransforms.Clear();
 
-            foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
+            List<CharacterBody> bodies = BodyCatalog.allBodyPrefabBodyBodyComponents.ToList();
+            bodies.Sort((a, b) =>
+            {
+                static string sanitizeName(string input)
+                {
+                    const char MAX_ASCII_CHAR = (char)0x7F;
+
+                    StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
+
+                    foreach (char c in input)
+                    {
+                        if (c <= MAX_ASCII_CHAR)
+                        {
+                            stringBuilder.Append(c);
+                        }
+                    }
+
+                    if (stringBuilder.Length > 0 && stringBuilder.Length < input.Length)
+                    {
+                        input = stringBuilder.ToString();
+                    }
+
+                    HG.StringBuilderPool.ReturnStringBuilder(stringBuilder);
+
+                    return input;
+                }
+
+                static string getSortName(CharacterBody body)
+                {
+                    switch (BodyCatalog.GetBodyName(body.bodyIndex))
+                    {
+                        case "ScavLunar1Body":
+                            return "ScavengerLunar1";
+                        case "ScavLunar2Body":
+                            return "ScavengerLunar2";
+                        case "ScavLunar3Body":
+                            return "ScavengerLunar3";
+                        case "ScavLunar4Body":
+                            return "ScavengerLunar4";
+                        default:
+                            return sanitizeName(Language.GetString(body.baseNameToken, "en"));
+                    }
+                }
+
+                string nameA = getSortName(a);
+                string nameB = getSortName(b);
+
+                return nameA.CompareTo(nameB);
+            });
+
+            foreach (CharacterBody body in bodies)
             {
                 if (shouldCreateSkin(body))
                 {

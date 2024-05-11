@@ -1,3 +1,8 @@
+**?.?.? Changes:**
+
+* Changed:
+  * Model skins are now sorted alphabetically by the English character name
+
 **1.2.0 Changes:**
 
 * Added:
