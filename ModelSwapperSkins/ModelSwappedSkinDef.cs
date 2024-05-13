@@ -1,6 +1,7 @@
 ﻿using ModelSwapperSkins.BoneMapping;
 using ModelSwapperSkins.ModelInfos;
 using ModelSwapperSkins.ModelParts;
+using ModelSwapperSkins.Utils.Comparers;
 using RoR2;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace ModelSwapperSkins
 
         public void Initialize(ModelPartsProvider modelPartsProvider, ModelPartsProvider skinModelPartsProvider)
         {
-            gameObjectActivations = modelPartsProvider.Parts.Where(m => !m.ShouldShow(true)).Select(m =>
+            gameObjectActivations = modelPartsProvider.Parts.Where(p => !p.ShouldShow(true)).Select(m =>
             {
                 return new GameObjectActivation
                 {
@@ -26,7 +27,34 @@ namespace ModelSwapperSkins
                 };
             }).ToArray();
 
-            rendererInfos = modelPartsProvider.GetComponent<CharacterModel>().baseRendererInfos;
+            if (baseSkins == null || baseSkins.Length == 0)
+            {
+                rendererInfos = modelPartsProvider.GetComponent<CharacterModel>().baseRendererInfos;
+            }
+            else
+            {
+                HashSet<MinionSkinReplacement> combinedMinionSkinReplacements = new HashSet<MinionSkinReplacement>(MinionSkinReplacementBodyComparer.Instance);
+                HashSet<ProjectileGhostReplacement> combinedProjectileGhostReplacements = new HashSet<ProjectileGhostReplacement>(ProjectileGhostReplacementProjectileComparer.Instance);
+
+                foreach (SkinDef baseSkin in baseSkins)
+                {
+                    if (!baseSkin)
+                        continue;
+
+                    if (baseSkin.minionSkinReplacements != null && baseSkin.minionSkinReplacements.Length > 0)
+                    {
+                        combinedMinionSkinReplacements.UnionWith(baseSkin.minionSkinReplacements);
+                    }
+
+                    if (baseSkin.projectileGhostReplacements != null && baseSkin.projectileGhostReplacements.Length > 0)
+                    {
+                        combinedProjectileGhostReplacements.UnionWith(baseSkin.projectileGhostReplacements);
+                    }
+                }
+
+                minionSkinReplacements = combinedMinionSkinReplacements.ToArray();
+                projectileGhostReplacements = combinedProjectileGhostReplacements.ToArray();
+            }
         }
 
         public void RemoveFrom(Transform modelTransform, GameObject skinModelObject)
@@ -52,7 +80,7 @@ namespace ModelSwapperSkins
             }
         }
 
-        public Transform OnAppliedTo(Transform modelTransform)
+        public Transform InstantiateModel(Transform modelTransform)
         {
             Transform skinModelTransfom = GameObject.Instantiate(NewModelTransformPrefab, modelTransform);
 
@@ -246,7 +274,7 @@ namespace ModelSwapperSkins
                 }
                 else
                 {
-                    rendererInfos = rendererInfos.Concat(from renderer in skinModelTransfom.GetComponentsInChildren<Renderer>()
+                    rendererInfos = rendererInfos.Union(from renderer in skinModelTransfom.GetComponentsInChildren<Renderer>()
                                                          select new CharacterModel.RendererInfo
                                                          {
                                                              renderer = renderer,
@@ -254,7 +282,7 @@ namespace ModelSwapperSkins
                                                              defaultShadowCastingMode = renderer.shadowCastingMode,
                                                              hideOnDeath = false,
                                                              ignoreOverlays = renderer is ParticleSystemRenderer
-                                                         });
+                                                         }, RendererInfoRendererComparer.Instance);
 
                     lightInfos = lightInfos.Concat(from light in skinModelTransfom.GetComponentsInChildren<Light>()
                                                    select new CharacterModel.LightInfo(light));

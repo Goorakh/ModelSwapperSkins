@@ -115,6 +115,19 @@ namespace ModelSwapperSkins.ModelParts
 #endif
                 partsProvider.Parts = partsList.ToArray();
             }
+
+            SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab.gameObject);
+            if (survivorDef && survivorDef.displayPrefab)
+            {
+                CharacterModel displayPrefabCharacterModel = survivorDef.displayPrefab.GetComponentInChildren<CharacterModel>();
+                if (displayPrefabCharacterModel)
+                {
+                    if (!displayPrefabCharacterModel.TryGetComponent(out ModelPartsProvider displayModelPartsProvider))
+                        displayModelPartsProvider = displayPrefabCharacterModel.gameObject.AddComponent<ModelPartsProvider>();
+
+                    partsProvider.CopyTo(displayModelPartsProvider);
+                }
+            }
         }
 
         [SystemInitializer(typeof(BodyCatalog), typeof(SurvivorCatalog))]

@@ -24,7 +24,7 @@ namespace ModelSwapperSkins.Patches
 
             if (self is ModelSwappedSkinDef modelSwappedSkin)
             {
-                Transform skinModelTransform = modelSwappedSkin.OnAppliedTo(modelObject.transform);
+                Transform skinModelTransform = modelSwappedSkin.InstantiateModel(modelObject.transform);
 
                 SkinModelObjectTracker modelObjectTracker = modelObject.AddComponent<SkinModelObjectTracker>();
                 modelObjectTracker.SkinModelObject = skinModelTransform.gameObject;

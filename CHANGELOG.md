@@ -1,7 +1,9 @@
 **?.?.? Changes:**
 
-* Changed:
-  * Model skins are now sorted alphabetically by the English character name
+* Skin selection is now split into 3 separate choices:
+  * Main Skin (The skin used on your main model before it's replaced, can change things like weapons and decorations)
+  * Model (The model to use)
+  * Model Skin (The skin to use on the model)
 
 **1.2.0 Changes:**
 

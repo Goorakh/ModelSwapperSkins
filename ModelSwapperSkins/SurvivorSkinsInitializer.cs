@@ -1,6 +1,5 @@
 ﻿using ModelSwapperSkins.BoneMapping;
 using ModelSwapperSkins.ModelParts;
-using R2API;
 using RoR2;
 using System;
 using System.Collections.Generic;
@@ -16,6 +15,7 @@ namespace ModelSwapperSkins
 
         readonly ModelPartsProvider _survivorPartsProvider;
         readonly BonesProvider _survivorBonesProvider;
+        readonly ModelSkinController _survivorSkinController;
 
         readonly HashSet<Transform> _usedModelTransforms = [];
 
@@ -30,6 +30,7 @@ namespace ModelSwapperSkins
                 {
                     _survivorPartsProvider = survivorModelTransform.GetComponent<ModelPartsProvider>();
                     _survivorBonesProvider = survivorModelTransform.GetComponent<BonesProvider>();
+                    _survivorSkinController = survivorModelTransform.GetComponent<ModelSkinController>();
                 }
             }
         }
@@ -167,83 +168,74 @@ namespace ModelSwapperSkins
 
             ModelPartsProvider bodyModelPartsProvider = modelTransform.GetComponent<ModelPartsProvider>();
 
-            ModelSwappedSkinDef createSkinDef(string nameSuffix, SkinDef baseSkin, int baseSkinIndex)
+            ModelSwappedSkinDef createSkinDef(SkinDef baseSkin, SkinDef modelSkin)
             {
                 ModelSwappedSkinDef skinDef = ScriptableObject.CreateInstance<ModelSwappedSkinDef>();
 
-                skinDef.name = $"skin{_survivor.cachedName}_{body.name}{nameSuffix}";
-
-                string skinNameToken = $"SKIN_{_survivor.cachedName.ToUpper()}_{body.name.ToUpper()}{nameSuffix.ToUpper()}";
-                skinDef.nameToken = skinNameToken;
-
-                Dictionary<string, Dictionary<string, string>> skinTokenAdditions = [];
-                foreach (Language language in Language.GetAllLanguages())
+                string skinName;
+                if (baseSkin)
                 {
-                    if (!skinTokenAdditions.TryGetValue(language.name, out Dictionary<string, string> tokenDictionaryForLanguage))
+                    if (modelSkin)
                     {
-                        tokenDictionaryForLanguage = [];
-                        skinTokenAdditions.Add(language.name, tokenDictionaryForLanguage);
+                        skinName = $"skin{_survivor.cachedName}_{baseSkin.name}_{body.name}_{modelSkin.name}";
                     }
-
-                    string skinName = Language.IsTokenInvalid(body.baseNameToken) ? "???" : Language.GetString(body.baseNameToken, language.name);
-                    if (baseSkin)
+                    else
                     {
-                        string baseSkinName;
-                        if (Language.IsTokenInvalid(baseSkin.nameToken))
-                        {
-                            if (baseSkinIndex < 0)
-                            {
-                                baseSkinName = string.Empty;
-                            }
-                            else
-                            {
-                                baseSkinName = $"Variant {baseSkinIndex + 1}";
-                            }
-                        }
-                        else
-                        {
-                            baseSkinName = Language.GetString(baseSkin.nameToken, language.name);
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(baseSkinName))
-                        {
-                            skinName += $" ({baseSkinName})";
-                        }
+                        skinName = $"skin{_survivor.cachedName}_{baseSkin.name}_{body.name}";
                     }
-
-                    tokenDictionaryForLanguage.Add(skinNameToken, skinName);
+                }
+                else if (modelSkin)
+                {
+                    skinName = $"skin{_survivor.cachedName}_{body.name}_{modelSkin.name}";
+                }
+                else
+                {
+                    skinName = $"skin{_survivor.cachedName}_{body.name}";
                 }
 
-                LanguageAPI.Add(skinTokenAdditions);
+                skinDef.name = skinName;
 
-                skinDef.icon = SkinIconGenerator.GetOrCreateSkinIcon(body.portraitIcon as Texture2D, baseSkin);
+                skinDef.icon = BodyIconCache.GetOrCreatePortraitIcon(body.portraitIcon as Texture2D);
 
-                skinDef.Initialize(_survivorPartsProvider, bodyModelPartsProvider);
+                if (baseSkin)
+                {
+                    skinDef.baseSkins = [baseSkin];
+                }
 
                 skinDef.NewModelBodyPrefab = body;
                 skinDef.NewModelTransformPrefab = modelTransform;
 
-                skinDef.ModelSkin = baseSkin;
+                skinDef.ModelSkin = modelSkin;
+
+                skinDef.Initialize(_survivorPartsProvider, bodyModelPartsProvider);
 
                 return skinDef;
             }
 
-            if (modelTransform.TryGetComponent(out ModelSkinController modelSkinController))
+            SkinDef[] survivorSkins = _survivorSkinController ? _survivorSkinController.skins : null;
+            if (survivorSkins == null || survivorSkins.Length == 0)
+                survivorSkins = [null];
+
+            ModelSkinController modelSkinController = modelTransform.GetComponent<ModelSkinController>();
+
+            foreach (SkinDef survivorSkin in survivorSkins)
             {
-                IEnumerable<SkinDef> modelSkins = modelSkinController.skins.Where(s => s is not ModelSwappedSkinDef);
-                if (modelSkins.Any())
+                if (modelSkinController)
                 {
-                    int skinIndex = 0;
-                    foreach (SkinDef modelSkin in modelSkins)
+                    IEnumerable<SkinDef> modelSkins = modelSkinController.skins.Where(s => s is not ModelSwappedSkinDef);
+                    if (modelSkins.Any())
                     {
-                        yield return createSkinDef($"_{modelSkin.name}", modelSkin, skinIndex++);
+                        foreach (SkinDef modelSkin in modelSkins)
+                        {
+                            yield return createSkinDef(survivorSkin, modelSkin);
+                        }
+
+                        continue;
                     }
-
-                    yield break;
                 }
-            }
 
-            yield return createSkinDef(string.Empty, null, -1);
+                yield return createSkinDef(survivorSkin, null);
+            }
         }
     }
 }
