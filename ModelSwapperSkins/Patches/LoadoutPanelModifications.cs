@@ -1,5 +1,4 @@
-﻿using BepInEx.Bootstrap;
-using HarmonyLib;
+﻿using HarmonyLib;
 using HG;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
@@ -12,7 +11,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -348,8 +346,48 @@ namespace ModelSwapperSkins.Patches
                 {
                     if (PanelController.TryGetComponent(out LoadoutPanelSkinResolver skinResolver))
                     {
+                        int modelSkinIndex = skinResolver.ModelSkinIndex;
+
                         skinResolver.ModelBodyIndex = modelBodyIndex;
-                        skinResolver.ModelSkin = BodyCatalog.GetBodySkins(modelBodyIndex).FirstOrDefault(s => s is not ModelSwappedSkinDef);
+
+                        SkinDef[] modelBodySkins = BodyCatalog.GetBodySkins(skinResolver.ModelBodyIndex);
+
+                        static bool isValidBodySkin(SkinDef skinDef) => skinDef is not ModelSwappedSkinDef;
+
+                        if (modelSkinIndex >= modelBodySkins.Length)
+                        {
+                            modelSkinIndex = Array.FindLastIndex(modelBodySkins, isValidBodySkin);
+                        }
+                        else if (modelSkinIndex < 0)
+                        {
+                            modelSkinIndex = Array.FindIndex(modelBodySkins, isValidBodySkin);
+                        }
+                        else if (!isValidBodySkin(modelBodySkins[modelSkinIndex]))
+                        {
+                            // Find closest valid skin above or below the current index, and use that skin
+                            int lowerIndex = Array.FindLastIndex(modelBodySkins, modelSkinIndex - 1, modelSkinIndex, isValidBodySkin);
+                            int upperIndex = Array.FindIndex(modelBodySkins, modelSkinIndex, modelBodySkins.Length - modelSkinIndex, isValidBodySkin);
+
+                            if (lowerIndex != -1)
+                            {
+                                if (upperIndex != -1 && upperIndex - modelSkinIndex < modelSkinIndex - lowerIndex)
+                                {
+                                    modelSkinIndex = upperIndex;
+                                }
+                                else
+                                {
+                                    modelSkinIndex = lowerIndex;
+                                }
+                            }
+                            else
+                            {
+                                // Set skin index to upper, if an upper skin was not found,
+                                // upperIndex will be set to -1, which is what we want anyway if no valid skin exists
+                                modelSkinIndex = upperIndex;
+                            }
+                        }
+
+                        skinResolver.ModelSkinIndex = modelSkinIndex;
 
                         SkinDef resolvedSkin = skinResolver.ResolvedSkin;
 
@@ -688,6 +726,18 @@ namespace ModelSwapperSkins.Patches
 
                     _modelSkin = value;
                     markResolvedSkinDirty();
+                }
+            }
+
+            public int ModelSkinIndex
+            {
+                get
+                {
+                    return SkinCatalog.FindLocalSkinIndexForBody(ModelBodyIndex, ModelSkin);
+                }
+                set
+                {
+                    ModelSkin = SkinCatalog.GetBodySkinDef(ModelBodyIndex, value);
                 }
             }
 
