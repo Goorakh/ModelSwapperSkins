@@ -520,8 +520,6 @@ namespace ModelSwapperSkins.Patches
                         if (skin is ModelSwappedSkinDef)
                             continue;
 
-                        SkinIndex skinIndex = skin.skinIndex;
-
                         ref int buttonIndex = ref buttonIndexLookup[i];
                         if (buttonIndex > 0)
                             continue;
