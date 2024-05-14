@@ -22,6 +22,8 @@ namespace ModelSwapperSkins
 
             Log.Init(Logger);
 
+            LanguageFolderHandler.Register(System.IO.Path.GetDirectoryName(Info.Location));
+
             SystemInitializerInjector.InjectDependency(typeof(SkinCatalog), typeof(DynamicSkinAdder));
 
             DynamicSkinAdder.AddSkins += DynamicSkinAdder_AddSkins;

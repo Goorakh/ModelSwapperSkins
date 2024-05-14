@@ -4,7 +4,6 @@ using Mono.Cecil;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
-using R2API;
 using RoR2;
 using RoR2.UI;
 using System;
@@ -26,26 +25,6 @@ namespace ModelSwapperSkins.Patches
         [SystemInitializer]
         static void Init()
         {
-            LanguageAPI.Add(new Dictionary<string, string>()
-            {
-                {
-                    "LOADOUT_MODEL",
-                    "Model"
-                },
-                {
-                    "LOADOUT_MODEL_DEFAULT",
-                    "Default"
-                },
-                {
-                    "LOADOUT_MODEL_SKIN",
-                    "Model Skin"
-                },
-                {
-                    "LOADOUT_MODEL_SKIN_FALLBACK",
-                    "Default"
-                }
-            });
-
             Texture2D skinSwatches = Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/texSkinSwatches.png").WaitForCompletion();
             if (skinSwatches)
             {

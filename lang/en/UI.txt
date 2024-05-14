@@ -1,0 +1,9 @@
+{
+	strings:
+	{
+		"LOADOUT_MODEL": "Model",
+		"LOADOUT_MODEL_DEFAULT": "Default",
+		"LOADOUT_MODEL_SKIN": "Model Skin",
+		"LOADOUT_MODEL_SKIN_FALLBACK": "Default",
+	}
+}

@@ -96,6 +96,12 @@
     <Copy SourceFiles="$(SolutionDir)manifest.json;$(SolutionDir)README.md;$(SolutionDir)CHANGELOG.md" DestinationFolder="$(TSPackageDir)" />
     
     <Copy SourceFiles="$(BuildDir)icon.png" DestinationFolder="$(TSPackageDir)" ContinueOnError="true" />
+
+    <ItemGroup>
+      <LangFiles Include="$(SolutionDir)lang/**/*.*" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(LangFiles)" DestinationFolder="$(TSPackagePluginDir)/lang/%(RecursiveDir)" />
     
     <Copy SourceFiles="$(OutDir)/$(AssemblyName).dll" DestinationFolder="$(TSPackagePluginDir)" />
     
