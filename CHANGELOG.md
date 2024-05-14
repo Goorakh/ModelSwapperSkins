@@ -1,4 +1,4 @@
-**?.?.? Changes:**
+**1.3.0 Changes:**
 
 * Skin selection is now split into 3 separate choices:
   * Main Skin (The skin used on your main model before it's replaced, can change things like weapons and decorations)

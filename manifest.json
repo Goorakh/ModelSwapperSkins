@@ -2,7 +2,7 @@
 	"name": "ModelSwapperSkins",
 	"authorName": "Gorakh",
 	"displayName": "Model-Swap Skinpack",
-	"version_number": "1.2.0",
+	"version_number": "1.3.0",
 	"website_url": "https://github.com/Goorakh/ModelSwapperSkins",
 	"description": "Adds most characters as selectable survivor skins (~80 skins per survivor)",
 	"dependencies": [
