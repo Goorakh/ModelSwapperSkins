@@ -8,7 +8,6 @@ namespace ModelSwapperSkins
 {
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     [BepInDependency(R2API.R2API.PluginGUID)]
-    [BepInDependency(R2API.LanguageAPI.PluginGUID)]
     public class Main : BaseUnityPlugin
     {
         public const string PluginGUID = PluginAuthor + "." + PluginName;

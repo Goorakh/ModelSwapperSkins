@@ -1,3 +1,7 @@
+**?.?.? Changes:**
+
+* Removed R2API.Language dependency
+
 **1.3.0 Changes:**
 
 * Skin selection is now split into 3 separate choices:
