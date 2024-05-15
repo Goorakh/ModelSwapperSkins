@@ -233,7 +233,9 @@ namespace ModelSwapperSkins
 
                 IEnumerable<CharacterModel.LightInfo> lightInfos = mainModel.baseLightInfos.Where(l => shouldShow(l.light, true));
 
-                if (skinModelTransfom.TryGetComponent(out CharacterModel skinModel) && (skinModel.baseRendererInfos.Length > 0 || skinModel.baseLightInfos.Length > 0))
+                CharacterModel skinModel = skinModelTransfom.GetComponent<CharacterModel>();
+
+                if (skinModel && (skinModel.baseRendererInfos.Length > 0 || skinModel.baseLightInfos.Length > 0))
                 {
                     IEnumerable<CharacterModel.RendererInfo> skinRendererInfos = skinModel.baseRendererInfos;
 
@@ -269,8 +271,6 @@ namespace ModelSwapperSkins
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
                     mainModel.mainSkinnedMeshRenderer = skinModel.mainSkinnedMeshRenderer;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-                    skinModel.enabled = false;
                 }
                 else
                 {
@@ -290,6 +290,11 @@ namespace ModelSwapperSkins
 
                 mainModel.baseRendererInfos = rendererInfos.ToArray();
                 mainModel.baseLightInfos = lightInfos.ToArray();
+
+                if (skinModel)
+                {
+                    skinModel.enabled = false;
+                }
             }
 
             return skinModelTransfom;
