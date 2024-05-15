@@ -216,57 +216,42 @@ namespace ModelSwapperSkins
                     mainModel.StartCoroutine(waitThenSetEnabled(dynamicBone));
                 }
 
-                ModelPartsProvider mainModelPartsProvider = modelTransform.GetComponent<ModelPartsProvider>();
-                bool shouldShow(Component component, bool isMainModel)
-                {
-                    if (!mainModelPartsProvider)
-                        return true;
-
-                    if (!component)
-                        return false;
-
-                    return mainModelPartsProvider.Parts.Where(p => component.transform == p.Transform || component.transform.IsChildOf(p.Transform))
-                                                       .All(p => p.ShouldShow(isMainModel));
-                }
-
-                IEnumerable<CharacterModel.RendererInfo> rendererInfos = mainModel.baseRendererInfos.Where(r => shouldShow(r.renderer, true));
-
-                IEnumerable<CharacterModel.LightInfo> lightInfos = mainModel.baseLightInfos.Where(l => shouldShow(l.light, true));
+                List<CharacterModel.RendererInfo> skinModelRendererInfos = [];
+                List<CharacterModel.LightInfo> skinModelLightInfos = [];
 
                 CharacterModel skinModel = skinModelTransfom.GetComponent<CharacterModel>();
 
                 if (skinModel && (skinModel.baseRendererInfos.Length > 0 || skinModel.baseLightInfos.Length > 0))
                 {
-                    IEnumerable<CharacterModel.RendererInfo> skinRendererInfos = skinModel.baseRendererInfos;
+                    CharacterModel.RendererInfo[] skinRendererInfos = skinModel.baseRendererInfos;
 
                     if (NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("MiniVoidRaidCrabBodyBase"))
                     {
-                        skinRendererInfos = skinRendererInfos.Select(r =>
+                        for (int i = 0; i < skinRendererInfos.Length; i++)
                         {
-                            if (r.renderer)
-                            {
-                                switch (r.renderer.name)
-                                {
-                                    case "EyePupilMesh":
-                                    case "VoidRaidCrabEye":
-                                        r.ignoreOverlays = true;
-                                        break;
-                                    case "VoidRaidCrabHead":
-                                    case "VoidRaidCrabMetalLegRingsMesh":
-                                    case "VoidRaidCrabMetalMesh":
-                                    case "VoidRaidCrabBrain":
-                                        r.ignoreOverlays = false;
-                                        break;
-                                }
-                            }
+                            ref CharacterModel.RendererInfo rendererInfo = ref skinRendererInfos[i];
+                            if (!rendererInfo.renderer)
+                                continue;
 
-                            return r;
-                        });
+                            switch (rendererInfo.renderer.name)
+                            {
+                                case "EyePupilMesh":
+                                case "VoidRaidCrabEye":
+                                    rendererInfo.ignoreOverlays = true;
+                                    break;
+                                case "VoidRaidCrabHead":
+                                case "VoidRaidCrabMetalLegRingsMesh":
+                                case "VoidRaidCrabMetalMesh":
+                                case "VoidRaidCrabBrain":
+                                    rendererInfo.ignoreOverlays = false;
+                                    break;
+                            }
+                        }
                     }
 
-                    rendererInfos = rendererInfos.Concat(skinRendererInfos);
+                    skinModelRendererInfos.AddRange(skinRendererInfos);
 
-                    lightInfos = lightInfos.Concat(skinModel.baseLightInfos);
+                    skinModelLightInfos.AddRange(skinModel.baseLightInfos);
 
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
                     mainModel.mainSkinnedMeshRenderer = skinModel.mainSkinnedMeshRenderer;
@@ -274,22 +259,23 @@ namespace ModelSwapperSkins
                 }
                 else
                 {
-                    rendererInfos = rendererInfos.Union(from renderer in skinModelTransfom.GetComponentsInChildren<Renderer>()
-                                                        select new CharacterModel.RendererInfo
-                                                        {
-                                                            renderer = renderer,
-                                                            defaultMaterial = renderer.sharedMaterial,
-                                                            defaultShadowCastingMode = renderer.shadowCastingMode,
-                                                            hideOnDeath = false,
-                                                            ignoreOverlays = renderer is ParticleSystemRenderer
-                                                        }, RendererInfoRendererComparer.Instance);
+                    skinModelRendererInfos.AddRange(skinModelTransfom.GetComponentsInChildren<Renderer>().Select(r =>
+                    {
+                        return new CharacterModel.RendererInfo
+                        {
+                            renderer = r,
+                            defaultMaterial = r.sharedMaterial,
+                            defaultShadowCastingMode = r.shadowCastingMode,
+                            hideOnDeath = false,
+                            ignoreOverlays = r is ParticleSystemRenderer
+                        };
+                    }));
 
-                    lightInfos = lightInfos.Concat(from light in skinModelTransfom.GetComponentsInChildren<Light>()
-                                                   select new CharacterModel.LightInfo(light));
+                    skinModelLightInfos.AddRange(skinModelTransfom.GetComponentsInChildren<Light>().Select(l => new CharacterModel.LightInfo(l)));
                 }
 
-                mainModel.baseRendererInfos = rendererInfos.ToArray();
-                mainModel.baseLightInfos = lightInfos.ToArray();
+                mainModel.baseRendererInfos = [..mainModel.baseRendererInfos, ..skinModelRendererInfos];
+                mainModel.baseLightInfos = [..mainModel.baseLightInfos, ..skinModelLightInfos];
 
                 if (skinModel)
                 {

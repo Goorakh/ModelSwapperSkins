@@ -151,11 +151,11 @@ namespace ModelSwapperSkins.ModelParts
 
                 ModelPartsProvider modelPartsProvider = modelTransform.gameObject.AddComponent<ModelPartsProvider>();
 
-                IEnumerable<ModelPart> parts = Enumerable.Empty<ModelPart>();
+                List<ModelPart> parts = [];
 
-                ModelPartFlags pickPartTypeFromComponent(Component behaviour)
+                ModelPartFlags pickPartTypeFromComponent(Component component)
                 {
-                    ModelPartFlags type = behaviour switch
+                    ModelPartFlags type = component switch
                     {
                         ParticleSystemRenderer or TrailRenderer => ModelPartFlags.Decoration,
                         Renderer => ModelPartFlags.Body,
@@ -164,40 +164,46 @@ namespace ModelSwapperSkins.ModelParts
                     };
 
 #if DEBUG
-                    Log.Debug($"Selected part type {type} for {behaviour.GetType().Name} {modelTransform.name}/{TransformUtils.GetObjectPath(behaviour.transform, modelTransform)} ({bodyPrefab.name})");
+                    Log.Debug($"Selected part type {type} for {component.GetType().Name} {modelTransform.name}/{TransformUtils.GetObjectPath(component.transform, modelTransform)} ({bodyPrefab.name})");
 #endif
 
                     return type;
+                }
+
+                ModelPart createModelPartFromComponent(Component component)
+                {
+                    return new ModelPart(component.transform, modelTransform, pickPartTypeFromComponent(component));
                 }
 
                 if (modelTransform.TryGetComponent(out CharacterModel characterModel))
                 {
                     if (characterModel.baseRendererInfos != null)
                     {
-                        parts = parts.Concat(from rendererInfo in characterModel.baseRendererInfos
-                                             where rendererInfo.renderer
-                                             select new ModelPart(rendererInfo.renderer.transform,
-                                                                  modelTransform,
-                                                                  pickPartTypeFromComponent(rendererInfo.renderer)));
+                        foreach (CharacterModel.RendererInfo rendererInfo in characterModel.baseRendererInfos)
+                        {
+                            if (rendererInfo.renderer)
+                            {
+                                parts.Add(createModelPartFromComponent(rendererInfo.renderer));
+                            }
+                        }
                     }
 
                     if (characterModel.baseLightInfos != null)
                     {
-                        parts = parts.Concat(from lightInfo in characterModel.baseLightInfos
-                                             where lightInfo.light
-                                             select new ModelPart(lightInfo.light.transform, modelTransform, pickPartTypeFromComponent(lightInfo.light)));
+                        foreach (CharacterModel.LightInfo lightInfo in characterModel.baseLightInfos)
+                        {
+                            if (lightInfo.light)
+                            {
+                                parts.Add(createModelPartFromComponent(lightInfo.light));
+                            }
+                        }
                     }
                 }
 
-                if (!parts.Any())
+                if (parts.Count == 0)
                 {
-                    parts = parts.Concat(from renderer in modelTransform.GetComponentsInChildren<Renderer>()
-                                         where !characterModel || characterModel.baseRendererInfos == null || !Array.Exists(characterModel.baseRendererInfos, r => r.renderer == renderer)
-                                         select new ModelPart(renderer.transform, modelTransform, pickPartTypeFromComponent(renderer)));
-
-                    parts = parts.Concat(from light in modelTransform.GetComponentsInChildren<Light>()
-                                         where !characterModel || characterModel.baseLightInfos == null || !Array.Exists(characterModel.baseLightInfos, l => l.light == light)
-                                         select new ModelPart(light.transform, modelTransform, pickPartTypeFromComponent(light)));
+                    parts.AddRange(modelTransform.GetComponentsInChildren<Renderer>().Select(createModelPartFromComponent));
+                    parts.AddRange(modelTransform.GetComponentsInChildren<Light>().Select(createModelPartFromComponent));
                 }
 
                 modelPartsProvider.Parts = parts.ToArray();
