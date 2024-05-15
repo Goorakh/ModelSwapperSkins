@@ -8,19 +8,22 @@ namespace ModelSwapperSkins.Utils
     {
         public static void Append<T>(ref T[] array, IEnumerable<T> collection)
         {
-            if (array is null)
-                throw new ArgumentNullException(nameof(array));
-
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
 
-            T[] appendedArray = collection.ToArray();
-            if (appendedArray.Length > 0)
+            T[] appendArray = collection.ToArray();
+            if (array == null || array.Length == 0)
+            {
+                array = appendArray;
+                return;
+            }
+
+            if (appendArray.Length > 0)
             {
                 int oldLength = array.Length;
 
-                Array.Resize(ref array, oldLength + appendedArray.Length);
-                Array.Copy(appendedArray, 0, array, oldLength, appendedArray.Length);
+                Array.Resize(ref array, oldLength + appendArray.Length);
+                Array.Copy(appendArray, 0, array, oldLength, appendArray.Length);
             }
         }
     }
