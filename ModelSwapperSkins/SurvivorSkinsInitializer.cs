@@ -161,7 +161,7 @@ namespace ModelSwapperSkins
             return true;
         }
 
-        IEnumerable<SkinDef> createSkinsForBody(CharacterBody body)
+        IEnumerable<ModelSwappedSkinDef> createSkinsForBody(CharacterBody body)
         {
             ModelLocator modelLocator = body.GetComponent<ModelLocator>();
             Transform modelTransform = modelLocator.modelTransform;
