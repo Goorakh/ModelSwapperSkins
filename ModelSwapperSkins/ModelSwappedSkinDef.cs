@@ -18,12 +18,12 @@ namespace ModelSwapperSkins
 
         public void Initialize(ModelPartsProvider modelPartsProvider, ModelPartsProvider skinModelPartsProvider)
         {
-            gameObjectActivations = modelPartsProvider.Parts.Where(p => !p.ShouldShow(true)).Select(m =>
+            gameObjectActivations = modelPartsProvider.Parts.Select(m =>
             {
                 return new GameObjectActivation
                 {
                     gameObject = m.Transform.gameObject,
-                    shouldActivate = false
+                    shouldActivate = m.ShouldShow(true)
                 };
             }).ToArray();
 
@@ -275,14 +275,14 @@ namespace ModelSwapperSkins
                 else
                 {
                     rendererInfos = rendererInfos.Union(from renderer in skinModelTransfom.GetComponentsInChildren<Renderer>()
-                                                         select new CharacterModel.RendererInfo
-                                                         {
-                                                             renderer = renderer,
-                                                             defaultMaterial = renderer.sharedMaterial,
-                                                             defaultShadowCastingMode = renderer.shadowCastingMode,
-                                                             hideOnDeath = false,
-                                                             ignoreOverlays = renderer is ParticleSystemRenderer
-                                                         }, RendererInfoRendererComparer.Instance);
+                                                        select new CharacterModel.RendererInfo
+                                                        {
+                                                            renderer = renderer,
+                                                            defaultMaterial = renderer.sharedMaterial,
+                                                            defaultShadowCastingMode = renderer.shadowCastingMode,
+                                                            hideOnDeath = false,
+                                                            ignoreOverlays = renderer is ParticleSystemRenderer
+                                                        }, RendererInfoRendererComparer.Instance);
 
                     lightInfos = lightInfos.Concat(from light in skinModelTransfom.GetComponentsInChildren<Light>()
                                                    select new CharacterModel.LightInfo(light));
