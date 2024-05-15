@@ -10,12 +10,12 @@ namespace ModelSwapperSkins
 {
     public static class DynamicSkinAdder
     {
-        public delegate void AddSkinDelegate(SurvivorDef survivor, List<SkinDef> skins);
+        public delegate void AddSkinDelegate(CharacterBody bodyPrefab, List<SkinDef> skins);
         public static event AddSkinDelegate AddSkins;
 
         static bool _skinBakeDisabled = false;
 
-        [SystemInitializer(typeof(SurvivorCatalog), typeof(ModelPartsInitializer), typeof(BoneInitializer))]
+        [SystemInitializer(typeof(SurvivorCatalog), typeof(BodyCatalog), typeof(ModelPartsInitializer), typeof(BoneInitializer))]
         static void Init()
         {
             // Bake is called from Awake, before we've had a chance to set all the fields, it will be called manually later instead
@@ -29,24 +29,25 @@ namespace ModelSwapperSkins
 
             On.RoR2.SkinDef.Bake += SkinDef_Bake;
 
-            foreach (SurvivorDef survivor in SurvivorCatalog.allSurvivorDefs)
+            foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
-                addSkinsTo(survivor);
+#if !DEBUG
+                if (!SurvivorCatalog.FindSurvivorDefFromBody(body.gameObject))
+                    continue;
+#endif
+
+                addSkinsTo(body);
             }
 
             On.RoR2.SkinDef.Bake -= SkinDef_Bake;
         }
 
-        static void addSkinsTo(SurvivorDef survivor)
+        static void addSkinsTo(CharacterBody body)
         {
-            if (!survivor)
+            if (!body)
                 return;
 
-            GameObject bodyPrefab = survivor.bodyPrefab;
-            if (!bodyPrefab)
-                return;
-
-            ModelLocator modelLocator = bodyPrefab.GetComponent<ModelLocator>();
+            ModelLocator modelLocator = body.GetComponent<ModelLocator>();
             if (!modelLocator)
                 return;
 
@@ -54,17 +55,22 @@ namespace ModelSwapperSkins
             if (!modelTransform)
                 return;
 
+            List<SkinDef> newSkins = [];
+
             ModelSkinController modelSkinController = modelTransform.GetComponent<ModelSkinController>();
             if (!modelSkinController)
             {
-                Log.Warning($"Survivor {survivor.cachedName} body prefab ({bodyPrefab}) model is missing ModelSkinController");
+#if DEBUG
+                modelSkinController = modelTransform.gameObject.AddComponent<ModelSkinController>();
+                modelSkinController.skins = [];
+#else
+                Log.Warning($"{body.name} model is missing ModelSkinController");
                 return;
+#endif
             }
 
-            List<SkinDef> newSkins = [];
-
             _skinBakeDisabled = true;
-            AddSkins?.Invoke(survivor, newSkins);
+            AddSkins?.Invoke(body, newSkins);
             _skinBakeDisabled = false;
 
             if (newSkins.Count > 0)
@@ -91,7 +97,7 @@ namespace ModelSwapperSkins
                     }
                     catch (Exception e)
                     {
-                        Log.Warning_NoCallerPrefix($"Failed to create skin {skin.name} for {survivor.cachedName}: {e}");
+                        Log.Warning_NoCallerPrefix($"Failed to create skin {skin.name} for {body.name}: {e}");
 
                         GameObject.Destroy(newSkins[i]);
                         newSkins.RemoveAt(i);
@@ -100,7 +106,7 @@ namespace ModelSwapperSkins
 
                 ArrayUtil.Append(ref modelSkinController.skins, newSkins);
 
-                BodyIndex bodyIndex = BodyCatalog.FindBodyIndex(bodyPrefab);
+                BodyIndex bodyIndex = body.bodyIndex;
                 if (bodyIndex != BodyIndex.None)
                 {
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
@@ -113,7 +119,7 @@ namespace ModelSwapperSkins
                 }
             }
 
-            Log.Info_NoCallerPrefix($"Created {newSkins.Count} skin(s) for {survivor.cachedName}");
+            Log.Info_NoCallerPrefix($"Created {newSkins.Count} skin(s) for {body.name}");
         }
     }
 }

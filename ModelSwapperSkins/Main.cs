@@ -31,9 +31,9 @@ namespace ModelSwapperSkins
             Log.Info_NoCallerPrefix($"Initialized in {stopwatch.Elapsed.TotalSeconds:F2} seconds");
         }
 
-        static void DynamicSkinAdder_AddSkins(SurvivorDef survivor, List<SkinDef> skins)
+        static void DynamicSkinAdder_AddSkins(CharacterBody bodyPrefab, List<SkinDef> skins)
         {
-            SurvivorSkinsInitializer skinsInitializer = new SurvivorSkinsInitializer(survivor);
+            BodySkinsInitializer skinsInitializer = new BodySkinsInitializer(bodyPrefab);
             skinsInitializer.TryCreateSkins(skins);
         }
     }

@@ -9,35 +9,35 @@ using UnityEngine;
 
 namespace ModelSwapperSkins
 {
-    public class SurvivorSkinsInitializer
+    public class BodySkinsInitializer
     {
-        readonly SurvivorDef _survivor;
+        readonly CharacterBody _bodyPrefab;
 
-        readonly ModelPartsProvider _survivorPartsProvider;
-        readonly BonesProvider _survivorBonesProvider;
-        readonly ModelSkinController _survivorSkinController;
+        readonly ModelPartsProvider _bodyPartsProvider;
+        readonly BonesProvider _bodyBonesProvider;
+        readonly ModelSkinController _bodySkinController;
 
         readonly HashSet<Transform> _usedModelTransforms = [];
 
-        public SurvivorSkinsInitializer(SurvivorDef survivor)
+        public BodySkinsInitializer(CharacterBody bodyPrefab)
         {
-            _survivor = survivor;
+            _bodyPrefab = bodyPrefab;
 
-            if (survivor && survivor.bodyPrefab && survivor.bodyPrefab.TryGetComponent(out ModelLocator survivorModelLocator))
+            if (_bodyPrefab && _bodyPrefab.TryGetComponent(out ModelLocator modelLocator))
             {
-                Transform survivorModelTransform = survivorModelLocator.modelTransform;
-                if (survivorModelTransform)
+                Transform modelTransform = modelLocator.modelTransform;
+                if (modelTransform)
                 {
-                    _survivorPartsProvider = survivorModelTransform.GetComponent<ModelPartsProvider>();
-                    _survivorBonesProvider = survivorModelTransform.GetComponent<BonesProvider>();
-                    _survivorSkinController = survivorModelTransform.GetComponent<ModelSkinController>();
+                    _bodyPartsProvider = modelTransform.GetComponent<ModelPartsProvider>();
+                    _bodyBonesProvider = modelTransform.GetComponent<BonesProvider>();
+                    _bodySkinController = modelTransform.GetComponent<ModelSkinController>();
                 }
             }
         }
 
         bool isSurvivorValidForSkins()
         {
-            return _survivor && _survivor.bodyPrefab && _survivorPartsProvider && _survivorBonesProvider;
+            return _bodyPrefab && _bodyPartsProvider && _bodyBonesProvider;
         }
 
         public void TryCreateSkins(List<SkinDef> dest)
@@ -110,7 +110,7 @@ namespace ModelSwapperSkins
         {
             bool boneTest(BoneType bone)
             {
-                return _survivorBonesProvider.HasMatchForBone(bone) && otherBonesProvider.CanMatchToBone(bone);
+                return _bodyBonesProvider.HasMatchForBone(bone) && otherBonesProvider.CanMatchToBone(bone);
             }
 
             bool anyBonesValidMatch(params BoneType[] bones)
@@ -128,7 +128,7 @@ namespace ModelSwapperSkins
             if (!body)
                 return false;
 
-            if (body.gameObject == _survivor.bodyPrefab)
+            if (body == _bodyPrefab)
                 return false;
 
             ModelLocator modelLocator = body.GetComponent<ModelLocator>();
@@ -150,7 +150,7 @@ namespace ModelSwapperSkins
             if (!hasEnoughBonesToMatchWith(bodyBonesProvider))
             {
 #if DEBUG
-                Log.Debug($"Not creating {body.name} skin for {_survivor.cachedName}: Not enough common bones");
+                Log.Debug($"Not creating {body.name} skin for {_bodyPrefab.name}: Not enough matching bones");
 #endif
                 return false;
             }
@@ -177,20 +177,20 @@ namespace ModelSwapperSkins
                 {
                     if (modelSkin)
                     {
-                        skinName = $"skin{_survivor.cachedName}_{baseSkin.name}_{body.name}_{modelSkin.name}";
+                        skinName = $"skin{_bodyPrefab.name}_{baseSkin.name}_{body.name}_{modelSkin.name}";
                     }
                     else
                     {
-                        skinName = $"skin{_survivor.cachedName}_{baseSkin.name}_{body.name}";
+                        skinName = $"skin{_bodyPrefab.name}_{baseSkin.name}_{body.name}";
                     }
                 }
                 else if (modelSkin)
                 {
-                    skinName = $"skin{_survivor.cachedName}_{body.name}_{modelSkin.name}";
+                    skinName = $"skin{_bodyPrefab.name}_{body.name}_{modelSkin.name}";
                 }
                 else
                 {
-                    skinName = $"skin{_survivor.cachedName}_{body.name}";
+                    skinName = $"skin{_bodyPrefab.name}_{body.name}";
                 }
 
                 skinDef.name = skinName;
@@ -207,18 +207,18 @@ namespace ModelSwapperSkins
 
                 skinDef.ModelSkin = modelSkin;
 
-                skinDef.Initialize(_survivorPartsProvider, bodyModelPartsProvider);
+                skinDef.Initialize(_bodyPartsProvider, bodyModelPartsProvider);
 
                 return skinDef;
             }
 
-            SkinDef[] survivorSkins = _survivorSkinController ? _survivorSkinController.skins : null;
-            if (survivorSkins == null || survivorSkins.Length == 0)
-                survivorSkins = [null];
+            SkinDef[] bodySkins = _bodySkinController ? _bodySkinController.skins : null;
+            if (bodySkins == null || bodySkins.Length == 0)
+                bodySkins = [null];
 
             ModelSkinController modelSkinController = modelTransform.GetComponent<ModelSkinController>();
 
-            foreach (SkinDef survivorSkin in survivorSkins)
+            foreach (SkinDef bodySkin in bodySkins)
             {
                 if (modelSkinController)
                 {
@@ -227,14 +227,14 @@ namespace ModelSwapperSkins
                     {
                         foreach (SkinDef modelSkin in modelSkins)
                         {
-                            yield return createSkinDef(survivorSkin, modelSkin);
+                            yield return createSkinDef(bodySkin, modelSkin);
                         }
 
                         continue;
                     }
                 }
 
-                yield return createSkinDef(survivorSkin, null);
+                yield return createSkinDef(bodySkin, null);
             }
         }
     }
