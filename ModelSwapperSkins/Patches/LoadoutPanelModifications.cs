@@ -333,11 +333,11 @@ namespace ModelSwapperSkins.Patches
 
                         static bool isValidBodySkin(SkinDef skinDef) => skinDef is not ModelSwappedSkinDef;
 
-                        if (modelSkinIndex >= modelBodySkins.Length)
+                        if (modelSkinIndex >= modelBodySkins.Length - 1)
                         {
                             modelSkinIndex = Array.FindLastIndex(modelBodySkins, isValidBodySkin);
                         }
-                        else if (modelSkinIndex < 0)
+                        else if (modelSkinIndex <= 0)
                         {
                             modelSkinIndex = Array.FindIndex(modelBodySkins, isValidBodySkin);
                         }
