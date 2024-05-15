@@ -69,16 +69,28 @@ namespace ModelSwapperSkins
 
             if (newSkins.Count > 0)
             {
-                foreach (SkinDef skin in newSkins)
+                for (int i = newSkins.Count - 1; i >= 0; i--)
                 {
+                    SkinDef skin = newSkins[i];
+
                     skin.baseSkins ??= [];
 
                     if (!skin.rootObject)
                         skin.rootObject = modelTransform.gameObject;
 
+                    try
+                    {
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
-                    skin.Bake();
+                        skin.Bake();
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Warning_NoCallerPrefix($"Failed to create skin {skin.name} for {survivor.cachedName}: {e}");
+
+                        GameObject.Destroy(newSkins[i]);
+                        newSkins.RemoveAt(i);
+                    }
                 }
 
                 ArrayUtil.Append(ref modelSkinController.skins, newSkins);
