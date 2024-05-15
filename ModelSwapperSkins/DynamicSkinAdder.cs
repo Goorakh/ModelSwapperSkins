@@ -74,6 +74,11 @@ namespace ModelSwapperSkins
                     SkinDef skin = newSkins[i];
 
                     skin.baseSkins ??= [];
+                    skin.rendererInfos ??= [];
+                    skin.gameObjectActivations ??= [];
+                    skin.meshReplacements ??= [];
+                    skin.projectileGhostReplacements ??= [];
+                    skin.minionSkinReplacements ??= [];
 
                     if (!skin.rootObject)
                         skin.rootObject = modelTransform.gameObject;
