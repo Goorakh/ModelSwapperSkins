@@ -199,6 +199,8 @@ namespace ModelSwapperSkins
 
             if (modelTransform.TryGetComponent(out CharacterModel mainModel))
             {
+                bool isVulture = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("VultureBody");
+
                 foreach (DynamicBone dynamicBone in skinModelTransfom.GetComponentsInChildren<DynamicBone>())
                 {
                     dynamicBone.enabled = false;
@@ -213,7 +215,10 @@ namespace ModelSwapperSkins
                         }
                     }
 
-                    mainModel.StartCoroutine(waitThenSetEnabled(dynamicBone));
+                    if (!isVulture)
+                    {
+                        mainModel.StartCoroutine(waitThenSetEnabled(dynamicBone));
+                    }
                 }
 
                 List<CharacterModel.RendererInfo> skinModelRendererInfos = [];

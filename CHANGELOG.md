@@ -1,5 +1,8 @@
 **?.?.? Changes:**
 
+* Fixed:
+  * Alloy Vulture wings sliding around when used as a skin
+
 * Removed R2API.Language dependency
 
 **1.3.0 Changes:**
