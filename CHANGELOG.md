@@ -4,6 +4,7 @@
   * Alloy Vulture wings sliding around when used as a skin
   * Alloy Vulture body part rotations
   * Assassin model scale and body part rotations
+  * Artificer leg positions
 
 * Removed R2API.Language dependency
 

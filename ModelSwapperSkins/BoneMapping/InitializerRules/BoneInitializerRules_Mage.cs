@@ -27,6 +27,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     case BoneType.HandR:
                         bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                         break;
+                    case BoneType.LegUpperL:
+                    case BoneType.LegUpperR:
+                        bone.PositionOffset += new Vector3(0f, 0f, 0.05f);
+                        break;
                 }
             }
 
