@@ -116,6 +116,7 @@ namespace ModelSwapperSkins.ModelInfos
         {
             SetModelInfo("AcidLarvaBody", new ModelInfo(15f));
             SetModelInfo("AltarSkeletonBody", new ModelInfo(2f));
+            SetModelInfo("Assassin2Body", new ModelInfo(3.75f));
             SetModelInfo("BeetleQueen2Body", new ModelInfo(20f));
             SetModelInfo("BrotherBody", new ModelInfo(2f));
             SetModelInfo("BrotherGlassBody", new ModelInfo(2f));

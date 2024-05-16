@@ -2,7 +2,8 @@
 
 * Fixed:
   * Alloy Vulture wings sliding around when used as a skin
-  * Alloy Vulture body part rotations 
+  * Alloy Vulture body part rotations
+  * Assassin model scale and body part rotations
 
 * Removed R2API.Language dependency
 
