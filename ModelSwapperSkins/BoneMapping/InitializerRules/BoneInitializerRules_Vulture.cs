@@ -26,24 +26,38 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     bone.PositionOffset += new Vector3(0f, -0.2f, 0f);
                     bone.RotationOffset *= Quaternion.Euler(270f, 0f, 0f);
                     break;
-                case BoneType.LegLowerL:
+                case BoneType.Neck1:
+                case BoneType.Neck2:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
+                    break;
+                case BoneType.ShoulderL:
+                case BoneType.ShoulderR:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
+                    break;
+                case BoneType.ArmUpperL:
+                case BoneType.ArmLowerL:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
+                    break;
+                case BoneType.ArmUpperR:
+                case BoneType.ArmLowerR:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 90f, 0f);
+                    break;
+                case BoneType.LegUpperL:
                     bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     break;
                 case BoneType.FootL:
-                    bone.PositionOffset += new Vector3(0f, 0f, 0.1f);
-                    bone.RotationOffset *= Quaternion.Euler(270f, 0f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(315f, 0f, 0f);
                     break;
                 case BoneType.Toe1L:
                 case BoneType.Toe2L:
                 case BoneType.Toe3L:
                     bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     break;
-                case BoneType.LegLowerR:
+                case BoneType.LegUpperR:
                     bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     break;
                 case BoneType.FootR:
-                    bone.PositionOffset += new Vector3(0f, 0f, 0.1f);
-                    bone.RotationOffset *= Quaternion.Euler(270f, 0f, 0f);
+                    bone.RotationOffset *= Quaternion.Euler(315f, 0f, 0f);
                     break;
                 case BoneType.Toe1R:
                 case BoneType.Toe2R:
