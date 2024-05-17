@@ -25,7 +25,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     {
                         PositionOffset = new Vector3(0f, -0.25f, -0.2f),
                         RotationOffset = Quaternion.Euler(90f, 0f, 0f),
-                        Scale = new Vector3(0.8f, 0.8f, 0.8f)
+                        Scale = 0.8f
                     };
                 case "HeadBase":
                     return new BoneInfo(BoneType.Head);

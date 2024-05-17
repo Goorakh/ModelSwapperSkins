@@ -46,25 +46,25 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     return new BoneInfo(BoneType.ArmUpperL)
                     {
                         RotationOffset = Quaternion.Euler(0f, 180f, 90f),
-                        Scale = new Vector3(2f, 2f, 2f)
+                        Scale = 2f
                     };
                 case "elbow_left_jnt":
                     return new BoneInfo(BoneType.ArmLowerL)
                     {
                         RotationOffset = Quaternion.Euler(90f, 90f, 0f),
-                        Scale = new Vector3(2f, 2f, 2f)
+                        Scale = 2f
                     };
                 case "clavicle_right_jnt":
                     return new BoneInfo(BoneType.ArmUpperR)
                     {
                         RotationOffset = Quaternion.Euler(0f, 0f, 45f),
-                        Scale = new Vector3(1.5f, 1.5f, 1.5f)
+                        Scale = 1.5f
                     };
                 case "elbow_right_jnt":
                     return new BoneInfo(BoneType.ArmLowerR)
                     {
                         RotationOffset = Quaternion.Euler(270f, 180f, 0f),
-                        Scale = new Vector3(1.5f, 1.5f, 1.5f)
+                        Scale = 1.5f
                     };
                 case "hips_left_jnt":
                     return new BoneInfo(BoneType.LegUpperL)

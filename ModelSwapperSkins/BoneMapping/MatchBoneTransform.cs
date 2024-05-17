@@ -64,17 +64,17 @@ namespace ModelSwapperSkins.BoneMapping
             }
         }
 
-        Vector3 calculateTargetScaleMultiplier()
+        float calculateTargetScaleMultiplier()
         {
-            Vector3 targetBoneScale = _targetBone != null ? _targetBone.Info.Scale : Vector3.one;
-            Vector3 boneScale = _bone != null ? _bone.Info.Scale : Vector3.one;
+            float targetBoneScale = _targetBone != null ? _targetBone.Info.Scale : 1f;
+            float boneScale = _bone != null ? _bone.Info.Scale : 1f;
 
-            return VectorUtils.Divide(targetBoneScale, boneScale);
+            return targetBoneScale / boneScale;
         }
 
         Vector3 _localTargetPositionOffset;
         Quaternion _localTargetRotationOffset;
-        Vector3 _localTargetScaleMultiplier;
+        float _localTargetScaleMultiplier;
 
         Vector3 _baseLocalScale;
 
@@ -94,14 +94,14 @@ namespace ModelSwapperSkins.BoneMapping
 
                 if (ParentBone)
                 {
-                    _localTargetScaleMultiplier = VectorUtils.Divide(_localTargetScaleMultiplier, ParentBone.calculateTargetScaleMultiplier());
+                    _localTargetScaleMultiplier /= ParentBone.calculateTargetScaleMultiplier();
                 }
             }
             else
             {
                 _localTargetPositionOffset = Vector3.zero;
                 _localTargetRotationOffset = Quaternion.identity;
-                _localTargetScaleMultiplier = Vector3.one;
+                _localTargetScaleMultiplier = 1f;
             }
         }
 
@@ -121,7 +121,7 @@ namespace ModelSwapperSkins.BoneMapping
 
             _boneTransform.rotation = Quaternion.LookRotation(boneTargetForward, boneTargetUp);
 
-            _boneTransform.localScale = Vector3.Scale(_baseLocalScale, _localTargetScaleMultiplier);
+            _boneTransform.localScale = _baseLocalScale * _localTargetScaleMultiplier;
         }
     }
 }

@@ -36,33 +36,33 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     break;
                 case BoneType.Chest:
-                    bone.Scale = Vector3.Scale(bone.Scale, new Vector3(1.35f, 1.35f, 1.35f));
+                    bone.Scale *= 1.35f;
                     break;
                 case BoneType.Pelvis:
                     bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     break;
                 case BoneType.ArmLowerL:
                     bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
-                    bone.Scale = Vector3.Scale(bone.Scale, new Vector3(2.5f, 2.5f, 2.5f));
+                    bone.Scale *= 2.5f;
                     break;
                 case BoneType.ArmLowerR:
                     bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
-                    bone.Scale = Vector3.Scale(bone.Scale, new Vector3(2.5f, 2.5f, 2.5f));
+                    bone.Scale *= 2.5f;
                     break;
                 case BoneType.HandL:
-                    bone.Scale = Vector3.Scale(bone.Scale, new Vector3(2f, 2f, 2f));
+                    bone.Scale *= 2f;
                     break;
                 case BoneType.HandR:
                     bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
-                    bone.Scale = Vector3.Scale(bone.Scale, new Vector3(2f, 2f, 2f));
+                    bone.Scale *= 2f;
                     break;
                 case BoneType.LegUpperL:
                     bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
-                    bone.Scale = Vector3.Scale(bone.Scale, new Vector3(0.8f, 0.8f, 0.8f));
+                    bone.Scale *= 0.8f;
                     break;
                 case BoneType.LegUpperR:
                     bone.RotationOffset *= Quaternion.Euler(0f, 90f, 0f);
-                    bone.Scale = Vector3.Scale(bone.Scale, new Vector3(0.8f, 0.8f, 0.8f));
+                    bone.Scale *= 0.8f;
                     break;
                 case BoneType.LegLowerR:
                     bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
