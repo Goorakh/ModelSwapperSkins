@@ -39,6 +39,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_AltarSkeleton.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Assassin2.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Bandit2.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_BeetleGuard.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_BeetleQueen2.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Bison.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Brother.Instance);

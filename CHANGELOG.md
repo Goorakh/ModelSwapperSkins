@@ -6,6 +6,7 @@
   * Assassin model scale and body part rotations
   * Artificer leg positions
   * Aurelionite & Stone Titan body part rotations
+  * Beetle Guard model matching
 
 * Removed R2API.Language dependency
 
