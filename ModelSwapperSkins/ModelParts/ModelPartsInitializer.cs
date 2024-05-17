@@ -73,7 +73,15 @@ namespace ModelSwapperSkins.ModelParts
                 {
                     int existingPartIndex = Array.FindIndex(partsProvider.Parts, p => p.Transform == part.Transform);
                     if (existingPartIndex == -1)
+                    {
+                        if (part.Flags == ModelPartFlags.None)
+                        {
+                            Log.Warning($"Adding already non-existing part {part.Path} with flags None for {modelTransform.name} ({bodyPrefab.name})");
+                            return true;
+                        }
+
                         return false;
+                    }
 
                     ModelPart existingPart = partsProvider.Parts[existingPartIndex];
                     if (part.Flags != existingPart.Flags)
