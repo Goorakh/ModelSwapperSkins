@@ -14,7 +14,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 
         public override bool AppliesTo(BodyIndex bodyIndex)
         {
-            return bodyIndex == BodyCatalog.FindBodyIndex("BeetleGuardBody") || bodyIndex == BodyCatalog.FindBodyIndex("BeetleGuardAllyBody");
+            return bodyIndex == BodyCatalog.FindBodyIndex("BeetleGuardBody") || bodyIndex == BodyCatalog.FindBodyIndex("BeetleGuardAllyBody") || bodyIndex == BodyCatalog.FindBodyIndex("PaladinBody");
         }
 
         protected override BoneInfo getBoneInfo(Transform modelTransform, Transform potentialBoneTransform)
