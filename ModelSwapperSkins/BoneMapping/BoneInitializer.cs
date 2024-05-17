@@ -68,6 +68,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_Railgunner.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Scav.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Shopkeeper.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Titan.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Toolbot.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Treebot.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Vermin.Instance);
