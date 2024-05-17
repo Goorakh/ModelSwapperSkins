@@ -5,6 +5,7 @@ using ModelSwapperSkins.Utils;
 using RoR2;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ModelSwapperSkins
@@ -179,10 +180,18 @@ namespace ModelSwapperSkins
                 modelParts = [];
             }
 
+            Log.Debug($"{bodyPrefab.name} model parts: [{string.Join(", ", modelParts.Select(p => p.Path))}]");
+
             if (modelTransform.TryGetComponent(out ModelSkinController modelSkinController))
             {
                 foreach (SkinDef skin in modelSkinController.skins)
                 {
+                    if (skin.rootObject != modelTransform.gameObject)
+                    {
+                        Log.Warning($"Incorrect skin root object for {skin.name} on {bodyPrefab.name}");
+                        continue;
+                    }
+
                     List<SkinDef.GameObjectActivation> gameObjectActivations = new List<SkinDef.GameObjectActivation>(skin.gameObjectActivations);
 
                     bool gameObjectActivationsChanged = false;
@@ -205,6 +214,10 @@ namespace ModelSwapperSkins
                             Transform partTransform = skin.rootObject.transform.Find(modelPart.Path);
                             if (partTransform)
                             {
+#if DEBUG
+                                Log.Debug($"Appending model part {modelPart.Path} object activation to regular skin {skin.name}");
+#endif
+
                                 gameObjectActivations.Add(new SkinDef.GameObjectActivation
                                 {
                                     gameObject = partTransform.gameObject,
