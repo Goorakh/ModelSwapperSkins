@@ -33,5 +33,10 @@ namespace ModelSwapperSkins.ModelParts
                 return (Flags & ModelPartFlags.ShowForSkin) != 0;
             }
         }
+
+        public override string ToString()
+        {
+            return $"{Path} ({Flags})";
+        }
     }
 }
