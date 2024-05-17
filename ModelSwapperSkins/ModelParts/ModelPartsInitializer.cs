@@ -163,10 +163,6 @@ namespace ModelSwapperSkins.ModelParts
                         _ => ModelPartFlags.Body
                     };
 
-#if DEBUG
-                    Log.Debug($"Selected part type {type} for {component.GetType().Name} {modelTransform.name}/{TransformUtils.GetObjectPath(component.transform, modelTransform)} ({bodyPrefab.name})");
-#endif
-
                     return type;
                 }
 
