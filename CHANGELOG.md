@@ -7,6 +7,7 @@
   * Artificer leg positions
   * Aurelionite & Stone Titan body part rotations
   * Beetle Guard model matching
+  * Beetle Queen body part rotations
 
 * Removed R2API.Language dependency
 
