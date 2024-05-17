@@ -9,6 +9,7 @@
   * Beetle Guard model matching
   * Beetle Queen body part rotations
   * Bison body part rotations
+  * Grovetender skin's mask not staying on the head
 
 * Removed R2API.Language dependency
 

@@ -200,23 +200,27 @@ namespace ModelSwapperSkins
             if (modelTransform.TryGetComponent(out CharacterModel mainModel))
             {
                 bool isVulture = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("VultureBody");
+                bool isGraveKeeper = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GravekeeperBody");
 
                 foreach (DynamicBone dynamicBone in skinModelTransfom.GetComponentsInChildren<DynamicBone>())
                 {
                     dynamicBone.enabled = false;
 
-                    static IEnumerator waitThenSetEnabled(Behaviour behaviour)
-                    {
-                        yield return new WaitForEndOfFrame();
+                    bool shouldDisableBone = isVulture ||
+                                            (isGraveKeeper && dynamicBone.m_Root && dynamicBone.m_Root.name == "head");
 
-                        if (behaviour)
+                    if (!shouldDisableBone)
+                    {
+                        static IEnumerator waitThenSetEnabled(Behaviour behaviour)
                         {
-                            behaviour.enabled = true;
-                        }
-                    }
+                            yield return new WaitForEndOfFrame();
 
-                    if (!isVulture)
-                    {
+                            if (behaviour)
+                            {
+                                behaviour.enabled = true;
+                            }
+                        }
+
                         mainModel.StartCoroutine(waitThenSetEnabled(dynamicBone));
                     }
                 }
