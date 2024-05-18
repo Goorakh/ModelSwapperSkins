@@ -33,15 +33,9 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     case "Spine3":
                         return new BoneInfo(BoneType.Chest);
                     case "Leg1.l":
-                        return new BoneInfo(BoneType.LegLowerL)
-                        {
-                            RotationOffset = Quaternion.Euler(0f, 180f, 0f)
-                        };
+                        return new BoneInfo(BoneType.LegLowerL);
                     case "Leg1.r":
-                        return new BoneInfo(BoneType.LegLowerR)
-                        {
-                            RotationOffset = Quaternion.Euler(0f, 180f, 0f)
-                        };
+                        return new BoneInfo(BoneType.LegLowerR);
                 }
             }
 
@@ -55,7 +49,16 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     bone.RotationOffset *= Quaternion.Euler(270f, 0f, 0f);
                     break;
                 case BoneType.Jaw:
+                    bone.PositionOffset += new Vector3(0f, 0f, 0.4f);
                     bone.RotationOffset *= Quaternion.Euler(270f, 0f, 0f);
+                    break;
+                case BoneType.Tongue3:
+                case BoneType.Tongue4:
+                case BoneType.LegUpperL:
+                case BoneType.LegUpperR:
+                case BoneType.Toe1L:
+                case BoneType.Toe1R:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     break;
             }
 
