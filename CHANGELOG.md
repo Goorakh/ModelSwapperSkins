@@ -10,6 +10,7 @@
   * Beetle Queen body part rotations
   * Bison body part rotations
   * Grovetender skin's mask not staying on the head
+  * Blind Pest wing size
 
 * Removed R2API.Language dependency
 

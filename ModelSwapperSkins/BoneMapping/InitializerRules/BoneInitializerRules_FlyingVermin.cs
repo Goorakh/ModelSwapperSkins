@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -39,25 +40,69 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Body":
                     return new BoneInfo(BoneType.Chest);
                 case "Wing1.l":
-                    return new BoneInfo(BoneType.ArmUpperL);
+                    return new BoneInfo(BoneType.ArmUpperL)
+                    {
+                        Scale = 0.8f
+                    };
                 case "Wing2.l":
-                    return new BoneInfo(BoneType.ArmLowerL);
+                    return new BoneInfo(BoneType.ArmLowerL)
+                    {
+                        Scale = 0.8f
+                    };
                 case "Wing3.l":
                     return new BoneInfo(BoneType.HandL)
                     {
-                        RotationOffset = Quaternion.Euler(0f, 180f, 0f)
+                        RotationOffset = Quaternion.Euler(0f, 180f, 0f),
+                        Scale = 0.8f
                     };
                 case "Wing1.r":
-                    return new BoneInfo(BoneType.ArmUpperR);
+                    return new BoneInfo(BoneType.ArmUpperR)
+                    {
+                        Scale = 0.8f
+                    };
                 case "Wing2.r":
-                    return new BoneInfo(BoneType.ArmLowerR);
+                    return new BoneInfo(BoneType.ArmLowerR)
+                    {
+                        Scale = 0.8f
+                    };
                 case "Wing3.r":
                     return new BoneInfo(BoneType.HandR)
                     {
-                        RotationOffset = Quaternion.Euler(0f, 180f, 0f)
+                        RotationOffset = Quaternion.Euler(0f, 180f, 0f),
+                        Scale = 0.8f
                     };
                 default:
                     return bone;
+            }
+        }
+
+        public override IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
+        {
+            foreach (Bone bone in base.GetAdditionalBones(modelTransform, existingBones))
+            {
+                yield return bone;
+            }
+
+            Bone chestBone = existingBones.Find(b => b.Info.Type == BoneType.Chest);
+            if (chestBone != null)
+            {
+                yield return new Bone(chestBone)
+                {
+                    Info = new BoneInfo(BoneType.Base)
+                    {
+                        Scale = 0.01f,
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+
+                yield return new Bone(chestBone)
+                {
+                    Info = new BoneInfo(BoneType.Head)
+                    {
+                        Scale = 1.4f,
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
             }
         }
     }
