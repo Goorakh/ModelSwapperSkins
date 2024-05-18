@@ -12,6 +12,7 @@
   * Grovetender skin's mask not staying on the head
   * Blind Pest wing size
   * Blind Vermin leg rotation
+  * Captain hand rotation
 
 * Removed R2API.Language dependency
 

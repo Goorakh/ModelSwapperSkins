@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -31,9 +32,37 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case BoneType.Toe1R:
                     bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
                     break;
+                case BoneType.HandL:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
+                    bone.MatchFlags = BoneMatchFlags.MatchToOther;
+                    break;
+                case BoneType.HandR:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
+                    break;
             }
 
             return bone;
+        }
+
+        public override IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
+        {
+            foreach (Bone bone in base.GetAdditionalBones(modelTransform, existingBones))
+            {
+                yield return bone;
+            }
+
+            Bone handLBone = existingBones.Find(b => b.Info.Type == BoneType.HandL);
+            if (handLBone != null)
+            {
+                yield return new Bone(handLBone)
+                {
+                    Info = new BoneInfo(BoneType.HandL)
+                    {
+                        Scale = 0.01f,
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+            }
         }
     }
 }
