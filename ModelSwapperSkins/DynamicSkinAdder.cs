@@ -180,7 +180,9 @@ namespace ModelSwapperSkins
                 modelParts = [];
             }
 
+#if DEBUG
             Log.Debug($"{bodyPrefab.name} model parts: [{string.Join(", ", modelParts.Select(p => p.Path))}]");
+#endif
 
             if (modelTransform.TryGetComponent(out ModelSkinController modelSkinController))
             {
