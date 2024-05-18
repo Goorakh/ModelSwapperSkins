@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping
 {
+    [DisallowMultipleComponent]
     public class MatchBoneTransform : MonoBehaviour
     {
         Transform _boneTransform;

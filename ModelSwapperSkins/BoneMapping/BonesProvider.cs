@@ -50,9 +50,18 @@ namespace ModelSwapperSkins.BoneMapping
                 if ((bone.Info.MatchFlags & BoneMatchFlags.MatchToOther) == 0)
                     continue;
 
-                Bone matchingBone = other.Bones.FirstOrDefault(b => (b.Info.MatchFlags & BoneMatchFlags.AllowMatchTo) != 0 && b.Info.Type == bone.Info.Type);
+                if (bone.Info.ShouldExcludeMatch(this, other))
+                    continue;
+
+                Bone matchingBone = other.Bones.FirstOrDefault(b => (b.Info.MatchFlags & BoneMatchFlags.AllowMatchTo) != 0 && b.Info.Type == bone.Info.Type && !b.Info.ShouldExcludeMatch(other, this));
                 if (matchingBone == null)
                     continue;
+
+                if (bone.BoneTransform.TryGetComponent(out MatchBoneTransform existingBoneMatcher))
+                {
+                    Log.Warning($"Duplicate bone match for {bone.ModelPath}, attempting to match {matchingBone.ModelPath} ({matchingBone.Info.Type}), but {existingBoneMatcher.TargetBone.ModelPath} ({existingBoneMatcher.TargetBone.Info.Type})");
+                    continue;
+                }
 
                 MatchBoneTransform matchBoneTransform = bone.BoneTransform.gameObject.AddComponent<MatchBoneTransform>();
                 matchBoneTransform.Bone = bone;
