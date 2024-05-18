@@ -283,6 +283,29 @@ namespace ModelSwapperSkins
                     skinModelLightInfos.AddRange(skinModelTransfom.GetComponentsInChildren<Light>().Select(l => new CharacterModel.LightInfo(l)));
                 }
 
+                for (int i = 0; i < skinModelRendererInfos.Count; i++)
+                {
+                    CharacterModel.RendererInfo rendererInfo = skinModelRendererInfos[i];
+
+                    bool changedEntry = false;
+                    if (rendererInfo.defaultMaterial.IsKeywordEnabled("PRINT_CUTOFF"))
+                    {
+                        Material materialInstance = GameObject.Instantiate(rendererInfo.defaultMaterial);
+
+                        materialInstance.DisableKeyword("PRINT_CUTOFF");
+                        materialInstance.SetInt("_PrintOn", 0);
+
+                        rendererInfo.defaultMaterial = materialInstance;
+
+                        changedEntry = true;
+                    }
+
+                    if (changedEntry)
+                    {
+                        skinModelRendererInfos[i] = rendererInfo;
+                    }
+                }
+
                 mainModel.baseRendererInfos = [..mainModel.baseRendererInfos, ..skinModelRendererInfos];
                 mainModel.baseLightInfos = [..mainModel.baseLightInfos, ..skinModelLightInfos];
 
