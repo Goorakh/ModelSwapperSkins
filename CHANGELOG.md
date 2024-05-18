@@ -13,6 +13,7 @@
   * Blind Pest wing size
   * Blind Vermin leg rotation
   * Captain hand rotation
+  * Clay Apothecary model scale and body part rotations
 
 * Removed R2API.Language dependency
 

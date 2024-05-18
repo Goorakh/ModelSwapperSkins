@@ -25,11 +25,18 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 switch (bone.Type)
                 {
                     case BoneType.Head:
-                        bone.PositionOffset += new Vector3(0f, -0.05f, -0.2f);
+                        bone.PositionOffset += new Vector3(0f, -0.15f, -0.3f);
                         bone.RotationOffset *= Quaternion.Euler(270f, 0f, 0f);
+                        break;
+                    case BoneType.Pelvis:
+                        bone.RotationOffset *= Quaternion.Euler(0f, 180f, 180f);
                         break;
                     case BoneType.LegUpperL:
                     case BoneType.LegUpperR:
+                        bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
+                        break;
+                    case BoneType.ShoulderL:
+                    case BoneType.ShoulderR:
                         bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                         break;
                     case BoneType.ArmUpperL:
@@ -43,6 +50,20 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         break;
                     case BoneType.HandR:
                         bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
+                        break;
+                }
+
+                switch (bone.Type)
+                {
+                    case BoneType.LegUpperL:
+                    case BoneType.LegLowerL:
+                    case BoneType.FootL:
+                    case BoneType.Toe1L:
+                    case BoneType.LegUpperR:
+                    case BoneType.LegLowerR:
+                    case BoneType.FootR:
+                    case BoneType.Toe1R:
+                        bone.Scale *= 0.7f;
                         break;
                 }
 
