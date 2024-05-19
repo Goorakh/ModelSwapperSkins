@@ -19,6 +19,7 @@
   * Grandparent model scale and shoulder rotation
   * Grovetender model matching
   * HAN-D model scale
+  * Hermit Crab leg rotation
   * Model cut-offs persisting when model is used as a skin
 
 * Removed R2API.Language dependency
