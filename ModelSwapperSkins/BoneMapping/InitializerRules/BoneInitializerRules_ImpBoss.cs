@@ -24,7 +24,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 yield return bone;
             }
 
-            Bone chestBone = existingBones.Find(b => b.Info.Type == BoneType.Neck1);
+            Bone chestBone = existingBones.Find(b => b.Info.Type == BoneType.Chest);
             if (chestBone != null)
             {
                 yield return new Bone(chestBone)
