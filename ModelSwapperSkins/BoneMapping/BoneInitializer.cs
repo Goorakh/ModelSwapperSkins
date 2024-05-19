@@ -57,6 +57,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_Heretic.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_HermitCrab.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Huntress.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Imp.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Jellyfish.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Lemurian.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_LemurianBruiser.Instance);

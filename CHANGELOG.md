@@ -20,6 +20,7 @@
   * Grovetender model matching
   * HAN-D model scale
   * Hermit Crab leg rotation
+  * Imp model matching
   * Model cut-offs persisting when model is used as a skin
 
 * Removed R2API.Language dependency
