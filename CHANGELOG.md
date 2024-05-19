@@ -21,6 +21,7 @@
   * HAN-D model scale
   * Hermit Crab leg rotation
   * Imp model matching
+  * Imp Overlord model matching
   * Model cut-offs persisting when model is used as a skin
 
 * Removed R2API.Language dependency
