@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -99,6 +100,28 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     return new BoneInfo(BoneType.HandR);
                 default:
                     return BoneInfo.None;
+            }
+        }
+
+        public override IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
+        {
+            foreach (Bone bone in base.GetAdditionalBones(modelTransform, existingBones))
+            {
+                yield return bone;
+            }
+
+            Bone chestBone = existingBones.Find(b => b.Info.Type == BoneType.Chest);
+            if (chestBone != null)
+            {
+                yield return new Bone(chestBone)
+                {
+                    Info = new BoneInfo(BoneType.Base)
+                    {
+                        ExclusionRules = [
+                            new BoneExclusionRule([BoneType.Chest], OtherBoneMatchExclusionRuleType.ExcludeIfAnyMatch)
+                        ]
+                    }
+                };
             }
         }
     }
