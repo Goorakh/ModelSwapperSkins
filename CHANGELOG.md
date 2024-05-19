@@ -14,6 +14,7 @@
   * Blind Vermin leg rotation
   * Captain hand rotation
   * Clay Apothecary model scale and body part rotations
+  * Elder Lemurian toe rotation
   * Model cut-offs persisting when model is used as a skin
 
 * Removed R2API.Language dependency

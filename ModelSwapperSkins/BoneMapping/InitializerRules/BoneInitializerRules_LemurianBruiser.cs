@@ -32,8 +32,11 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         break;
                     case BoneType.FootL:
                     case BoneType.FootR:
-                        bone.PositionOffset += new Vector3(0f, 0f, 0.1f);
                         bone.RotationOffset *= Quaternion.Euler(-90f, 0f, 0f);
+                        break;
+                    case BoneType.Toe1L:
+                    case BoneType.Toe1R:
+                        bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                         break;
                     case BoneType.ShoulderL:
                         bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
