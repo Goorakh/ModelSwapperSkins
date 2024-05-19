@@ -88,6 +88,7 @@ namespace ModelSwapperSkins.BoneMapping
         {
             if (_targetBone != null && _bone != null)
             {
+                // TODO: This does not account for scaling, and assumes a local position offset in the target transform will appear as the same offset in the bone transform
                 _localTargetPositionOffset = _targetBone.Info.PositionOffset - _bone.Info.PositionOffset;
                 _localTargetRotationOffset = _targetBone.Info.RotationOffset * Quaternion.Inverse(_bone.Info.RotationOffset);
 
