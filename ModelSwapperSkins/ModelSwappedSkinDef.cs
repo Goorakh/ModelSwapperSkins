@@ -1,6 +1,7 @@
 ﻿using ModelSwapperSkins.BoneMapping;
 using ModelSwapperSkins.ModelInfos;
 using ModelSwapperSkins.ModelParts;
+using ModelSwapperSkins.Utils;
 using ModelSwapperSkins.Utils.Comparers;
 using RoR2;
 using System.Collections;
@@ -288,12 +289,12 @@ namespace ModelSwapperSkins
                     CharacterModel.RendererInfo rendererInfo = skinModelRendererInfos[i];
 
                     bool changedEntry = false;
-                    if (rendererInfo.defaultMaterial.IsKeywordEnabled("PRINT_CUTOFF"))
+                    if (rendererInfo.defaultMaterial.IsKeywordEnabled(ShaderKeywords.PRINT_CUTOFF))
                     {
                         Material materialInstance = GameObject.Instantiate(rendererInfo.defaultMaterial);
 
-                        materialInstance.DisableKeyword("PRINT_CUTOFF");
-                        materialInstance.SetInt("_PrintOn", 0);
+                        materialInstance.DisableKeyword(ShaderKeywords.PRINT_CUTOFF);
+                        materialInstance.SetInt(ShaderIDs._PrintOn, 0);
 
                         rendererInfo.defaultMaterial = materialInstance;
 

@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using ModelSwapperSkins.Utils;
+using RoR2;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -31,8 +32,8 @@ namespace ModelSwapperSkins.Patches
 
                     foreach (PrintController.RendererMaterialPair rendererMaterialPair in printController.rendererMaterialPairs)
                     {
-                        bool printCutoffEnabled = rendererMaterialPair.material.IsKeywordEnabled("PRINT_CUTOFF");
-                        int printOn = rendererMaterialPair.material.GetInt("_PrintOn");
+                        bool printCutoffEnabled = rendererMaterialPair.material.IsKeywordEnabled(ShaderKeywords.PRINT_CUTOFF);
+                        int printOn = rendererMaterialPair.material.GetInt(ShaderIDs._PrintOn);
 
                         GameObject.Destroy(rendererMaterialPair.material);
 
@@ -50,14 +51,14 @@ namespace ModelSwapperSkins.Patches
 
                         if (printCutoffEnabled)
                         {
-                            material.EnableKeyword("PRINT_CUTOFF");
+                            material.EnableKeyword(ShaderKeywords.PRINT_CUTOFF);
                         }
                         else
                         {
-                            material.DisableKeyword("PRINT_CUTOFF");
+                            material.DisableKeyword(ShaderKeywords.PRINT_CUTOFF);
                         }
 
-                        material.SetInt("_PrintOn", printOn);
+                        material.SetInt(ShaderIDs._PrintOn, printOn);
 
                         newRendererMaterialPair.material = material;
                         rendererInfo.defaultMaterial = material;
