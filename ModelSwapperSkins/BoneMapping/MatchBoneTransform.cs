@@ -79,7 +79,7 @@ namespace ModelSwapperSkins.BoneMapping
 
         Vector3 _baseLocalScale;
 
-        void Awake()
+        void OnEnable()
         {
             recalculateOffsets();
         }
