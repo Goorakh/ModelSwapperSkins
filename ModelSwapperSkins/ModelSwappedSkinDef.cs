@@ -311,16 +311,19 @@ namespace ModelSwapperSkins
                     }
                 }
 
-                OnDestroyCallback.AddCallback(modelTransform.gameObject, _ =>
+                if (objectsToCleanupOnModelDestroy.Count > 0)
                 {
-                    foreach (UnityEngine.Object obj in objectsToCleanupOnModelDestroy)
+                    OnDestroyCallback.AddCallback(modelTransform.gameObject, _ =>
                     {
-                        if (obj)
+                        foreach (UnityEngine.Object obj in objectsToCleanupOnModelDestroy)
                         {
-                            GameObject.Destroy(obj);
+                            if (obj)
+                            {
+                                GameObject.Destroy(obj);
+                            }
                         }
-                    }
-                });
+                    });
+                }
 
                 mainModel.baseRendererInfos = [..mainModel.baseRendererInfos, ..skinModelRendererInfos];
                 mainModel.baseLightInfos = [..mainModel.baseLightInfos, ..skinModelLightInfos];
