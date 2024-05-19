@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -68,6 +69,27 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     };
                 default:
                     return BoneInfo.None;
+            }
+        }
+
+        public override IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
+        {
+            foreach (Bone bone in base.GetAdditionalBones(modelTransform, existingBones))
+            {
+                yield return bone;
+            }
+
+            Bone headBone = existingBones.Find(b => b.Info.Type == BoneType.Head);
+            if (headBone != null)
+            {
+                yield return new Bone(headBone)
+                {
+                    Info = new BoneInfo(BoneType.Base)
+                    {
+                        Scale = 0.01f,
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
             }
         }
     }
