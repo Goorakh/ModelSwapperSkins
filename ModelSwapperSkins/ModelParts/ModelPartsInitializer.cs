@@ -187,7 +187,16 @@ namespace ModelSwapperSkins.ModelParts
                         {
                             if (rendererInfo.renderer)
                             {
-                                parts.Add(createModelPartFromComponent(rendererInfo.renderer));
+                                if (rendererInfo.renderer.transform.IsChildOf(modelTransform))
+                                {
+                                    parts.Add(createModelPartFromComponent(rendererInfo.renderer));
+                                }
+                                else
+                                {
+#if DEBUG
+                                    Log.Debug($"Invalid renderer in {characterModel} ({bodyPrefab}): {rendererInfo.renderer} is not in the model hierarchy");
+#endif
+                                }
                             }
                         }
                     }
@@ -198,7 +207,16 @@ namespace ModelSwapperSkins.ModelParts
                         {
                             if (lightInfo.light)
                             {
-                                parts.Add(createModelPartFromComponent(lightInfo.light));
+                                if (lightInfo.light.transform.IsChildOf(modelTransform))
+                                {
+                                    parts.Add(createModelPartFromComponent(lightInfo.light));
+                                }
+                                else
+                                {
+#if DEBUG
+                                    Log.Debug($"Invalid light in {characterModel} ({bodyPrefab}): {lightInfo.light} is not in the model hierarchy");
+#endif
+                                }
                             }
                         }
                     }

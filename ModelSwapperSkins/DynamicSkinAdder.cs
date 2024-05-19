@@ -256,7 +256,18 @@ namespace ModelSwapperSkins
 
                 defaultSkin.baseSkins = [];
 
-                defaultSkin.rendererInfos = characterModel.baseRendererInfos;
+                List<CharacterModel.RendererInfo> rendererInfos = new List<CharacterModel.RendererInfo>(characterModel.baseRendererInfos);
+
+                for (int i = rendererInfos.Count - 1; i >= 0; i--)
+                {
+                    Renderer renderer = rendererInfos[i].renderer;
+                    if (!renderer || !renderer.transform.IsChildOf(defaultSkin.rootObject.transform))
+                    {
+                        rendererInfos.RemoveAt(i);
+                    }
+                }
+
+                defaultSkin.rendererInfos = rendererInfos.ToArray();
 
                 defaultSkin.gameObjectActivations = Array.ConvertAll(modelParts, p => new SkinDef.GameObjectActivation
                 {
