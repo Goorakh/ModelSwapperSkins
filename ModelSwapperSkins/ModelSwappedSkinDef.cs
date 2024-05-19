@@ -284,6 +284,8 @@ namespace ModelSwapperSkins
                     skinModelLightInfos.AddRange(skinModelTransfom.GetComponentsInChildren<Light>().Select(l => new CharacterModel.LightInfo(l)));
                 }
 
+                List<UnityEngine.Object> objectsToCleanupOnModelDestroy = [];
+
                 for (int i = 0; i < skinModelRendererInfos.Count; i++)
                 {
                     CharacterModel.RendererInfo rendererInfo = skinModelRendererInfos[i];
@@ -298,6 +300,8 @@ namespace ModelSwapperSkins
 
                         rendererInfo.defaultMaterial = materialInstance;
 
+                        objectsToCleanupOnModelDestroy.Add(materialInstance);
+
                         changedEntry = true;
                     }
 
@@ -306,6 +310,17 @@ namespace ModelSwapperSkins
                         skinModelRendererInfos[i] = rendererInfo;
                     }
                 }
+
+                OnDestroyCallback.AddCallback(modelTransform.gameObject, _ =>
+                {
+                    foreach (UnityEngine.Object obj in objectsToCleanupOnModelDestroy)
+                    {
+                        if (obj)
+                        {
+                            GameObject.Destroy(obj);
+                        }
+                    }
+                });
 
                 mainModel.baseRendererInfos = [..mainModel.baseRendererInfos, ..skinModelRendererInfos];
                 mainModel.baseLightInfos = [..mainModel.baseLightInfos, ..skinModelLightInfos];
