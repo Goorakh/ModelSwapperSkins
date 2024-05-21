@@ -26,6 +26,7 @@
   * Model cut-offs persisting when model is used as a skin
 
 * Removed R2API.Language dependency
+* Updated R2API.Core dependency: 5.0.11 -> 5.0.12
 
 **1.3.0 Changes:**
 
