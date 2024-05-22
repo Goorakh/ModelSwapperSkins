@@ -2,6 +2,7 @@
 {
     public enum BoneExclusionRuleType
     {
-        OtherBoneMatch
+        OtherBoneMatch,
+        ModelSkin
     }
 }

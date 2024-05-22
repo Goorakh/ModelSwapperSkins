@@ -4,6 +4,7 @@ using ModelSwapperSkins.ModelParts;
 using ModelSwapperSkins.Utils;
 using ModelSwapperSkins.Utils.Comparers;
 using RoR2;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,69 @@ namespace ModelSwapperSkins
 
         public void Initialize(ModelPartsProvider modelPartsProvider, ModelPartsProvider skinModelPartsProvider)
         {
-            gameObjectActivations = modelPartsProvider.Parts.Select(m =>
+            HashSet<SkinDef> encounteredSkinInstances = [];
+            List<SkinDef> baseSkinsApplyOrder = [];
+
+            void addBaseSkinToApplyOrder(SkinDef skin)
             {
-                return new GameObjectActivation
+                if (!encounteredSkinInstances.Add(skin))
+                    return;
+
+                if (skin.baseSkins != null)
                 {
-                    gameObject = m.Transform.gameObject,
-                    shouldActivate = m.ShouldShow(true)
+                    foreach (SkinDef baseSkin in skin.baseSkins)
+                    {
+                        addBaseSkinToApplyOrder(baseSkin);
+                    }
+                }
+
+                baseSkinsApplyOrder.Add(skin);
+            }
+
+            if (baseSkins != null)
+            {
+                foreach (SkinDef baseSkin in baseSkins)
+                {
+                    addBaseSkinToApplyOrder(baseSkin);
+                }
+            }
+
+            gameObjectActivations = new GameObjectActivation[modelPartsProvider.Parts.Length];
+
+            for (int i = 0; i < modelPartsProvider.Parts.Length; i++)
+            {
+                ModelPart modelPart = modelPartsProvider.Parts[i];
+
+                GameObject partObject = modelPart.Transform.gameObject;
+                bool shouldActivate = modelPart.ShouldShow(true);
+
+                for (int j = baseSkinsApplyOrder.Count - 1; j >= 0; j--)
+                {
+                    SkinDef baseSkin = baseSkinsApplyOrder[j];
+
+                    int baseObjectActivationIndex = Array.FindIndex(baseSkin.gameObjectActivations, a => a.gameObject == partObject);
+                    if (baseObjectActivationIndex >= 0)
+                    {
+                        bool basePartActive = baseSkin.gameObjectActivations[baseObjectActivationIndex].shouldActivate;
+#if DEBUG
+                        if ((shouldActivate && basePartActive) != shouldActivate)
+                        {
+                            Log.Debug($"Model part {modelPart.Path} for {this} active override: {shouldActivate}->{basePartActive}");
+                        }
+#endif
+
+                        shouldActivate &= basePartActive;
+
+                        break;
+                    }
+                }
+
+                gameObjectActivations[i] = new GameObjectActivation
+                {
+                    gameObject = partObject,
+                    shouldActivate = shouldActivate
                 };
-            }).ToArray();
+            }
 
             if (baseSkins == null || baseSkins.Length == 0)
             {

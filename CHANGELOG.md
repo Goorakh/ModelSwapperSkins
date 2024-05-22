@@ -1,6 +1,7 @@
 **?.?.? Changes:**
 
 * Updated for Devotion Update
+  * Fixed Prisoner skin model matching
 
 * Fixed:
   * Alloy Vulture wings sliding around when used as a skin

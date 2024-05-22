@@ -217,13 +217,20 @@ namespace ModelSwapperSkins
                             if (partTransform)
                             {
 #if DEBUG
-                                Log.Debug($"Appending model part {modelPart.Path} object activation to regular skin {skin.name}");
+                                if (partTransform.gameObject.activeSelf)
+                                {
+                                    Log.Debug($"Appending model part {modelPart.Path} object activation to regular skin {skin.name}");
+                                }
+                                else
+                                {
+                                    Log.Debug($"Appending default disabled model part {modelPart.Path} object activation to regular skin {skin.name}");
+                                }
 #endif
 
                                 gameObjectActivations.Add(new SkinDef.GameObjectActivation
                                 {
                                     gameObject = partTransform.gameObject,
-                                    shouldActivate = true
+                                    shouldActivate = partTransform.gameObject.activeSelf
                                 });
 
                                 gameObjectActivationsChanged = true;
@@ -272,7 +279,7 @@ namespace ModelSwapperSkins
                 defaultSkin.gameObjectActivations = Array.ConvertAll(modelParts, p => new SkinDef.GameObjectActivation
                 {
                     gameObject = p.Transform.gameObject,
-                    shouldActivate = true
+                    shouldActivate = p.Transform.gameObject.activeSelf
                 });
 
                 defaultSkin.meshReplacements = [];

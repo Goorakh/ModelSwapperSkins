@@ -360,7 +360,10 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("MageCapeMesh", ModelPartFlags.BodyFeature));
 
             OverrideParts("RoR2/Base/Merc/MercBody.prefab",
-                          new ModelPartConstructor("MercSwordMesh", ModelPartFlags.Weapon));
+                          new ModelPartConstructor("MercSwordMesh", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("MercArmature/ROOT/base/pelvis/mdlMercAltPrisonerFrontCloth", ModelPartFlags.Body),
+                          new ModelPartConstructor("MercArmature/ROOT/base/stomach/chest/neck/mdlMercAltPrisonerBackCloth", ModelPartFlags.BodyFeature),
+                          new ModelPartConstructor("MercArmature/ROOT/base/stomach/chest/neck/head/MercAltPrisonerHead", ModelPartFlags.BodyFeature));
 
             OverrideParts("RoR2/DLC1/Railgunner/RailgunnerBody.prefab",
                           new ModelPartConstructor("mdlRailgunBackpackMesh", ModelPartFlags.Decoration),

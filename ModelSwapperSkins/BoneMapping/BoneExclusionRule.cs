@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ModelSwapperSkins.Patches;
+using ModelSwapperSkins.Utils;
+using RoR2;
+using System;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping
@@ -15,11 +18,21 @@ namespace ModelSwapperSkins.BoneMapping
         [SerializeField]
         BoneType[] _otherBoneMatches;
 
+        [SerializeField]
+        SkinDef _modelSkin;
+
         public BoneExclusionRule(BoneType[] otherBoneMatches, OtherBoneMatchExclusionRuleType matchExclusionRule)
         {
             _ruleType = BoneExclusionRuleType.OtherBoneMatch;
             _subRuleType = (int)matchExclusionRule;
             _otherBoneMatches = otherBoneMatches ?? throw new ArgumentNullException(nameof(otherBoneMatches));
+        }
+
+        public BoneExclusionRule(SkinDef modelSkin, ModelSkinExclusionRuleType skinExclusionRule)
+        {
+            _ruleType = BoneExclusionRuleType.ModelSkin;
+            _subRuleType = (int)skinExclusionRule;
+            _modelSkin = modelSkin;
         }
 
         public readonly bool ShouldExclude(BonesProvider currentBones, BonesProvider targetBones)
@@ -33,6 +46,21 @@ namespace ModelSwapperSkins.BoneMapping
                         OtherBoneMatchExclusionRuleType.ExcludeIfAnyMatch => Array.Exists(_otherBoneMatches, targetBones.HasMatchForBone),
                         OtherBoneMatchExclusionRuleType.ExcludeIfNoMatch => !Array.Exists(_otherBoneMatches, targetBones.HasMatchForBone),
                         _ => throw new NotImplementedException($"Bone match rule type {(OtherBoneMatchExclusionRuleType)_subRuleType} is not implemented"),
+                    };
+
+                case BoneExclusionRuleType.ModelSkin:
+                    SkinDef appliedSkin = currentBones.TryGetComponent(out CreateModelOnApplySkin.AppliedSkinTracker appliedSkinTracker) ? appliedSkinTracker.AppliedSkin : null;
+
+                    if (appliedSkin is ModelSwappedSkinDef modelSwappedSkin)
+                    {
+                        appliedSkin = modelSwappedSkin.baseSkins[0];
+                    }
+                    
+                    return appliedSkin && (ModelSkinExclusionRuleType)_subRuleType switch
+                    {
+                        ModelSkinExclusionRuleType.ExcludeIfApplied => appliedSkin == _modelSkin,
+                        ModelSkinExclusionRuleType.ExcludeIfNotApplied => appliedSkin != _modelSkin,
+                        _ => throw new NotImplementedException($"Model skin rule type {(ModelSkinExclusionRuleType)_subRuleType} is not implemented"),
                     };
 
                 default:

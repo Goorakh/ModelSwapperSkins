@@ -22,6 +22,11 @@ namespace ModelSwapperSkins.Patches
 
             orig(self, modelObject);
 
+            if (!modelObject.TryGetComponent(out AppliedSkinTracker appliedSkinTracker))
+                appliedSkinTracker = modelObject.AddComponent<AppliedSkinTracker>();
+
+            appliedSkinTracker.AppliedSkin = self;
+
             if (self is ModelSwappedSkinDef modelSwappedSkin)
             {
                 Transform skinModelTransform = modelSwappedSkin.InstantiateModel(modelObject.transform);
@@ -44,6 +49,11 @@ namespace ModelSwapperSkins.Patches
                     Destroy(SkinModelObject);
                 }
             }
+        }
+
+        public class AppliedSkinTracker : MonoBehaviour
+        {
+            public SkinDef AppliedSkin;
         }
     }
 }
