@@ -45,8 +45,6 @@ namespace ModelSwapperSkins.Patches
                         if (!rendererInfo.defaultMaterial || rendererInfo.defaultMaterial.shader != PrintController.printShader)
                             continue;
 
-                        PrintController.RendererMaterialPair newRendererMaterialPair = rendererMaterialPair;
-
                         Material material = Material.Instantiate(rendererInfo.defaultMaterial);
 
                         if (printCutoffEnabled)
@@ -60,10 +58,9 @@ namespace ModelSwapperSkins.Patches
 
                         material.SetInt(ShaderIDs._PrintOn, printOn);
 
-                        newRendererMaterialPair.material = material;
                         rendererInfo.defaultMaterial = material;
 
-                        newRendererMaterialPairs.Add(newRendererMaterialPair);
+                        newRendererMaterialPairs.Add(new PrintController.RendererMaterialPair(rendererMaterialPair.renderer, material));
                     }
 
                     printController.rendererMaterialPairs = newRendererMaterialPairs.ToArray();
