@@ -93,6 +93,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     }
                 };
             }
+            else
+            {
+                Log.Error("Failed to find stomach bone");
+            }
         }
     }
 }

@@ -145,6 +145,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     }
                 };
             }
+            else
+            {
+                Log.Error("Failed to find pelvis bone");
+            }
         }
     }
 }
