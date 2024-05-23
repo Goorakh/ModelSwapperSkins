@@ -50,9 +50,9 @@ namespace ModelSwapperSkins.BoneMapping
                 case BoneExclusionRuleType.ModelSkin:
                     SkinDef appliedSkin = currentBones.TryGetComponent(out CreateModelOnApplySkin.AppliedSkinTracker appliedSkinTracker) ? appliedSkinTracker.AppliedSkin : null;
 
-                    if (appliedSkin is ModelSwappedSkinDef modelSwappedSkin)
+                    if (appliedSkin is ModelSwappedSkinDef && appliedSkin.baseSkins != null && appliedSkin.baseSkins.Length > 0)
                     {
-                        appliedSkin = modelSwappedSkin.baseSkins[0];
+                        appliedSkin = appliedSkin.baseSkins[0];
                     }
                     
                     return appliedSkin && (ModelSkinExclusionRuleType)_subRuleType switch
