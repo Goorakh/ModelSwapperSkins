@@ -91,6 +91,33 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         ]
                     }
                 };
+
+                yield return new Bone(stomachBone)
+                {
+                    Info = new BoneInfo(BoneType.Base)
+                    {
+                        RotationOffset = Quaternion.Euler(90f, 0f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+
+                yield return new Bone(stomachBone)
+                {
+                    Info = new BoneInfo(BoneType.Pelvis)
+                    {
+                        RotationOffset = Quaternion.Euler(270f, 0f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+
+                yield return new Bone(stomachBone)
+                {
+                    Info = new BoneInfo(BoneType.Chest)
+                    {
+                        RotationOffset = Quaternion.Euler(90f, 0f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
             }
             else
             {
