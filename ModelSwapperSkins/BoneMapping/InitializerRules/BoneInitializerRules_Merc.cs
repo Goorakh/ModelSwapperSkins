@@ -74,13 +74,13 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 yield return bone;
             }
 
-            Bone tryCreateShrinkBone(BoneType boneType)
+            IEnumerable<Bone> tryCreatePrisonerBones(BoneType boneType)
             {
                 Bone baseBone = existingBones.Find(b => b.Info.Type == boneType);
                 if (baseBone == null)
-                    return null;
+                    yield break;
 
-                return new Bone(baseBone)
+                yield return new Bone(baseBone)
                 {
                     Info = new BoneInfo(boneType)
                     {
@@ -93,22 +93,31 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         ]
                     }
                 };
+
+                yield return new Bone(baseBone)
+                {
+                    Info = new BoneInfo(boneType)
+                    {
+                        PositionOffset = baseBone.Info.PositionOffset,
+                        RotationOffset = baseBone.Info.RotationOffset,
+                        MatchFlags = BoneMatchFlags.MatchToOther,
+                        ExclusionRules = [
+                            new BoneExclusionRule(_prisonerSkin, ModelSkinExclusionRuleType.ExcludeIfNotApplied)
+                        ]
+                    }
+                };
             }
 
-            Bone shrinkHeadBone = tryCreateShrinkBone(BoneType.Head);
-            if (shrinkHeadBone != null)
-                yield return shrinkHeadBone;
+            foreach (Bone prisonerHeadBone in tryCreatePrisonerBones(BoneType.Head))
+            {
+                yield return prisonerHeadBone;
+            }
 
             for (BoneType boneType = BoneType.Neck1; boneType <= BoneType.Neck16; boneType++)
             {
-                Bone shrinkNeckBone = tryCreateShrinkBone(boneType);
-                if (shrinkNeckBone != null)
+                foreach (Bone prisonerNeckBone in tryCreatePrisonerBones(boneType))
                 {
-                    yield return shrinkNeckBone;
-                }
-                else
-                {
-                    break;
+                    yield return prisonerNeckBone;
                 }
             }
         }
