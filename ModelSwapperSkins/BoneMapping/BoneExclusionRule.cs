@@ -1,5 +1,4 @@
 ﻿using ModelSwapperSkins.Patches;
-using ModelSwapperSkins.Utils;
 using RoR2;
 using System;
 using UnityEngine;
