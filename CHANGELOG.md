@@ -29,6 +29,7 @@
   * Larva model matching
   * Lemurian body part rotation
   * Lunar Exploder model matching
+  * Mini Mushrum model matching
   * Model cut-offs persisting when model is used as a skin
 
 * Removed R2API.Language dependency
