@@ -273,7 +273,6 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("Indicator", ModelPartFlags.Decoration));
 
             OverrideParts("RoR2/Base/Brother/BrotherBody.prefab",
-                          new ModelPartConstructor("BrotherClothPieces", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon),
                           new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature));
 
