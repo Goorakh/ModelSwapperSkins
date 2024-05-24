@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -51,6 +52,58 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     };
                 default:
                     return BoneInfo.None;
+            }
+        }
+
+        public override IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
+        {
+            foreach (Bone bone in base.GetAdditionalBones(modelTransform, existingBones))
+            {
+                yield return bone;
+            }
+
+            Bone stomachBone = existingBones.Find(b => b.Info.Type == BoneType.Stomach);
+            if (stomachBone != null)
+            {
+                yield return new Bone(stomachBone)
+                {
+                    Info = new BoneInfo(BoneType.Base)
+                    {
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+
+                yield return new Bone(stomachBone)
+                {
+                    Info = new BoneInfo(BoneType.Pelvis)
+                    {
+                        PositionOffset = new Vector3(0f, 0f, -0.6f),
+                        RotationOffset = Quaternion.Euler(270f, 0f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+
+                yield return new Bone(stomachBone)
+                {
+                    Info = new BoneInfo(BoneType.Chest)
+                    {
+                        RotationOffset = Quaternion.Euler(90f, 0f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+
+                yield return new Bone(stomachBone)
+                {
+                    Info = new BoneInfo(BoneType.Head)
+                    {
+                        PositionOffset = new Vector3(0f, 0f, 1f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Missing Stomach bone");
             }
         }
     }
