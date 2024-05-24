@@ -44,6 +44,7 @@ namespace ModelSwapperSkins.BoneMapping
                         OtherBoneMatchExclusionRuleType.ExcludeIfAllMatch => Array.TrueForAll(_otherBoneMatches, targetBones.HasMatchForBone),
                         OtherBoneMatchExclusionRuleType.ExcludeIfAnyMatch => Array.Exists(_otherBoneMatches, targetBones.HasMatchForBone),
                         OtherBoneMatchExclusionRuleType.ExcludeIfNoMatch => !Array.Exists(_otherBoneMatches, targetBones.HasMatchForBone),
+                        OtherBoneMatchExclusionRuleType.ExcludeIfNotAllMatch => !Array.TrueForAll(_otherBoneMatches, targetBones.HasMatchForBone),
                         _ => throw new NotImplementedException($"Bone match rule type {(OtherBoneMatchExclusionRuleType)_subRuleType} is not implemented"),
                     };
 

@@ -4,6 +4,7 @@
     {
         ExcludeIfAllMatch,
         ExcludeIfAnyMatch,
-        ExcludeIfNoMatch
+        ExcludeIfNoMatch,
+        ExcludeIfNotAllMatch,
     }
 }
