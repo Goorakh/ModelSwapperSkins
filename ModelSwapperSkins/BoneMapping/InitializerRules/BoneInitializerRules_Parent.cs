@@ -26,7 +26,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Par_ROOTSHJnt":
                     return new BoneInfo(BoneType.Pelvis)
                     {
-                        RotationOffset = Quaternion.Euler(0f, 90f, 0f)
+                        RotationOffset = Quaternion.Euler(180f, 90f, 0f)
                     };
                 case "Par_L_Leg_HipSHJnt":
                     return new BoneInfo(BoneType.LegUpperL)
@@ -41,7 +41,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         RotationOffset = Quaternion.Euler(0f, 270f, 0f)
                     };
                 case "Par_L_Leg_ToeSHJnt":
-                    return new BoneInfo(BoneType.Toe1L);
+                    return new BoneInfo(BoneType.Toe1L)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 180f, 0f)
+                    };
                 case "Par_R_Leg_HipSHJnt":
                     return new BoneInfo(BoneType.LegUpperR)
                     {
@@ -55,7 +58,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         RotationOffset = Quaternion.Euler(0f, 90f, 0f)
                     };
                 case "Par_R_Leg_ToeSHJnt":
-                    return new BoneInfo(BoneType.Toe1R);
+                    return new BoneInfo(BoneType.Toe1R)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 180f, 0f)
+                    };
                 case "Par_Spine_01SHJnt":
                     return new BoneInfo(BoneType.Stomach)
                     {
@@ -72,18 +78,24 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         RotationOffset = Quaternion.Euler(0f, 90f, 0f)
                     };
                 case "Par_L_Arm_ClavicleSHJnt":
-                    return new BoneInfo(BoneType.ShoulderL);
-                case "Par_L_Arm_ShoulderSHJnt":
-                    return new BoneInfo(BoneType.ArmUpperL)
+                    return new BoneInfo(BoneType.ShoulderL)
                     {
                         RotationOffset = Quaternion.Euler(0f, 90f, 0f)
                     };
+                case "Par_L_Arm_ShoulderSHJnt":
+                    return new BoneInfo(BoneType.ArmUpperL)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 180f, 0f)
+                    };
                 case "Par_L_Arm_ElbowSHJnt":
-                    return new BoneInfo(BoneType.ArmLowerL);
+                    return new BoneInfo(BoneType.ArmLowerL)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 90f, 0f)
+                    };
                 case "Par_L_Arm_WristSHJnt":
                     return new BoneInfo(BoneType.HandL)
                     {
-                        RotationOffset = Quaternion.Euler(0f, 180f, 0f)
+                        RotationOffset = Quaternion.Euler(0f, 270f, 0f)
                     };
                 case "Par_L_Finger_01_01SHJnt":
                     return new BoneInfo(BoneType.IndexFinger1L);
@@ -102,18 +114,24 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Par_L_Thumb_01_02SHJnt":
                     return new BoneInfo(BoneType.Thumb2L);
                 case "Par_R_Arm_ClavicleSHJnt":
-                    return new BoneInfo(BoneType.ShoulderR);
-                case "Par_R_Arm_ShoulderSHJnt":
-                    return new BoneInfo(BoneType.ArmUpperR)
+                    return new BoneInfo(BoneType.ShoulderR)
                     {
                         RotationOffset = Quaternion.Euler(0f, 270f, 0f)
                     };
+                case "Par_R_Arm_ShoulderSHJnt":
+                    return new BoneInfo(BoneType.ArmUpperR)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 180f, 0f)
+                    };
                 case "Par_R_Arm_ElbowSHJnt":
-                    return new BoneInfo(BoneType.ArmLowerR);
+                    return new BoneInfo(BoneType.ArmLowerR)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 270f, 0f)
+                    };
                 case "Par_R_Arm_WristSHJnt":
                     return new BoneInfo(BoneType.HandR)
                     {
-                        RotationOffset = Quaternion.Euler(0f, 180f, 0f)
+                        RotationOffset = Quaternion.Euler(0f, 90f, 0f)
                     };
                 case "Par_R_Finger_01_01SHJnt":
                     return new BoneInfo(BoneType.IndexFinger1R);
@@ -154,6 +172,15 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         ExclusionRules = [
                             new BoneExclusionRule([BoneType.Pelvis], OtherBoneMatchExclusionRuleType.ExcludeIfAnyMatch)
                         ]
+                    }
+                };
+
+                yield return new Bone(pelvisBone)
+                {
+                    Info = new BoneInfo(BoneType.Base)
+                    {
+                        MatchFlags = BoneMatchFlags.AllowMatchTo,
+                        RotationOffset = Quaternion.Euler(0f, 90f, 0f)
                     }
                 };
             }
