@@ -10,7 +10,7 @@ namespace ModelSwapperSkins.ModelParts
 {
     public static class ModelPartsInitializer
     {
-        public readonly record struct ModelPartConstructor(string ModelPath, ModelPartFlags Type)
+        public readonly record struct ModelPartConstructor(string ModelPath, ModelPartFlags Type, ModelPartRendererInfo? RendererInfo = null)
         {
             public readonly ModelPart Construct(Transform modelTransform)
             {
@@ -20,7 +20,7 @@ namespace ModelSwapperSkins.ModelParts
                     Log.Warning($"Could not find object at path \"{ModelPath}\" relative to {modelTransform}");
                 }
 
-                return new ModelPart(transform, Type, ModelPath);
+                return new ModelPart(transform, Type, ModelPath, RendererInfo);
             }
         }
 
@@ -176,7 +176,7 @@ namespace ModelSwapperSkins.ModelParts
 
                 ModelPart createModelPartFromComponent(Component component)
                 {
-                    return new ModelPart(component.transform, modelTransform, pickPartTypeFromComponent(component));
+                    return new ModelPart(component.transform, modelTransform, pickPartTypeFromComponent(component), null);
                 }
 
                 if (modelTransform.TryGetComponent(out CharacterModel characterModel))
@@ -277,7 +277,8 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature));
 
             OverrideParts("RoR2/Junk/BrotherGlass/BrotherGlassBody.prefab",
-                          new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon));
+                          new ModelPartConstructor("BrotherBodyMesh", ModelPartFlags.Body, new ModelPartRendererInfo(false, false)),
+                          new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon, new ModelPartRendererInfo(true, false)));
 
             OverrideParts("RoR2/Base/Brother/BrotherHurtBody.prefab",
                           new ModelPartConstructor("BrotherClothPieces", ModelPartFlags.BodyFeature),

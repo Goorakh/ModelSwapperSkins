@@ -11,15 +11,19 @@ namespace ModelSwapperSkins.ModelParts
         public Transform Transform;
         public string Path;
 
-        public ModelPart(Transform transform, Transform root, ModelPartFlags type) : this(transform, type, TransformUtils.GetObjectPath(transform, root))
+        public ModelPartRendererInfo? RendererInfo;
+
+        public ModelPart(Transform transform, Transform root, ModelPartFlags type, ModelPartRendererInfo? rendererInfo) : this(transform, type, TransformUtils.GetObjectPath(transform, root), rendererInfo)
         {
+            RendererInfo = rendererInfo;
         }
 
-        public ModelPart(Transform transform, ModelPartFlags type, string path)
+        public ModelPart(Transform transform, ModelPartFlags type, string path, ModelPartRendererInfo? rendererInfo)
         {
             Flags = type;
             Transform = transform;
             Path = path;
+            RendererInfo = rendererInfo;
         }
 
         public bool ShouldShow(bool isMainModel)

@@ -274,6 +274,40 @@ namespace ModelSwapperSkins
                     }
                 }
 
+                foreach (ModelPart part in modelParts)
+                {
+                    if (part.RendererInfo.HasValue && part.Transform.TryGetComponent(out Renderer renderer))
+                    {
+#if DEBUG
+                        Log.Debug($"Adding model part {part.Path} renderer ({renderer}) to generated default skin {defaultSkin.name}");
+#endif
+
+                        Material[] materials = renderer.sharedMaterials;
+                        if (materials.Length <= 0)
+                            continue;
+
+                        ModelPartRendererInfo partRendererInfo = part.RendererInfo.Value;
+                        CharacterModel.RendererInfo newRendererInfo = new CharacterModel.RendererInfo
+                        {
+                            renderer = renderer,
+                            defaultMaterial = materials[0],
+                            defaultShadowCastingMode = renderer.shadowCastingMode,
+                            ignoreOverlays = partRendererInfo.IgnoreOverlays,
+                            hideOnDeath = partRendererInfo.HideOnDeath
+                        };
+
+                        int existingRendererIndex = rendererInfos.FindIndex(r => r.renderer == renderer);
+                        if (existingRendererIndex < 0)
+                        {
+                            rendererInfos.Add(newRendererInfo);
+                        }
+                        else
+                        {
+                            rendererInfos[existingRendererIndex] = newRendererInfo;
+                        }
+                    }
+                }
+
                 defaultSkin.rendererInfos = rendererInfos.ToArray();
 
                 defaultSkin.gameObjectActivations = Array.ConvertAll(modelParts, p => new SkinDef.GameObjectActivation

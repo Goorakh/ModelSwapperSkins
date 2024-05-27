@@ -10,7 +10,7 @@ namespace ModelSwapperSkins.ModelParts
 
         public void CopyTo(ModelPartsProvider other)
         {
-            other.Parts = Parts.Select(p => new ModelPart(other.transform.Find(p.Path), p.Flags, p.Path))
+            other.Parts = Parts.Select(p => new ModelPart(other.transform.Find(p.Path), p.Flags, p.Path, p.RendererInfo))
                                .Where(p => p.Transform)
                                .ToArray();
         }
