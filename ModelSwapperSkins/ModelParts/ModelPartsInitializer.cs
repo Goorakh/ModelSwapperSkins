@@ -278,7 +278,8 @@ namespace ModelSwapperSkins.ModelParts
 
             OverrideParts("RoR2/Junk/BrotherGlass/BrotherGlassBody.prefab",
                           new ModelPartConstructor("BrotherBodyMesh", ModelPartFlags.Body, new ModelPartRendererInfo(false, false)),
-                          new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon, new ModelPartRendererInfo(true, false)));
+                          new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon, new ModelPartRendererInfo(true, false)),
+                          new ModelPartConstructor("BrotherHammerConcrete/BrotherHammerStib", ModelPartFlags.Weapon, new ModelPartRendererInfo(true, false)));
 
             OverrideParts("RoR2/Base/Brother/BrotherHurtBody.prefab",
                           new ModelPartConstructor("BrotherClothPieces", ModelPartFlags.BodyFeature),
