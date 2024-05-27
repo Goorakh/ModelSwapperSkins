@@ -305,6 +305,14 @@ namespace ModelSwapperSkins
                         {
                             rendererInfos[existingRendererIndex] = newRendererInfo;
                         }
+
+                        if (materials.Length > 1)
+                        {
+                            Material[] additionalMaterials = new Material[materials.Length - 1];
+                            Array.Copy(materials, 1, additionalMaterials, 0, additionalMaterials.Length);
+
+                            AdditionalRendererInfoProvider.AddMaterials(renderer, additionalMaterials);
+                        }
                     }
                 }
 

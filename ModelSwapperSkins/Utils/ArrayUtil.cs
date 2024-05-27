@@ -6,25 +6,29 @@ namespace ModelSwapperSkins.Utils
 {
     public static class ArrayUtil
     {
-        public static void Append<T>(ref T[] array, IEnumerable<T> collection)
+        public static void Append<T>(ref T[] array, IEnumerable<T> other)
         {
-            if (collection is null)
-                throw new ArgumentNullException(nameof(collection));
+            if (other is null)
+                return;
 
-            T[] appendArray = collection.ToArray();
+            Append(ref array, other.ToArray());
+        }
+
+        public static void Append<T>(ref T[] array, T[] other)
+        {
             if (array == null || array.Length == 0)
             {
-                array = appendArray;
+                array = other;
                 return;
             }
 
-            if (appendArray.Length > 0)
-            {
-                int oldLength = array.Length;
+            if (other == null || other.Length == 0)
+                return;
 
-                Array.Resize(ref array, oldLength + appendArray.Length);
-                Array.Copy(appendArray, 0, array, oldLength, appendArray.Length);
-            }
+            int oldLength = array.Length;
+
+            Array.Resize(ref array, oldLength + other.Length);
+            Array.Copy(other, 0, array, oldLength, other.Length);
         }
     }
 }
