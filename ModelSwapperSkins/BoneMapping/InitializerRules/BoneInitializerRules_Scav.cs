@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -43,6 +44,32 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
             }
 
             return bone;
+        }
+
+        public override IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
+        {
+            foreach (Bone bone in base.GetAdditionalBones(modelTransform, existingBones))
+            {
+                yield return bone;
+            }
+
+            Bone chestBone = existingBones.Find(b => b.Info.Type == BoneType.Chest);
+            if (chestBone != null)
+            {
+                yield return new Bone(chestBone)
+                {
+                    Info = new BoneInfo(BoneType.Head)
+                    {
+                        PositionOffset = new Vector3(0f, 7.5f, -2f),
+                        RotationOffset = Quaternion.Euler(0f, 180f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Missing Chest bone");
+            }
         }
     }
 }
