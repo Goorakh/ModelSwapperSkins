@@ -125,7 +125,7 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("ClayGrenadierBody", new ModelInfo(2f));
             SetModelInfo("CrocoBody", new ModelInfo(22.5f));
             SetModelInfo("FlyingVerminBody", new ModelInfo(5f));
-            SetModelInfo("GolemBody", new ModelInfo(5.5f));
+            SetModelInfo("GolemBody", new ModelInfo(6.5f));
             SetModelInfo("GrandParentBody", new ModelInfo(35f));
             SetModelInfo("HANDBody", new ModelInfo(20f));
             SetModelInfo("HereticBody", new ModelInfo(4f));

@@ -32,6 +32,7 @@
   * Mini Mushrum model matching
   * Newt Pelvis and Neck rotation
   * Parent model matching
+  * Stone Golem model scale and leg rotation
   * Model cut-offs persisting when model is used as a skin
 
 * Removed R2API.Language dependency
