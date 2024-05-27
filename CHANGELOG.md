@@ -30,6 +30,7 @@
   * Lemurian body part rotation
   * Lunar Exploder model matching
   * Mini Mushrum model matching
+  * Newt Pelvis and Neck rotation
   * Model cut-offs persisting when model is used as a skin
 
 * Removed R2API.Language dependency
