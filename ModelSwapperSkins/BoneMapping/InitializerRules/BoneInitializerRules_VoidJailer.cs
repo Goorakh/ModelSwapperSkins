@@ -31,7 +31,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "spine_02_jnt":
                     return new BoneInfo(BoneType.Stomach)
                     {
-                        RotationOffset = Quaternion.Euler(270f, 90f, 0f)
+                        RotationOffset = Quaternion.Euler(0f, 0f, 90f)
                     };
                 case "spine_04_jnt":
                     return new BoneInfo(BoneType.Chest)
@@ -81,7 +81,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     return new BoneInfo(BoneType.FootL)
                     {
                         PositionOffset = new Vector3(0f, 0f, 0.25f),
-                        RotationOffset = Quaternion.Euler(0f, 270f, 90f)
+                        RotationOffset = Quaternion.Euler(0f, 270f, 90f),
+                        MatchFlags = BoneMatchFlags.MatchToOther
                     };
                 case "hips_right_jnt":
                     return new BoneInfo(BoneType.LegUpperR)
@@ -97,7 +98,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     return new BoneInfo(BoneType.FootR)
                     {
                         PositionOffset = new Vector3(0f, 0f, 0.25f),
-                        RotationOffset = Quaternion.Euler(0f, 90f, 90f)
+                        RotationOffset = Quaternion.Euler(0f, 90f, 90f),
+                        MatchFlags = BoneMatchFlags.MatchToOther
                     };
                 case "tail_01_jnt":
                     return new BoneInfo(BoneType.Tail1)
@@ -144,10 +146,55 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         ]
                     }
                 };
+
+                yield return new Bone(pelvisBone)
+                {
+                    Info = new BoneInfo(BoneType.Base)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 180f, 90f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
             }
             else
             {
                 Log.Error("Failed to find pelvis bone");
+            }
+
+            Bone footLBone = existingBones.Find(b => b.Info.Type == BoneType.FootL);
+            if (footLBone != null)
+            {
+                yield return new Bone(footLBone)
+                {
+                    Info = new BoneInfo(BoneType.FootL)
+                    {
+                        PositionOffset = new Vector3(-0.35f, 0f, -0.35f),
+                        RotationOffset = Quaternion.Euler(0f, 315f, 90f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Missing FootL bone");
+            }
+
+            Bone footRBone = existingBones.Find(b => b.Info.Type == BoneType.FootR);
+            if (footRBone != null)
+            {
+                yield return new Bone(footRBone)
+                {
+                    Info = new BoneInfo(BoneType.FootR)
+                    {
+                        PositionOffset = new Vector3(0.35f, 0f, 0.35f),
+                        RotationOffset = Quaternion.Euler(0f, 135f, 90f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Missing FootR bone");
             }
         }
     }
