@@ -1,4 +1,5 @@
-﻿using ModelSwapperSkins.BoneMapping.InitializerRules;
+﻿using BepInEx.Bootstrap;
+using ModelSwapperSkins.BoneMapping.InitializerRules;
 using ModelSwapperSkins.Utils;
 using RoR2;
 using System;
@@ -83,7 +84,22 @@ namespace ModelSwapperSkins.BoneMapping
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
-                BoneInitializerRules initializerRules = FindInitializerRulesFor(body.bodyIndex);
+                CharacterBody boneSourceBody = body;
+
+                if (Chainloader.PluginInfos.ContainsKey("com.CherryDye.MonsterMash"))
+                {
+                    if (boneSourceBody.name.StartsWith("PC"))
+                    {
+                        string baseBodyName = boneSourceBody.name.Substring(2);
+                        BodyIndex baseBodyIndex = BodyCatalog.FindBodyIndex(baseBodyName);
+                        if (baseBodyIndex != BodyIndex.None)
+                        {
+                            boneSourceBody = BodyCatalog.GetBodyPrefabBodyComponent(baseBodyIndex);
+                        }
+                    }
+                }
+
+                BoneInitializerRules initializerRules = FindInitializerRulesFor(boneSourceBody.bodyIndex);
 
                 if (initializerRules == DefaultBoneRules)
                 {

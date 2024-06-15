@@ -38,6 +38,8 @@
   * Voidling model matching
   * Model cut-offs persisting when model is used as a skin
 
+* Minor compatibility improvements with MonsterMash (but expect issues still)
+
 * Removed R2API.Language dependency
 * Updated R2API.Core dependency: 5.0.11 -> 5.0.12
 
