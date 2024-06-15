@@ -26,7 +26,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     {
                         PositionOffset = new Vector3(0f, -0.25f, -0.2f),
                         RotationOffset = Quaternion.Euler(90f, 0f, 0f),
-                        Scale = 0.8f
+                        Scale = 0.8f,
+                        MatchFlags = BoneMatchFlags.MatchToOther
                     };
                 case "HeadBase":
                     return new BoneInfo(BoneType.Head);
@@ -95,6 +96,15 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         ExclusionRules = [
                             new BoneExclusionRule([BoneType.Stomach], OtherBoneMatchExclusionRuleType.ExcludeIfAnyMatch)
                         ]
+                    }
+                };
+
+                yield return new Bone(stomachBone)
+                {
+                    Info = new BoneInfo(BoneType.Base)
+                    {
+                        Scale = 0.01f,
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
                     }
                 };
             }
