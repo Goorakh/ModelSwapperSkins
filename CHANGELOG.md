@@ -1,4 +1,4 @@
-**?.?.? Changes:**
+**1.4.0 Changes:**
 
 * Updated for Devotion Update
   * Fixed Prisoner skin model matching
