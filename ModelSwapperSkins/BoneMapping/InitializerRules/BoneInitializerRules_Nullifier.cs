@@ -71,7 +71,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         RotationOffset = Quaternion.Euler(0f, 270f, 0f)
                     };
                 case "frontThigh.l":
-                    return new BoneInfo(BoneType.ShoulderL);
+                    return new BoneInfo(BoneType.ShoulderL)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 90f, 0f)
+                    };
                 case "frontCalf.l":
                     return new BoneInfo(BoneType.ArmUpperL)
                     {
@@ -85,7 +88,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "frontToe.l":
                     return new BoneInfo(BoneType.HandL);
                 case "frontThigh.r":
-                    return new BoneInfo(BoneType.ShoulderR);
+                    return new BoneInfo(BoneType.ShoulderR)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 270f, 0f)
+                    };
                 case "frontCalf.r":
                     return new BoneInfo(BoneType.ArmUpperR)
                     {
@@ -117,9 +123,26 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 {
                     Info = new BoneInfo(BoneType.Base)
                     {
-                        ExclusionRules = [
-                            new BoneExclusionRule([BoneType.Chest], OtherBoneMatchExclusionRuleType.ExcludeIfAnyMatch)
-                        ]
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+
+                yield return new Bone(chestBone)
+                {
+                    Info = new BoneInfo(BoneType.Pelvis)
+                    {
+                        PositionOffset = new Vector3(0f, -1f, 0f),
+                        RotationOffset = Quaternion.Euler(180f, 0f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+
+                yield return new Bone(chestBone)
+                {
+                    Info = new BoneInfo(BoneType.Stomach)
+                    {
+                        PositionOffset = new Vector3(0f, -0.5f, 0f),
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
                     }
                 };
             }

@@ -34,6 +34,7 @@
   * Parent model matching
   * Stone Golem model scale and leg rotation
   * Void Jailer model matching
+  * Void Reaver model matching
   * Model cut-offs persisting when model is used as a skin
 
 * Removed R2API.Language dependency
