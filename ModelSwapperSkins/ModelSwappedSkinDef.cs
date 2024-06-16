@@ -195,6 +195,13 @@ namespace ModelSwapperSkins
                 }
             }
 
+            foreach (SkinnedMeshRenderer skinnedMeshRenderer in skinModelTransfom.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                // If this is false, some model meshes just disappear when looked at from certain angles
+                // There's probably a better solution, but this also seems to work
+                skinnedMeshRenderer.updateWhenOffscreen = true;
+            }
+
             foreach (Behaviour skinModelComponent in skinModelTransfom.GetComponents<Behaviour>())
             {
                 if (!skinModelComponent)

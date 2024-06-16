@@ -1,3 +1,8 @@
+**?.?.? Changes:**
+
+* Fixed:
+  * Certain models partially or completely disappearing when camera is very close to the model
+
 **1.4.0 Changes:**
 
 * Updated for Devotion Update
