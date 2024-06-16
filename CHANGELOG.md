@@ -1,5 +1,10 @@
 **?.?.? Changes:**
 
+* Added:
+  * Gup skins
+  * Geep skins
+  * Gip skins
+
 * Fixed:
   * Certain models partially or completely disappearing when camera is very close to the model
 

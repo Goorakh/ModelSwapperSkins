@@ -158,6 +158,10 @@ namespace ModelSwapperSkins
 
             bool isToolbot = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ToolbotBody");
 
+            bool isGupModel = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GupBody")
+                              || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GeepBody")
+                              || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GipBody");
+
             foreach (Animator animator in skinModelTransfom.GetComponentsInChildren<Animator>(true))
             {
                 if (isToolbot && animator.TryGetComponent(out CharacterModel characterModel))
@@ -189,7 +193,7 @@ namespace ModelSwapperSkins
 
                     characterModel.StartCoroutine(waitUntilInitializedThenFixToolbotAnimator(animator));
                 }
-                else
+                else if (!isGupModel)
                 {
                     animator.enabled = false;
                 }
