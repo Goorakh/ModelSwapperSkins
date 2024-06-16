@@ -32,6 +32,9 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case BoneType.Toe1R:
                     bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
                     break;
+                case BoneType.ArmLowerL:
+                    bone.MatchFlags = BoneMatchFlags.MatchToOther;
+                    break;
                 case BoneType.HandL:
                     bone.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     bone.MatchFlags = BoneMatchFlags.MatchToOther;
@@ -49,6 +52,23 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
             foreach (Bone bone in base.GetAdditionalBones(modelTransform, existingBones))
             {
                 yield return bone;
+            }
+
+            Bone armLowerLBone = existingBones.Find(b => b.Info.Type == BoneType.ArmLowerL);
+            if (armLowerLBone != null)
+            {
+                yield return new Bone(armLowerLBone)
+                {
+                    Info = new BoneInfo(BoneType.ArmLowerL)
+                    {
+                        Scale = 0.01f,
+                        MatchFlags = BoneMatchFlags.AllowMatchTo
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Failed to find ArmLowerL bone");
             }
 
             Bone handLBone = existingBones.Find(b => b.Info.Type == BoneType.HandL);

@@ -3,6 +3,9 @@
 * Fixed:
   * Certain models partially or completely disappearing when camera is very close to the model
 
+* Changes:
+  * Left lower arm and hand are now hidden when using a model skin on Captain to better match the gun arm
+
 **1.4.0 Changes:**
 
 * Updated for Devotion Update
