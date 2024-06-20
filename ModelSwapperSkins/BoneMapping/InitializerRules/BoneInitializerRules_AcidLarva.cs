@@ -26,20 +26,19 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "BodyBase":
                     return new BoneInfo(BoneType.Stomach)
                     {
-                        PositionOffset = new Vector3(0f, -0.2f, 0f),
+                        PositionOffset = new Vector3(0f, 0.33f, -2.5f),
                         RotationOffset = Quaternion.Euler(90f, 0f, 0f)
                     };
                 case "Beak.Lower":
-                    return new BoneInfo(BoneType.Head)
+                    return new BoneInfo(BoneType.Jaw)
                     {
-                        PositionOffset = new Vector3(0f, 0f, -0.1f),
-                        RotationOffset = Quaternion.Euler(300f, 180f, 0f),
-                        MatchFlags = BoneMatchFlags.MatchToOther
+                        PositionOffset = new Vector3(0f, 0f, -0.5f),
+                        RotationOffset = Quaternion.Euler(0f, 180f, 0f)
                     };
                 case "Beak.Upper":
                     return new BoneInfo(BoneType.Head)
                     {
-                        PositionOffset = new Vector3(0f, 0f, -0.1f),
+                        PositionOffset = new Vector3(0f, 0f, -1.5f),
                         RotationOffset = Quaternion.Euler(305f, 180f, 0f)
                     };
                 case "FrontLeg_Thigh1.L":
@@ -57,13 +56,19 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "RearLeg_Thigh1.L":
                     return new BoneInfo(BoneType.LegUpperL);
                 case "RearLeg_Calf.L":
-                    return new BoneInfo(BoneType.LegLowerL);
+                    return new BoneInfo(BoneType.LegLowerL)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 90f, 0f)
+                    };
                 case "RearLeg_Foot.L":
                     return new BoneInfo(BoneType.FootL);
                 case "RearLeg_Thigh1.R":
                     return new BoneInfo(BoneType.LegUpperR);
                 case "RearLeg_Calf.R":
-                    return new BoneInfo(BoneType.LegLowerR);
+                    return new BoneInfo(BoneType.LegLowerR)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 270f, 0f)
+                    };
                 case "RearLeg_Foot.R":
                     return new BoneInfo(BoneType.FootR);
                 default:
@@ -122,6 +127,27 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
             else
             {
                 Log.Error("Failed to find stomach bone");
+            }
+
+            Bone jawBone = existingBones.Find(b => b.Info.Type == BoneType.Jaw);
+            if (jawBone != null)
+            {
+                yield return new Bone(jawBone)
+                {
+                    Info = new BoneInfo(BoneType.Head)
+                    {
+                        PositionOffset = new Vector3(0f, 0f, -1.5f),
+                        RotationOffset = Quaternion.Euler(300f, 180f, 0f),
+                        MatchFlags = BoneMatchFlags.MatchToOther,
+                        ExclusionRules = [
+                            new BoneExclusionRule([BoneType.Jaw], OtherBoneMatchExclusionRuleType.ExcludeIfAnyMatch)
+                        ]
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Failed to find Jaw bone");
             }
         }
     }

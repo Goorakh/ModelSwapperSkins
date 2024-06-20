@@ -6,6 +6,8 @@
   * Gip skins
 
 * Fixed:
+  * Larva jaw being matched to the head even if a target jaw bone was present
+  * Larva leg rotation
   * Certain models partially or completely disappearing when camera is very close to the model
 
 * Changes:
