@@ -2,6 +2,13 @@
 
 namespace ModelSwapperSkins.BoneMapping
 {
+    public enum DebugMatchMode : byte
+    {
+        None,
+        MatchBoneToTransform,
+        MatchTargetBoneToTransform
+    }
+
     [DisallowMultipleComponent]
     public class MatchBoneTransform : MonoBehaviour
     {
@@ -64,6 +71,8 @@ namespace ModelSwapperSkins.BoneMapping
             }
         }
 
+        DebugMatchMode _debugMatchMode;
+
         float calculateTargetScaleMultiplier()
         {
             float targetBoneScale = _targetBone != null ? _targetBone.Info.Scale : 1f;
@@ -72,7 +81,10 @@ namespace ModelSwapperSkins.BoneMapping
             return targetBoneScale / boneScale;
         }
 
-        Vector3 _localTargetPositionOffset;
+#if DEBUG
+        Vector3 _currentLocalPositionOffset;
+#endif
+
         Quaternion _localTargetRotationOffset;
         float _localTargetScaleMultiplier;
 
@@ -87,8 +99,6 @@ namespace ModelSwapperSkins.BoneMapping
         {
             if (_targetBone != null && _bone != null)
             {
-                // TODO: This does not account for scaling, and assumes a local position offset in the target transform will appear as the same offset in the bone transform
-                _localTargetPositionOffset = _targetBone.Info.PositionOffset - _bone.Info.PositionOffset;
                 _localTargetRotationOffset = _targetBone.Info.RotationOffset * Quaternion.Inverse(_bone.Info.RotationOffset);
 
                 _localTargetScaleMultiplier = calculateTargetScaleMultiplier();
@@ -100,7 +110,6 @@ namespace ModelSwapperSkins.BoneMapping
             }
             else
             {
-                _localTargetPositionOffset = Vector3.zero;
                 _localTargetRotationOffset = Quaternion.identity;
                 _localTargetScaleMultiplier = 1f;
             }
@@ -112,10 +121,37 @@ namespace ModelSwapperSkins.BoneMapping
                 return;
 
 #if DEBUG
+            switch (_debugMatchMode)
+            {
+                case DebugMatchMode.None:
+                    break;
+                case DebugMatchMode.MatchBoneToTransform:
+                    _bone.Info.PositionOffset = -_boneTransform.InverseTransformVector(_boneTransform.parent.TransformVector(_boneTransform.localPosition - _boneTransform.parent.InverseTransformPoint(_targetTransform.TransformPoint(_targetBone.Info.PositionOffset))));
+
+                    Vector3 scaleVector = Utils.VectorUtils.Divide(_boneTransform.localScale, _baseLocalScale);
+                    float scaleFactor = scaleVector.x;
+
+                    if (ParentBone)
+                    {
+                        scaleFactor *= ParentBone.calculateTargetScaleMultiplier();
+                    }
+
+                    _bone.Info.Scale = _targetBone.Info.Scale / scaleFactor;
+
+                    Vector3 forward = _targetTransform.InverseTransformDirection(_boneTransform.rotation * Vector3.forward);
+                    Vector3 up = _targetTransform.InverseTransformDirection(_boneTransform.rotation * Vector3.up);
+
+                    Quaternion targetLocalRotationOffset = Quaternion.LookRotation(forward, up);
+
+                    _bone.Info.RotationOffset = Quaternion.Inverse(targetLocalRotationOffset) * _targetBone.Info.RotationOffset;
+
+                    return;
+                default:
+                    throw new System.NotImplementedException($"Match mode {_debugMatchMode} is not implemented");
+            }
+
             recalculateOffsets();
 #endif
-
-            _boneTransform.position = (Matrix4x4.Translate(_targetTransform.position) * (_targetTransform.localToWorldMatrix * Matrix4x4.Translate(_localTargetPositionOffset) * _targetTransform.worldToLocalMatrix)).GetColumn(3);
 
             Vector3 boneTargetForward = _targetTransform.TransformDirection(_localTargetRotationOffset * Vector3.forward);
             Vector3 boneTargetUp = _targetTransform.TransformDirection(_localTargetRotationOffset * Vector3.up);
@@ -123,6 +159,13 @@ namespace ModelSwapperSkins.BoneMapping
             _boneTransform.rotation = Quaternion.LookRotation(boneTargetForward, boneTargetUp);
 
             _boneTransform.localScale = _baseLocalScale * _localTargetScaleMultiplier;
+
+            _boneTransform.localPosition = _boneTransform.parent.InverseTransformPoint(_targetTransform.TransformPoint(_targetBone.Info.PositionOffset))
+                                           + _boneTransform.parent.InverseTransformVector(_boneTransform.TransformVector(-_bone.Info.PositionOffset));
+
+#if DEBUG
+            _currentLocalPositionOffset = _boneTransform.localPosition - _boneTransform.parent.InverseTransformPoint(_targetTransform.position);
+#endif
         }
     }
 }
