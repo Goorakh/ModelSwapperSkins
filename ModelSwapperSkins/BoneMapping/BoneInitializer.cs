@@ -112,6 +112,7 @@ namespace ModelSwapperSkins.BoneMapping
                         case "BeetleGuardCrystalBody": // Bad material, logspam
                         case "BomberBody": // Just Commando
                         case "CommandoPerformanceTestBody": // Just Commando
+                        case "DevotedLemurianBody":
                         case "EnforcerBody": // Literally just a cube
                         case "GolemBodyInvincible": // Just Stone Golem
                         case "SniperBody": // Broken texture commando model
