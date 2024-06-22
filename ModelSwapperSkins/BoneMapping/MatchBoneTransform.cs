@@ -126,7 +126,10 @@ namespace ModelSwapperSkins.BoneMapping
                 case DebugMatchMode.None:
                     break;
                 case DebugMatchMode.MatchBoneToTransform:
+                {
                     _bone.Info.PositionOffset = -_boneTransform.InverseTransformVector(_boneTransform.parent.TransformVector(_boneTransform.localPosition - _boneTransform.parent.InverseTransformPoint(_targetTransform.TransformPoint(_targetBone.Info.PositionOffset))));
+
+                    _boneTransform.localScale = _boneTransform.localScale.x * Vector3.one;
 
                     Vector3 scaleVector = Utils.VectorUtils.Divide(_boneTransform.localScale, _baseLocalScale);
                     float scaleFactor = scaleVector.x;
@@ -146,6 +149,32 @@ namespace ModelSwapperSkins.BoneMapping
                     _bone.Info.RotationOffset = Quaternion.Inverse(targetLocalRotationOffset) * _targetBone.Info.RotationOffset;
 
                     return;
+                }
+                case DebugMatchMode.MatchTargetBoneToTransform:
+                {
+                    _targetBone.Info.PositionOffset = _targetTransform.InverseTransformPoint(_boneTransform.parent.TransformPoint(_boneTransform.localPosition - _boneTransform.parent.InverseTransformVector(_boneTransform.TransformVector(-_bone.Info.PositionOffset))));
+
+                    _boneTransform.localScale = _boneTransform.localScale.x * Vector3.one;
+
+                    Vector3 scaleVector = Utils.VectorUtils.Divide(_boneTransform.localScale, _baseLocalScale);
+                    float scaleFactor = scaleVector.x;
+
+                    if (ParentBone)
+                    {
+                        scaleFactor *= ParentBone.calculateTargetScaleMultiplier();
+                    }
+
+                    _targetBone.Info.Scale = scaleFactor * _bone.Info.Scale;
+
+                    Vector3 forward = _targetTransform.InverseTransformDirection(_boneTransform.rotation * Vector3.forward);
+                    Vector3 up = _targetTransform.InverseTransformDirection(_boneTransform.rotation * Vector3.up);
+
+                    Quaternion targetLocalRotationOffset = Quaternion.LookRotation(forward, up);
+
+                    _targetBone.Info.RotationOffset = targetLocalRotationOffset * _bone.Info.RotationOffset;
+
+                    return;
+                }
                 default:
                     throw new System.NotImplementedException($"Match mode {_debugMatchMode} is not implemented");
             }
