@@ -25,7 +25,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 switch (bone.Type)
                 {
                     case BoneType.Head:
-                        bone.PositionOffset += new Vector3(0f, -0.15f, -0.3f);
+                        bone.PositionOffset += new Vector3(0f, -0.3f, 0.15f);
                         bone.RotationOffset *= Quaternion.Euler(270f, 0f, 0f);
                         break;
                     case BoneType.Pelvis:
