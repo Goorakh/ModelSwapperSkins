@@ -8,6 +8,7 @@
 * Fixed:
   * Larva jaw being matched to the head even if a target jaw bone was present
   * Larva leg rotation
+  * Acrid neck and shoulder matching on models without neck or shoulder bones
   * Certain models partially or completely disappearing when camera is very close to the model
 
 * Changes:
