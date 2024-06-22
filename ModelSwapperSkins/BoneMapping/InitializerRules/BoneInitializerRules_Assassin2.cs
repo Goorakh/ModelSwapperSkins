@@ -29,7 +29,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         return new BoneInfo(BoneType.Base)
                         {
                             RotationOffset = Quaternion.Euler(0f, 90f, 0f),
-                            PositionOffset = new Vector3(0f, -0.15f, 0f)
+                            PositionOffset = new Vector3(0f, -0.5f, 0f)
                         };
                     case "spine_2_jnt":
                         return new BoneInfo(BoneType.Stomach)
@@ -40,7 +40,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         return new BoneInfo(BoneType.Head)
                         {
                             RotationOffset = Quaternion.Euler(0f, 270f, 180f),
-                            PositionOffset = new Vector3(0f, -0.1f, -0.1f),
+                            PositionOffset = new Vector3(0.3f, 0f, 0f),
                             MatchFlags = BoneMatchFlags.MatchToOther
                         };
                     default:
