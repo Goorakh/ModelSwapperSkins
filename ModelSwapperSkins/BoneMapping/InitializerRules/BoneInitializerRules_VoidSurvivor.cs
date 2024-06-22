@@ -80,6 +80,11 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     boneInfo.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
                     break;
 
+                case BoneType.Neck1:
+                    boneInfo.PositionOffset += new Vector3(0f, 0.15f, -0.05f);
+                    boneInfo.RotationOffset *= Quaternion.Euler(90f, 180f, 0f);
+                    break;
+
                 case BoneType.LegUpperL:
                     boneInfo.RotationOffset *= Quaternion.Euler(0f, 90f, 0f);
                     break;
@@ -106,6 +111,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     boneInfo.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
                     break;
 
+                case BoneType.ShoulderL:
+                    boneInfo.PositionOffset += new Vector3(-0.15f, 0f, 0f);
+                    boneInfo.RotationOffset *= Quaternion.Euler(45f, 90f, 0f);
+                    break;
                 case BoneType.ArmLowerL:
                     boneInfo.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
                     break;
@@ -113,6 +122,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     boneInfo.RotationOffset *= Quaternion.Euler(0f, 90f, 0f);
                     break;
 
+                case BoneType.ShoulderR:
+                    boneInfo.PositionOffset += new Vector3(0.15f, 0f, 0f);
+                    boneInfo.RotationOffset *= Quaternion.Euler(45f, 270f, 0f);
+                    break;
                 case BoneType.ArmUpperR:
                     boneInfo.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     break;
