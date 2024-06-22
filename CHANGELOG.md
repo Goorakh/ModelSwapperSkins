@@ -10,6 +10,7 @@
   * Larva leg rotation
   * Acrid neck and shoulder matching on models without neck or shoulder bones
   * Captain neck rotation
+  * MUL-T neck matching
   * Certain models partially or completely disappearing when camera is very close to the model
 
 * Changes:

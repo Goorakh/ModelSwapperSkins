@@ -43,15 +43,25 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     switch (potentialBoneTransform.name)
                     {
                         case "mainWheel.l":
-                            return new BoneInfo(BoneType.FootL);
+                            return new BoneInfo(BoneType.FootL)
+                            {
+                                RotationOffset = Quaternion.Euler(70f, 0f, 0f)
+                            };
                         case "mainWheel.r":
-                            return new BoneInfo(BoneType.FootR);
-                        case "neckSpin":
-                            return new BoneInfo(BoneType.Neck1);
+                            return new BoneInfo(BoneType.FootR)
+                            {
+                                RotationOffset = Quaternion.Euler(70f, 0f, 0f)
+                            };
                         case "neckJoint.1":
-                            return new BoneInfo(BoneType.Neck2);
+                            return new BoneInfo(BoneType.Neck1)
+                            {
+                                RotationOffset = Quaternion.Euler(0f, 180f, 0f)
+                            };
                         case "neckJoint.2":
-                            return new BoneInfo(BoneType.Neck3);
+                            return new BoneInfo(BoneType.Neck2)
+                            {
+                                RotationOffset = Quaternion.Euler(0f, 180f, 0f)
+                            };
                         case "toolbase":
                             return new BoneInfo(BoneType.HandL)
                             {
