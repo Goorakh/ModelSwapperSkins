@@ -65,7 +65,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "LegBack.4.L":
                     return new BoneInfo(BoneType.FootL)
                     {
-                        PositionOffset = new Vector3(0f, -0.1f, 0.2f),
+                        PositionOffset = new Vector3(0f, 0.15f, 0f),
                         RotationOffset = Quaternion.Euler(270f, 0f, 0f)
                     };
                 case "LegBack.2.R":
@@ -78,7 +78,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "LegBack.4.R":
                     return new BoneInfo(BoneType.FootR)
                     {
-                        PositionOffset = new Vector3(0f, -0.1f, 0.2f),
+                        PositionOffset = new Vector3(0f, 0.15f, 0f),
                         RotationOffset = Quaternion.Euler(270f, 0f, 0f)
                     };
                 case "LegFront.2.L":
