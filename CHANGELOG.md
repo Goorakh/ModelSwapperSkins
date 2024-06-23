@@ -15,6 +15,7 @@
   * Heretic Jaw rotation
   * Heretic Neck matching
   * Lemurian model matching
+  * Elder Lemurian model matching
   * Certain models partially or completely disappearing when camera is very close to the model
 
 * Changes:
