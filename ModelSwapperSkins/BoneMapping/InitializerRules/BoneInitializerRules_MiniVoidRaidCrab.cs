@@ -24,13 +24,16 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "ROOT":
                     return new BoneInfo(BoneType.Stomach)
                     {
-                        PositionOffset = new Vector3(0f, -0.25f, -0.2f),
+                        PositionOffset = new Vector3(0f, 10f, -25f),
                         RotationOffset = Quaternion.Euler(90f, 0f, 0f),
                         Scale = 0.8f,
                         MatchFlags = BoneMatchFlags.MatchToOther
                     };
                 case "HeadBase":
-                    return new BoneInfo(BoneType.Head);
+                    return new BoneInfo(BoneType.Head)
+                    {
+                        PositionOffset = new Vector3(0f, -10f, 0f)
+                    };
                 case "backLeg.thigh.l":
                     return new BoneInfo(BoneType.LegUpperL)
                     {
