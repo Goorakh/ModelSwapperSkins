@@ -18,6 +18,8 @@ namespace ModelSwapperSkins
         public Transform NewModelTransformPrefab;
         public SkinDef ModelSkin;
 
+        public bool KeepSkinModelAnimatorActive;
+
         public void Initialize(ModelPartsProvider modelPartsProvider, ModelPartsProvider skinModelPartsProvider)
         {
             HashSet<SkinDef> encounteredSkinInstances = [];
@@ -112,6 +114,42 @@ namespace ModelSwapperSkins
                 minionSkinReplacements = combinedMinionSkinReplacements.ToArray();
                 projectileGhostReplacements = combinedProjectileGhostReplacements.ToArray();
             }
+
+            bool isGupVariant = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GupBody")
+                              || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GeepBody")
+                              || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GipBody");
+
+            bool isVoidRaidCrab = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("MiniVoidRaidCrabBodyBase");
+
+            bool isNullifier = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("NullifierBody")
+                               || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("NullifierAllyBody");
+
+            bool isCaptain = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("CaptainBody");
+
+            bool isEngi = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("EngiBody");
+
+            bool isHermitCrab = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("HermitCrabBody");
+
+            bool isImp = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ImpBody");
+
+            bool isImpBoss = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ImpBossBody");
+
+            bool isLarva = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("AcidLarvaBody");
+
+            bool isMiniMushroom = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("MiniMushroomBody");
+
+            bool isTreebot = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("TreebotBody");
+
+            bool isScav = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ScavBody")
+                          || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ScavLunar1Body")
+                          || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ScavLunar2Body")
+                          || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ScavLunar3Body")
+                          || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ScavLunar4Body");
+            
+            KeepSkinModelAnimatorActive = isGupVariant || isVoidRaidCrab || isNullifier ||
+                                          isCaptain || isEngi || isHermitCrab ||
+                                          isImp || isImpBoss || isLarva ||
+                                          isMiniMushroom || isTreebot || isScav;
         }
 
         public void RemoveFrom(Transform modelTransform, GameObject skinModelObject)
@@ -158,12 +196,6 @@ namespace ModelSwapperSkins
 
             bool isToolbot = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ToolbotBody");
 
-            bool isGupModel = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GupBody")
-                              || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GeepBody")
-                              || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GipBody");
-
-            bool isVoidRaidCrab = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("MiniVoidRaidCrabBodyBase");
-
             foreach (Animator animator in skinModelTransfom.GetComponentsInChildren<Animator>(true))
             {
                 if (isToolbot && animator.TryGetComponent(out CharacterModel characterModel))
@@ -195,7 +227,7 @@ namespace ModelSwapperSkins
 
                     characterModel.StartCoroutine(waitUntilInitializedThenFixToolbotAnimator(animator));
                 }
-                else if (!isGupModel && !isVoidRaidCrab)
+                else if (!KeepSkinModelAnimatorActive)
                 {
                     animator.enabled = false;
                 }
@@ -304,7 +336,7 @@ namespace ModelSwapperSkins
                 {
                     CharacterModel.RendererInfo[] skinRendererInfos = skinModel.baseRendererInfos;
 
-                    if (isVoidRaidCrab)
+                    if (NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("MiniVoidRaidCrabBodyBase"))
                     {
                         for (int i = 0; i < skinRendererInfos.Length; i++)
                         {

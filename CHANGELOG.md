@@ -18,12 +18,23 @@
   * Elder Lemurian model matching
   * Mercenary neck rotation
   * Artificer neck rotation
-  * Voidling head tendrils not animating when used as a skin
   * Void Reaver model matching
   * Certain models partially or completely disappearing when camera is very close to the model
 
-* Changes:
+* Changed:
   * Left lower arm and hand are now hidden when using a model skin on Captain to better match the gun arm
+  * Model idle animations are now kept active for certain models when used as a skin:
+    * Voidling
+    * Void Reaver
+    * Captain
+    * Engineer
+    * Hermit Crab
+    * Imp
+    * Imp Overlord
+    * Larva
+    * Mini Mushrum
+    * REX
+    * Scavenger (+ lunar variants)
 
 **1.4.0 Changes:**
 
