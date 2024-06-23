@@ -16,6 +16,8 @@
   * Heretic Neck matching
   * Lemurian model matching
   * Elder Lemurian model matching
+  * Mercenary neck rotation
+  * Artificer neck rotation
   * Certain models partially or completely disappearing when camera is very close to the model
 
 * Changes:
