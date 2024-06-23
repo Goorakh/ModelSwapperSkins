@@ -26,10 +26,13 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Base":
                     return new BoneInfo(BoneType.Chest)
                     {
-                        PositionOffset = new Vector3(0f, -0.15f, 0f)
+                        PositionOffset = new Vector3(0f, -1f, 0f)
                     };
                 case "Head":
-                    return new BoneInfo(BoneType.Head);
+                    return new BoneInfo(BoneType.Head)
+                    {
+                        PositionOffset = new Vector3(0f, -0.5f, 0f)
+                    };
                 case "backThigh.l":
                     return new BoneInfo(BoneType.Pelvis)
                     {
