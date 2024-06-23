@@ -80,7 +80,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "twist_foot_left_jnt":
                     return new BoneInfo(BoneType.FootL)
                     {
-                        PositionOffset = new Vector3(0f, 0f, 0.25f),
+                        PositionOffset = new Vector3(-0.25f, 0f, 0f),
                         RotationOffset = Quaternion.Euler(0f, 270f, 90f),
                         MatchFlags = BoneMatchFlags.MatchToOther
                     };
@@ -97,7 +97,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "twist_foot_right_jnt":
                     return new BoneInfo(BoneType.FootR)
                     {
-                        PositionOffset = new Vector3(0f, 0f, 0.25f),
+                        PositionOffset = new Vector3(0.25f, 0f, 0f),
                         RotationOffset = Quaternion.Euler(0f, 90f, 90f),
                         MatchFlags = BoneMatchFlags.MatchToOther
                     };
@@ -168,7 +168,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 {
                     Info = new BoneInfo(BoneType.FootL)
                     {
-                        PositionOffset = new Vector3(-0.35f, 0f, -0.35f),
+                        PositionOffset = new Vector3(0.2475f, -0.35f, -0.2475f),
                         RotationOffset = Quaternion.Euler(0f, 315f, 90f),
                         MatchFlags = BoneMatchFlags.AllowMatchTo
                     }
@@ -186,7 +186,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 {
                     Info = new BoneInfo(BoneType.FootR)
                     {
-                        PositionOffset = new Vector3(0.35f, 0f, 0.35f),
+                        PositionOffset = new Vector3(-0.2475f, 0.35f, 0.2475f),
                         RotationOffset = Quaternion.Euler(0f, 135f, 90f),
                         MatchFlags = BoneMatchFlags.AllowMatchTo
                     }
