@@ -12,6 +12,8 @@
   * Captain neck rotation
   * MUL-T neck matching
   * Void Field neck and shoulder matching
+  * Heretic Jaw rotation
+  * Heretic Neck matching
   * Certain models partially or completely disappearing when camera is very close to the model
 
 * Changes:

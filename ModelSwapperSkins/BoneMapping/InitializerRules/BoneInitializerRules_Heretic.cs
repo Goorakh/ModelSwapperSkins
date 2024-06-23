@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -42,13 +43,14 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Head_M":
                     return new BoneInfo(BoneType.Head)
                     {
-                        PositionOffset = new Vector3(0f, -0.25f, 0f),
+                        PositionOffset = new Vector3(0.5f, 0f, 0f),
                         RotationOffset = Quaternion.Euler(270f, 90f, 0f)
                     };
                 case "Jaw_M":
                     return new BoneInfo(BoneType.Jaw)
                     {
-                        RotationOffset = Quaternion.Euler(45f, 270f, 0f)
+                        PositionOffset = new Vector3(0f, 0.25f, 0f),
+                        RotationOffset = Quaternion.Euler(315f, 270f, 180f)
                     };
                 case "Hip_L":
                     return new BoneInfo(BoneType.LegUpperL)
@@ -63,8 +65,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Ankle_L":
                     return new BoneInfo(BoneType.FootL)
                     {
-                        PositionOffset = new Vector3(0f, 0f, 0.05f),
-                        RotationOffset = Quaternion.Euler(0f, 90f, 180f)
+                        PositionOffset = new Vector3(0.12f, 0f, 0f),
+                        RotationOffset = Quaternion.Euler(355f, 90f, 180f)
                     };
                 case "Hip_R":
                     return new BoneInfo(BoneType.LegUpperR)
@@ -79,8 +81,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Ankle_R":
                     return new BoneInfo(BoneType.FootR)
                     {
-                        PositionOffset = new Vector3(0f, 0f, 0.05f),
-                        RotationOffset = Quaternion.Euler(0f, 270f, 0f)
+                        PositionOffset = new Vector3(-0.12f, 0f, 0f),
+                        RotationOffset = Quaternion.Euler(5f, 270f, 0f)
                     };
                 case "Scapula_L":
                     return new BoneInfo(BoneType.ShoulderL)
@@ -112,8 +114,75 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     {
                         RotationOffset = Quaternion.Euler(0f, 180f, 270f)
                     };
+                case "Neck1_M":
+                    return new BoneInfo(BoneType.Neck1)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 90f, 180f)
+                    };
+                case "Neck2_M":
+                    return new BoneInfo(BoneType.Neck2)
+                    {
+                        RotationOffset = Quaternion.Euler(90f, 270f, 0f)
+                    };
+                case "Neck3_M":
+                    return new BoneInfo(BoneType.Neck3)
+                    {
+                        RotationOffset = Quaternion.Euler(0f, 90f, 0f)
+                    };
+                case "Neck4_M":
+                    return new BoneInfo(BoneType.Neck4);
                 default:
                     return BoneInfo.None;
+            }
+        }
+
+        public override IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
+        {
+            foreach (Bone bone in base.GetAdditionalBones(modelTransform, existingBones))
+            {
+                yield return bone;
+            }
+
+            Bone neck1Bone = existingBones.Find(b => b.Info.Type == BoneType.Neck1);
+            if (neck1Bone != null)
+            {
+                yield return new Bone(neck1Bone)
+                {
+                    Info = new BoneInfo(BoneType.Chest)
+                    {
+                        PositionOffset = new Vector3(0.5f, 0f, 0f),
+                        RotationOffset = Quaternion.Euler(270f, 90f, 0f),
+                        MatchFlags = BoneMatchFlags.MatchToOther,
+                        ExclusionRules = [
+                            new BoneExclusionRule([BoneType.Neck1], OtherBoneMatchExclusionRuleType.ExcludeIfAnyMatch)
+                        ]
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Failed to find Neck1 bone");
+            }
+
+            Bone jawBone = existingBones.Find(b => b.Info.Type == BoneType.Jaw);
+            if (jawBone != null)
+            {
+                yield return new Bone(jawBone)
+                {
+                    Info = new BoneInfo(BoneType.Head)
+                    {
+                        PositionOffset = new Vector3(0f, 0.25f, 0f),
+                        RotationOffset = Quaternion.Euler(0f, 270f, 180f),
+                        MatchFlags = BoneMatchFlags.MatchToOther,
+                        ExclusionRules = [
+                            new BoneExclusionRule([BoneType.Jaw], OtherBoneMatchExclusionRuleType.ExcludeIfAnyMatch)
+                        ]
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Failed to find Jaw bone");
             }
         }
     }
