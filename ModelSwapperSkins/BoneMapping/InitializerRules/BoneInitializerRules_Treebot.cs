@@ -28,13 +28,13 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "PlatformBase":
                     return new BoneInfo(BoneType.Stomach)
                     {
-                        PositionOffset = new Vector3(0f, -0.15f, 0f),
+                        PositionOffset = new Vector3(0f, -0.1f, -0.5f),
                         RotationOffset = Quaternion.Euler(90f, 0f, 0f)
                     };
                 case "HeadBase":
                     return new BoneInfo(BoneType.Stomach)
                     {
-                        PositionOffset = new Vector3(0f, -0.15f, 0f),
+                        PositionOffset = new Vector3(0f, 0.1f, 0.5f),
                         RotationOffset = Quaternion.Euler(270f, 0f, 0f),
                         MatchFlags = BoneMatchFlags.MatchToOther
                     };
