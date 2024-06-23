@@ -162,6 +162,8 @@ namespace ModelSwapperSkins
                               || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GeepBody")
                               || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GipBody");
 
+            bool isVoidRaidCrab = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("MiniVoidRaidCrabBodyBase");
+
             foreach (Animator animator in skinModelTransfom.GetComponentsInChildren<Animator>(true))
             {
                 if (isToolbot && animator.TryGetComponent(out CharacterModel characterModel))
@@ -193,7 +195,7 @@ namespace ModelSwapperSkins
 
                     characterModel.StartCoroutine(waitUntilInitializedThenFixToolbotAnimator(animator));
                 }
-                else if (!isGupModel)
+                else if (!isGupModel && !isVoidRaidCrab)
                 {
                     animator.enabled = false;
                 }
@@ -302,7 +304,7 @@ namespace ModelSwapperSkins
                 {
                     CharacterModel.RendererInfo[] skinRendererInfos = skinModel.baseRendererInfos;
 
-                    if (NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("MiniVoidRaidCrabBodyBase"))
+                    if (isVoidRaidCrab)
                     {
                         for (int i = 0; i < skinRendererInfos.Length; i++)
                         {

@@ -18,6 +18,7 @@
   * Elder Lemurian model matching
   * Mercenary neck rotation
   * Artificer neck rotation
+  * Voidling head tendrils not animating when used as a skin
   * Certain models partially or completely disappearing when camera is very close to the model
 
 * Changes:
