@@ -17,6 +17,26 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
             return bodyIndex == BodyCatalog.FindBodyIndex("ImpBossBody");
         }
 
+        protected override BoneInfo getBoneInfo(Transform modelTransform, Transform potentialBoneTransform)
+        {
+            BoneInfo bone = base.getBoneInfo(modelTransform, potentialBoneTransform);
+
+            switch (bone.Type)
+            {
+                case BoneType.Chest:
+                    bone.PositionOffset += new Vector3(0f, -1f, 0f);
+                    break;
+                case BoneType.Stomach:
+                    bone.PositionOffset += new Vector3(0f, -0.5f, 0f);
+                    break;
+                case BoneType.Pelvis:
+                    bone.PositionOffset += new Vector3(0f, 0.5f, 0f);
+                    break;
+            }
+
+            return bone;
+        }
+
         public override IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
         {
             foreach (Bone bone in base.GetAdditionalBones(modelTransform, existingBones))

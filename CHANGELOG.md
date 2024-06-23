@@ -19,6 +19,7 @@
   * Mercenary neck rotation
   * Artificer neck rotation
   * Void Reaver model matching
+  * Imp Overlord model matching
   * Certain models partially or completely disappearing when camera is very close to the model
 
 * Changed:
