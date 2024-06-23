@@ -26,7 +26,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "Base":
                     return new BoneInfo(BoneType.Stomach)
                     {
-                        PositionOffset = new Vector3(0.5f, 0f, -0.15f),
+                        PositionOffset = new Vector3(0.2f, 0f, -0.2f),
                         RotationOffset = Quaternion.Euler(90f, -40f, 0f)
                     };
                 case "leg1.thigh.l":
