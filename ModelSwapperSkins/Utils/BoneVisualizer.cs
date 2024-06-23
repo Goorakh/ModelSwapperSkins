@@ -59,6 +59,8 @@ namespace ModelSwapperSkins.Utils
                 _lineMesh = meshBuilder.GenerateMesh();
             }
 
+            readonly List<DebugOverlay.MeshDrawer> _activeMeshDrawers = [];
+
             CharacterModel _model;
 
             void Awake()
@@ -97,6 +99,8 @@ namespace ModelSwapperSkins.Utils
                             meshDrawer.transform.localPosition = Vector3.zero;
                             meshDrawer.transform.localRotation = Util.QuaternionSafeLookRotation(localPosition);
                             meshDrawer.transform.localScale = Vector3.one * childDistanceFromBone;
+
+                            _activeMeshDrawers.Add(meshDrawer);
                         }
                     }
                 }
@@ -107,6 +111,16 @@ namespace ModelSwapperSkins.Utils
             void OnDestroy()
             {
                 InstanceTracker.Remove(this);
+
+                foreach (DebugOverlay.MeshDrawer meshDrawer in _activeMeshDrawers)
+                {
+                    if (!meshDrawer.gameObject)
+                        continue;
+
+                    meshDrawer.Dispose();
+                }
+
+                _activeMeshDrawers.Clear();
             }
         }
     }
