@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
@@ -26,12 +27,19 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     case "Spine1":
                         return new BoneInfo(BoneType.Pelvis)
                         {
+                            PositionOffset = new Vector3(0f, 0f, 0.5f),
                             RotationOffset = Quaternion.Euler(0f, 180f, 180f)
                         };
                     case "Spine2":
-                        return new BoneInfo(BoneType.Stomach);
+                        return new BoneInfo(BoneType.Stomach)
+                        {
+                            PositionOffset = new Vector3(0f, 0f, 0.5f)
+                        };
                     case "Spine3":
-                        return new BoneInfo(BoneType.Chest);
+                        return new BoneInfo(BoneType.Chest)
+                        {
+                            PositionOffset = new Vector3(0f, -0.5f, 0.5f)
+                        };
                     case "Leg1.l":
                         return new BoneInfo(BoneType.LegLowerL);
                     case "Leg1.r":
@@ -45,7 +53,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     bone.RotationOffset *= Quaternion.Euler(330f, 180f, 0f);
                     break;
                 case BoneType.Head:
-                    bone.PositionOffset += new Vector3(0f, -0.3f, 0f);
+                    bone.PositionOffset += new Vector3(0f, 0.5f, 0.5f);
                     bone.RotationOffset *= Quaternion.Euler(270f, 0f, 0f);
                     break;
                 case BoneType.Jaw:
@@ -63,6 +71,35 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
             }
 
             return bone;
+        }
+
+        public override IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
+        {
+            foreach (Bone bone in base.GetAdditionalBones(modelTransform, existingBones))
+            {
+                yield return bone;
+            }
+
+            Bone tail1Bone = existingBones.Find(b => b.Info.Type == BoneType.Tail1);
+            if (tail1Bone != null)
+            {
+                yield return new Bone(tail1Bone)
+                {
+                    Info = new BoneInfo(BoneType.Pelvis)
+                    {
+                        PositionOffset = new Vector3(0f, -1.3228f, -0.5592f),
+                        RotationOffset = Quaternion.Euler(330f, 0f, 0f),
+                        MatchFlags = BoneMatchFlags.MatchToOther,
+                        ExclusionRules = [
+                            new BoneExclusionRule([BoneType.Tail1], OtherBoneMatchExclusionRuleType.ExcludeIfAnyMatch)
+                        ]
+                    }
+                };
+            }
+            else
+            {
+                Log.Error("Failed to find Tail1 bone");
+            }
         }
     }
 }

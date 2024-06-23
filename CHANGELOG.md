@@ -20,6 +20,7 @@
   * Artificer neck rotation
   * Void Reaver model matching
   * Imp Overlord model matching
+  * Blind Vermin tail matching
   * Certain models partially or completely disappearing when camera is very close to the model
 
 * Changed:
