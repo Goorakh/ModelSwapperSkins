@@ -1,3 +1,8 @@
+**-.-.- Changes:**
+
+* Fixed:
+  * Artificer head position
+
 **1.5.0 Changes:**
 
 * Added:
