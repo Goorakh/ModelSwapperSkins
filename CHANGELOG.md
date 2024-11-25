@@ -1,5 +1,10 @@
 **-.-.- Changes:**
 
+* Updated for SotS
+
+* Added:
+  * Seeker skins
+
 * Fixed:
   * Artificer head position
 

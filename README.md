@@ -5,7 +5,7 @@ Adds most characters as selectable survivor skins (~80 skins per survivor).
 <details>
 <summary>Screenshots</summary>
 
-![](https://raw.githubusercontent.com/Goorakh/ModelSwapperSkins/master/Thunderstore/20240503181818_1.jpg)
+![](https://raw.githubusercontent.com/Goorakh/ModelSwapperSkins/master/Thunderstore/632360_191.jpg)
 
 ![](https://raw.githubusercontent.com/Goorakh/ModelSwapperSkins/master/Thunderstore/20240503181910_1.jpg)
 
