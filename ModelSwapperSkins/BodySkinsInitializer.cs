@@ -55,6 +55,7 @@ namespace ModelSwapperSkins
                     const char MAX_ASCII_CHAR = (char)0x7F;
 
                     StringBuilder stringBuilder = HG.StringBuilderPool.RentStringBuilder();
+                    stringBuilder.EnsureCapacity(input.Length);
 
                     foreach (char c in input)
                     {
@@ -172,28 +173,24 @@ namespace ModelSwapperSkins
             {
                 ModelSwappedSkinDef skinDef = ScriptableObject.CreateInstance<ModelSwappedSkinDef>();
 
-                string skinName;
+                StringBuilder nameBuilder = HG.StringBuilderPool.RentStringBuilder();
+                nameBuilder.Append("skin").Append(_bodyPrefab.name);
+
                 if (baseSkin)
                 {
-                    if (modelSkin)
-                    {
-                        skinName = $"skin{_bodyPrefab.name}_{baseSkin.name}_{body.name}_{modelSkin.name}";
-                    }
-                    else
-                    {
-                        skinName = $"skin{_bodyPrefab.name}_{baseSkin.name}_{body.name}";
-                    }
-                }
-                else if (modelSkin)
-                {
-                    skinName = $"skin{_bodyPrefab.name}_{body.name}_{modelSkin.name}";
-                }
-                else
-                {
-                    skinName = $"skin{_bodyPrefab.name}_{body.name}";
+                    nameBuilder.Append('_').Append(baseSkin.name);
                 }
 
-                skinDef.name = skinName;
+                nameBuilder.Append('_').Append(body.name);
+
+                if (modelSkin)
+                {
+                    nameBuilder.Append('_').Append(modelSkin.name);
+                }
+
+                skinDef.name = nameBuilder.ToString();
+
+                nameBuilder = HG.StringBuilderPool.ReturnStringBuilder(nameBuilder);
 
                 skinDef.icon = BodyIconCache.GetOrCreatePortraitIcon(body.portraitIcon as Texture2D);
 
@@ -206,6 +203,18 @@ namespace ModelSwapperSkins
                 skinDef.NewModelTransformPrefab = modelTransform;
 
                 skinDef.ModelSkin = modelSkin;
+
+                UnlockableDef unlockableDef = null;
+                if (modelSkin && modelSkin.unlockableDef)
+                {
+                    unlockableDef = modelSkin.unlockableDef;
+                }
+                else if (baseSkin && baseSkin.unlockableDef)
+                {
+                    unlockableDef = baseSkin.unlockableDef;
+                }
+
+                skinDef.unlockableDef = unlockableDef;
 
                 skinDef.Initialize(_bodyPartsProvider, bodyModelPartsProvider);
 

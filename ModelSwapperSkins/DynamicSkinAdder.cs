@@ -20,6 +20,11 @@ namespace ModelSwapperSkins
         [SystemInitializer(typeof(SurvivorCatalog), typeof(BodyCatalog), typeof(ModelPartsInitializer), typeof(BoneInitializer))]
         static void Init()
         {
+            if (SkinCatalog.skinCount > 0)
+            {
+                Log.Error("SkinCatalog already initialized");
+            }
+
             // Bake is called from Awake, before we've had a chance to set all the fields, it will be called manually later instead
             void SkinDef_Bake(On.RoR2.SkinDef.orig_Bake orig, SkinDef self)
             {
@@ -50,11 +55,6 @@ namespace ModelSwapperSkins
             {
                 if (failedSetupBodies.Contains(body))
                     continue;
-
-#if !DEBUG
-                if (!SurvivorCatalog.FindSurvivorDefFromBody(body.gameObject))
-                    continue;
-#endif
 
                 addSkinsTo(body);
             }

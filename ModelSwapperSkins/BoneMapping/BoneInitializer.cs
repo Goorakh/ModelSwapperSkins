@@ -113,12 +113,21 @@ namespace ModelSwapperSkins.BoneMapping
                         case "BomberBody": // Just Commando
                         case "CommandoPerformanceTestBody": // Just Commando
                         case "DevotedLemurianBody":
+                        case "DevotedLemurianBruiserBody":
                         case "EnforcerBody": // Literally just a cube
                         case "GolemBodyInvincible": // Just Stone Golem
                         case "SniperBody": // Broken texture commando model
                         case "VoidMegaCrabBody": // No easy mappings, blacklist for now
                         case "VoidMegaCrabAllyBody": // No easy mappings, blacklist for now
                             continue;
+                    }
+
+                    if (body.name.EndsWith("_opt"))
+                    {
+                        if (BodyCatalog.FindBodyIndex(body.name.Remove(body.name.Length - 4)) != BodyIndex.None)
+                        {
+                            continue;
+                        }
                     }
                 }
 

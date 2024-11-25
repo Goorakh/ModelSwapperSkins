@@ -397,7 +397,7 @@ namespace ModelSwapperSkins.Patches
                 modelRow.AddButton(PanelController, bodyIcon, "LOADOUT_MODEL_DEFAULT", string.Empty, modelRow.primaryColor, () =>
                 {
                     setSkinModel(BodyIndex.None);
-                }, string.Empty, null);
+                }, string.Empty, null, false, 0);
 
                 int[] buttonIndexLookup = new int[BodyCatalog.bodyCount + 1];
                 int modelButtonCount = 1;
@@ -414,12 +414,12 @@ namespace ModelSwapperSkins.Patches
                         if (buttonIndex > 0)
                             continue;
 
+                        buttonIndex = modelButtonCount++;
+
                         modelRow.AddButton(PanelController, skin.icon, modelSwappedSkin.NewModelBodyPrefab.baseNameToken, string.Empty, modelRow.primaryColor, () =>
                         {
                             setSkinModel(modelBodyIndex);
-                        }, string.Empty, null);
-
-                        buttonIndex = modelButtonCount++;
+                        }, string.Empty, null, false, buttonIndex);
                     }
                 }
 
@@ -513,6 +513,8 @@ namespace ModelSwapperSkins.Patches
                             nameToken = $"Variant {skinButtonCount + 1}";
                         }
 
+                        buttonIndex = skinButtonCount++;
+
                         _modelSkinRow.AddButton(PanelController, icon, nameToken, string.Empty, _modelSkinRow.primaryColor, () =>
                         {
                             if (PanelController.TryGetComponent(out LoadoutPanelSkinResolver skinResolver))
@@ -541,9 +543,7 @@ namespace ModelSwapperSkins.Patches
                             {
                                 Log.Error("Missing skin resolver");
                             }
-                        }, string.Empty, null);
-
-                        buttonIndex = skinButtonCount++;
+                        }, string.Empty, null, false, buttonIndex);
                     }
 
                     _modelSkinRow.findCurrentChoice = loadout =>
@@ -564,7 +564,7 @@ namespace ModelSwapperSkins.Patches
 
                 if (skinButtonCount == 0)
                 {
-                    _modelSkinRow.AddButton(PanelController, _fallbackSkinIcon, "LOADOUT_MODEL_SKIN_FALLBACK", string.Empty, _modelSkinRow.primaryColor, () => { }, string.Empty, null);
+                    _modelSkinRow.AddButton(PanelController, _fallbackSkinIcon, "LOADOUT_MODEL_SKIN_FALLBACK", string.Empty, _modelSkinRow.primaryColor, () => { }, string.Empty, null, false, 0);
 
                     _modelSkinRow.findCurrentChoice = loadout => 0;
                 }
