@@ -4,6 +4,7 @@
 
 * Added:
   * Seeker skins
+  * False Son skins
 
 * Fixed:
   * Artificer head position

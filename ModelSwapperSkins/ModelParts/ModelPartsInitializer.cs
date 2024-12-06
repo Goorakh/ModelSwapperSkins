@@ -322,6 +322,22 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature));
 
+            OverrideParts("RoR2/DLC2/FalseSon/FalseSonBody.prefab",
+                          new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("FSArmature/Root/Hips/Spine1/Spine2/Spine3/SpineEnd/L_Clav/L_Upperarm/L_Forearm/L_Hand/L_Hand_Object/L_Weapon/", ModelPartFlags.Weapon));
+
+            OverrideParts("RoR2/DLC2/FalseSonBoss/FalseSonBossBody.prefab",
+                          new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("FSArmature/Root/Hips/Spine1/Spine2/Spine3/SpineEnd/L_Clav/L_Upperarm/L_Forearm/L_Hand/L_Hand_Object/L_Weapon/", ModelPartFlags.Weapon));
+
+            OverrideParts("RoR2/DLC2/FalseSonBoss/FalseSonBossBodyLunarShard.prefab",
+                          new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("FSArmature/Root/Hips/Spine1/Spine2/Spine3/SpineEnd/L_Clav/L_Upperarm/L_Forearm/L_Hand/L_Hand_Object/L_Weapon/", ModelPartFlags.Weapon));
+
+            OverrideParts("RoR2/DLC2/FalseSonBoss/FalseSonBossBodyBrokenLunarShard.prefab",
+                          new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("FSArmature/Root/Hips/Spine1/Spine2/Spine3/SpineEnd/L_Clav/L_Upperarm/L_Forearm/L_Hand/L_Hand_Object/L_Weapon/", ModelPartFlags.Weapon));
+
             OverrideParts("RoR2/Base/Golem/GolemBody.prefab",
                           new ModelPartConstructor("GolemArmature/ROOT/base/pelvis/thigh.l/Debris", ModelPartFlags.Decoration),
                           new ModelPartConstructor("GolemArmature/ROOT/base/pelvis/thigh.r/Debris", ModelPartFlags.Decoration),

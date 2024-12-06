@@ -125,6 +125,10 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("ClayGrenadierBody", new ModelInfo(2f));
             SetModelInfo("CrocoBody", new ModelInfo(22.5f));
             SetModelInfo("FlyingVerminBody", new ModelInfo(5f));
+            SetModelInfo("FalseSonBody", new ModelInfo(3.85f));
+            SetModelInfo("FalseSonBossBody", new ModelInfo(3.85f));
+            SetModelInfo("FalseSonBossBodyLunarShard", new ModelInfo(3.85f));
+            SetModelInfo("FalseSonBossBodyBrokenLunarShard", new ModelInfo(3.85f));
             SetModelInfo("GeepBody", new ModelInfo(1.5f));
             SetModelInfo("GipBody", new ModelInfo(1.5f));
             SetModelInfo("GolemBody", new ModelInfo(6.5f));

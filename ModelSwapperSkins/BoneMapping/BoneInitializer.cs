@@ -51,6 +51,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_Clay.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Croco.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Engi.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_FalseSon.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_FlyingVermin.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Golem.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_GrandParent.Instance);
