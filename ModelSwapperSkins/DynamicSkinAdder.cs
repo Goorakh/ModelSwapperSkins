@@ -56,6 +56,14 @@ namespace ModelSwapperSkins
                 if (failedSetupBodies.Contains(body))
                     continue;
 
+                // Prevent non-survivors from getting skins
+                // This check is removed in debug builds to help with alignment
+                // Maybe enable in release builds if it's verified to be safe/compatible with other mods?
+#if !DEBUG
+                if (SurvivorCatalog.GetSurvivorIndexFromBodyIndex(body.bodyIndex) == SurvivorIndex.None)
+                    continue;
+#endif
+
                 addSkinsTo(body);
             }
 
