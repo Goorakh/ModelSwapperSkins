@@ -68,6 +68,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 
             switch (potentialBoneTransform.name)
             {
+                case "Spine1":
+                    return new BoneInfo(BoneType.Base);
                 case "Spine2":
                     return new BoneInfo(BoneType.Stomach)
                     {
