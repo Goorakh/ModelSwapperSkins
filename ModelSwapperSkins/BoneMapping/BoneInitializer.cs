@@ -121,6 +121,7 @@ namespace ModelSwapperSkins.BoneMapping
                         case "SniperBody": // Broken texture commando model
                         case "VoidMegaCrabBody": // No easy mappings, blacklist for now
                         case "VoidMegaCrabAllyBody": // No easy mappings, blacklist for now
+                        case "HalcyoniteBody": // No easy mappings, blacklist for now
                             continue;
                     }
 
