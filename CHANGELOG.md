@@ -1,4 +1,6 @@
-**-.-.- Changes:**
+## Changelog
+
+**1.2.1 Changes:**
 
 * Updated for SotS
 
