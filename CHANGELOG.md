@@ -1,5 +1,9 @@
 ## Changelog
 
+**-.-.- Changes:**
+
+* Fixed load error if a mod added an improperly set up character.
+
 **1.2.1 Changes:**
 
 * Updated for SotS

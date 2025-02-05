@@ -196,7 +196,7 @@ namespace ModelSwapperSkins
                         continue;
                     }
 
-                    List<SkinDef.GameObjectActivation> gameObjectActivations = new List<SkinDef.GameObjectActivation>(skin.gameObjectActivations);
+                    List<SkinDef.GameObjectActivation> gameObjectActivations = new List<SkinDef.GameObjectActivation>(skin.gameObjectActivations ?? []);
 
                     bool gameObjectActivationsChanged = false;
 
@@ -249,8 +249,6 @@ namespace ModelSwapperSkins
             }
             else
             {
-                modelSkinController = modelTransform.gameObject.AddComponent<ModelSkinController>();
-
                 _skinBakeDisabled = true;
                 SkinDef defaultSkin = ScriptableObject.CreateInstance<SkinDef>();
                 _skinBakeDisabled = false;
@@ -261,7 +259,7 @@ namespace ModelSwapperSkins
 
                 defaultSkin.baseSkins = [];
 
-                List<CharacterModel.RendererInfo> rendererInfos = new List<CharacterModel.RendererInfo>(characterModel.baseRendererInfos);
+                List<CharacterModel.RendererInfo> rendererInfos = new List<CharacterModel.RendererInfo>(characterModel.baseRendererInfos ?? []);
 
                 for (int i = rendererInfos.Count - 1; i >= 0; i--)
                 {
@@ -324,6 +322,7 @@ namespace ModelSwapperSkins
                 defaultSkin.projectileGhostReplacements = [];
                 defaultSkin.minionSkinReplacements = [];
 
+                modelSkinController = modelTransform.gameObject.AddComponent<ModelSkinController>();
                 modelSkinController.skins = [defaultSkin];
 
                 BodyIndex bodyIndex = bodyPrefab.bodyIndex;
