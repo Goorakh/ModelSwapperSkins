@@ -66,12 +66,11 @@ namespace ModelSwapperSkins
                     if (baseObjectActivationIndex >= 0)
                     {
                         bool basePartActive = baseSkin.gameObjectActivations[baseObjectActivationIndex].shouldActivate;
-#if DEBUG
+
                         if ((shouldActivate && basePartActive) != shouldActivate)
                         {
                             Log.Debug($"Model part {modelPart.Path} for {this} active override: {shouldActivate}->{basePartActive}");
                         }
-#endif
 
                         shouldActivate &= basePartActive;
 
@@ -279,9 +278,7 @@ namespace ModelSwapperSkins
             float skinScale = mainModelInfo.HeightScale / skinModelInfo.HeightScale;
             skinModelTransfom.localScale = new Vector3(skinScale, skinScale, skinScale);
 
-#if DEBUG
             Log.Debug($"Skin model {skinModelTransfom.name} scale for {modelTransform.name}: {skinScale}");
-#endif
 
             if (modelTransform.TryGetComponent(out BonesProvider modelBonesProvider) && skinModelTransfom.TryGetComponent(out BonesProvider skinBonesProvider))
             {
@@ -364,9 +361,7 @@ namespace ModelSwapperSkins
 
                     skinModelLightInfos.AddRange(skinModel.baseLightInfos);
 
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
                     mainModel.mainSkinnedMeshRenderer = skinModel.mainSkinnedMeshRenderer;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
                 }
                 else
                 {

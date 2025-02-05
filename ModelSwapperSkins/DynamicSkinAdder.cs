@@ -131,9 +131,7 @@ namespace ModelSwapperSkins
 
                     try
                     {
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
                         skin.Bake();
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
                     }
                     catch (Exception e)
                     {
@@ -149,9 +147,7 @@ namespace ModelSwapperSkins
                 BodyIndex bodyIndex = body.bodyIndex;
                 if (bodyIndex != BodyIndex.None)
                 {
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
                     SkinDef[][] skins = BodyCatalog.skins;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
                     if ((int)bodyIndex < skins.Length)
                     {
                         ArrayUtil.Append(ref skins[(int)bodyIndex], newSkins);
@@ -188,9 +184,7 @@ namespace ModelSwapperSkins
                 modelParts = [];
             }
 
-#if DEBUG
             Log.Debug($"{bodyPrefab.name} model parts: [{string.Join(", ", modelParts.Select(p => p.Path))}]");
-#endif
 
             if (modelTransform.TryGetComponent(out ModelSkinController modelSkinController))
             {
@@ -224,7 +218,6 @@ namespace ModelSwapperSkins
                             Transform partTransform = skin.rootObject.transform.Find(modelPart.Path);
                             if (partTransform)
                             {
-#if DEBUG
                                 if (partTransform.gameObject.activeSelf)
                                 {
                                     Log.Debug($"Appending model part {modelPart.Path} object activation to regular skin {skin.name}");
@@ -233,7 +226,6 @@ namespace ModelSwapperSkins
                                 {
                                     Log.Debug($"Appending default disabled model part {modelPart.Path} object activation to regular skin {skin.name}");
                                 }
-#endif
 
                                 gameObjectActivations.Add(new SkinDef.GameObjectActivation
                                 {
@@ -251,9 +243,7 @@ namespace ModelSwapperSkins
                         skin.gameObjectActivations = gameObjectActivations.ToArray();
 
                         // Force re-baking
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
                         skin.runtimeSkin = null;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
                     }
                 }
             }
@@ -286,9 +276,7 @@ namespace ModelSwapperSkins
                 {
                     if (part.RendererInfo.HasValue && part.Transform.TryGetComponent(out Renderer renderer))
                     {
-#if DEBUG
                         Log.Debug($"Adding model part {part.Path} renderer ({renderer}) to generated default skin {defaultSkin.name}");
-#endif
 
                         Material[] materials = renderer.sharedMaterials;
                         if (materials.Length <= 0)
@@ -341,9 +329,7 @@ namespace ModelSwapperSkins
                 BodyIndex bodyIndex = bodyPrefab.bodyIndex;
                 if (bodyIndex != BodyIndex.None)
                 {
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
                     SkinDef[][] skins = BodyCatalog.skins;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
                     if ((int)bodyIndex < skins.Length)
                     {
                         ArrayUtils.ArrayAppend(ref skins[(int)bodyIndex], defaultSkin);

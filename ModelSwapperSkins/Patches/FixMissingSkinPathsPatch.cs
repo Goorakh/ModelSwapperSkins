@@ -26,9 +26,8 @@ namespace ModelSwapperSkins.Patches
                     {
                         if (!modelTransform.Find(skin.gameObjectActivationTemplates[i].path))
                         {
-#if DEBUG
                             Log.Debug($"Removing invalid gameObjectActivationTemplates path \"{skin.gameObjectActivationTemplates[i].path}\"");
-#endif
+
                             ArrayUtils.ArrayRemoveAtAndResize(ref skin.gameObjectActivationTemplates, i);
                         }
                     }
@@ -40,9 +39,8 @@ namespace ModelSwapperSkins.Patches
                     {
                         if (!modelTransform.Find(skin.meshReplacementTemplates[i].path))
                         {
-#if DEBUG
                             Log.Debug($"Removing invalid meshReplacementTemplates path \"{skin.meshReplacementTemplates[i].path}\"");
-#endif
+
                             ArrayUtils.ArrayRemoveAtAndResize(ref skin.meshReplacementTemplates, i);
                         }
                     }
