@@ -1,6 +1,6 @@
 ## Changelog
 
-**-.-.- Changes:**
+**1.5.2 Changes:**
 
 * Fixed load error if a mod added an improperly set up character.
 
