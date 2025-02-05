@@ -187,7 +187,11 @@ namespace ModelSwapperSkins
                     nameBuilder.Append('_').Append(modelSkin.name);
                 }
 
-                skinDef.name = nameBuilder.ToString();
+                string name = nameBuilder.ToString();
+
+                skinDef.name = name;
+
+                skinDef.nameToken = name.ToUpper();
 
                 nameBuilder = HG.StringBuilderPool.ReturnStringBuilder(nameBuilder);
 
