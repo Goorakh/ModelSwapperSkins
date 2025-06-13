@@ -1,10 +1,15 @@
-﻿using ModelSwapperSkins.Utils;
+﻿using HG.Coroutines;
+using ModelSwapperSkins.Utils;
 using RoR2;
+using RoR2.ContentManagement;
+using RoR2BepInExPack.GameAssetPaths;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace ModelSwapperSkins.ModelParts
 {
@@ -24,16 +29,34 @@ namespace ModelSwapperSkins.ModelParts
             }
         }
 
-        public static void OverrideParts(string bodyPrefabPath, params ModelPartConstructor[] partOverrides)
+        public static void OverrideParts(string bodyPrefabAssetGuid, params ModelPartConstructor[] partOverrides)
         {
             if (partOverrides.Length == 0)
                 return;
 
-            GameObject bodyPrefab = Addressables.LoadAssetAsync<GameObject>(bodyPrefabPath).WaitForCompletion();
+            GameObject bodyPrefab = AssetAsyncReferenceManager<GameObject>.LoadAsset(new AssetReferenceT<GameObject>(bodyPrefabAssetGuid)).WaitForCompletion();
             if (!bodyPrefab)
             {
-                Log.Warning($"{bodyPrefabPath} is not a valid GameObject asset");
+                Log.Warning($"{bodyPrefabAssetGuid} is not a valid GameObject asset");
                 return;
+            }
+
+            OverrideParts(bodyPrefab, partOverrides);
+        }
+
+        public static IEnumerator OverridePartsAsync(string bodyPrefabAssetGuid, params ModelPartConstructor[] partOverrides)
+        {
+            if (partOverrides.Length == 0)
+                yield break;
+
+            AsyncOperationHandle<GameObject> bodyPrefabLoadHandle = AssetAsyncReferenceManager<GameObject>.LoadAsset(new AssetReferenceT<GameObject>(bodyPrefabAssetGuid));
+            yield return bodyPrefabLoadHandle;
+
+            GameObject bodyPrefab = bodyPrefabLoadHandle.Result;
+            if (!bodyPrefab)
+            {
+                Log.Warning($"{bodyPrefabAssetGuid} is not a valid GameObject asset");
+                yield break;
             }
 
             OverrideParts(bodyPrefab, partOverrides);
@@ -45,9 +68,7 @@ namespace ModelSwapperSkins.ModelParts
                 return;
 
             if (!bodyPrefab)
-            {
                 throw new ArgumentNullException(nameof(bodyPrefab));
-            }
 
             if (!bodyPrefab.TryGetComponent(out ModelLocator modelLocator))
             {
@@ -62,13 +83,11 @@ namespace ModelSwapperSkins.ModelParts
                 return;
             }
 
-            ModelPart[] newParts = partOverrides.Select(p => p.Construct(modelTransform))
-                                                .Where(p => p.Transform)
-                                                .ToArray();
+            ModelPart[] newParts = [.. partOverrides.Select(p => p.Construct(modelTransform)).Where(p => p.Transform)];
 
             if (modelTransform.TryGetComponent(out ModelPartsProvider partsProvider))
             {
-                List<ModelPart> newPartsList = newParts.ToList();
+                List<ModelPart> newPartsList = [.. newParts];
                 newPartsList.RemoveAll(part =>
                 {
                     int existingPartIndex = Array.FindIndex(partsProvider.Parts, p => p.Transform == part.Transform);
@@ -110,12 +129,12 @@ namespace ModelSwapperSkins.ModelParts
                 partsProvider.Parts = newParts;
             }
 
-            List<ModelPart> partsList = partsProvider.Parts.ToList();
+            List<ModelPart> partsList = [.. partsProvider.Parts];
             int numRemovedParts = partsList.RemoveAll(p => p.Flags == ModelPartFlags.None);
             if (numRemovedParts > 0)
             {
                 Log.Debug($"Removed {numRemovedParts} part(s) from {modelTransform.name} ({bodyPrefab.name})");
-                partsProvider.Parts = partsList.ToArray();
+                partsProvider.Parts = [.. partsList];
             }
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab.gameObject);
@@ -133,7 +152,7 @@ namespace ModelSwapperSkins.ModelParts
         }
 
         [SystemInitializer(typeof(BodyCatalog), typeof(SurvivorCatalog))]
-        static void Init()
+        static IEnumerator Init()
         {
             foreach (CharacterBody bodyPrefab in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
@@ -218,7 +237,7 @@ namespace ModelSwapperSkins.ModelParts
                     parts.AddRange(modelTransform.GetComponentsInChildren<Light>().Select(createModelPartFromComponent));
                 }
 
-                modelPartsProvider.Parts = parts.ToArray();
+                modelPartsProvider.Parts = [.. parts];
 
                 SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab.gameObject);
                 if (survivorDef && survivorDef.displayPrefab)
@@ -232,103 +251,109 @@ namespace ModelSwapperSkins.ModelParts
                 }
             }
 
-            OverrideParts("RoR2/Junk/AncientWisp/AncientWispBody.prefab",
+            ParallelCoroutine parallelOverridePartsCoroutine = new ParallelCoroutine();
+
+            void overrideParts(string bodyPrefabAssetGuid, params ModelPartConstructor[] modelPartConstructors)
+            {
+                parallelOverridePartsCoroutine.Add(OverridePartsAsync(bodyPrefabAssetGuid, modelPartConstructors));
+            }
+
+            overrideParts(RoR2_Junk_AncientWisp.AncientWispBody_prefab,
                           new ModelPartConstructor("AncientWispArmature/Head/GameObject", ModelPartFlags.Decoration));
 
-            OverrideParts("RoR2/Junk/Assassin/AssassinBody.prefab",
+            overrideParts(RoR2_Junk_Assassin.AssassinBody_prefab,
                           new ModelPartConstructor("AssassinArmature/ROOT,CENTER/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/lower_arm.l/hand.l/Dagger.l/AssassinDaggerMesh", ModelPartFlags.Weapon),
                           new ModelPartConstructor("AssassinArmature/ROOT,CENTER/ROOT/base/stomach/chest/clavicle.r/upper_arm.r/lower_arm.r/hand.r/Dagger.r/AssassinDaggerMesh.001", ModelPartFlags.Weapon));
 
             // TODO: This should target 2 separate objects, both with the same parent and the same name. Figure out a way to do this.
-            OverrideParts("RoR2/Base/Drones/BackupDroneBody.prefab",
+            overrideParts(RoR2_Base_Drones.BackupDroneBody_prefab,
                           new ModelPartConstructor("BackupDroneArmature/ROOT/Body/MissileDroneBladeActive/Blades", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BackupDroneArmature/ROOT/Body/MissileDroneBladeActive/Blades", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/Junk/BackupDroneOld/BackupDroneOldBody.prefab",
+            overrideParts(RoR2_Junk_BackupDroneOld.BackupDroneOldBody_prefab,
                           new ModelPartConstructor("DroneBackupArmature/BladeRoot/BladeActive", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("DroneBackupArmature/BladeRoot (1)/BladeActive", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("DroneBackupArmature/BladeRoot (2)/BladeActive", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/Base/Bandit2/Bandit2Body.prefab",
+            overrideParts(RoR2_Base_Bandit2.Bandit2Body_prefab,
                           new ModelPartConstructor("Bandit2AccessoriesMesh", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BanditArmature/ROOT/base/MainWeapon/BanditShotgunMesh", ModelPartFlags.Weapon),
                           new ModelPartConstructor("BanditArmature/SideWeapon/SideWeaponSpinner/BanditPistolMesh", ModelPartFlags.Weapon),
                           new ModelPartConstructor("BanditArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/lower_arm.l/hand.l/BladeMesh", ModelPartFlags.None));
 
-            OverrideParts("RoR2/Junk/Bandit/BanditBody.prefab",
+            overrideParts(RoR2_Junk_Bandit.BanditBody_prefab,
                           new ModelPartConstructor("BanditArmature/ROOT/base/stomach/BanditPistolMeshHip", ModelPartFlags.Weapon),
                           new ModelPartConstructor("BanditArmature/ROOT/base/stomach/chest/upper_arm.l/lower_arm.l/hand.l/ShotgunBone/BanditShotgunMesh", ModelPartFlags.Weapon));
 
-            OverrideParts("RoR2/Base/Beetle/BeetleWard.prefab",
+            overrideParts(RoR2_Base_BeetleGroup_BeetleWard.BeetleWard_prefab,
                           new ModelPartConstructor("Indicator", ModelPartFlags.Decoration));
 
-            OverrideParts("RoR2/Base/Brother/BrotherBody.prefab",
+            overrideParts(RoR2_Base_Brother.BrotherBody_prefab,
                           new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature));
+                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature),
+                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/neck/head/eyeball/BrotherEye/EyeTrail", ModelPartFlags.Decoration));
 
-            OverrideParts("RoR2/Junk/BrotherGlass/BrotherGlassBody.prefab",
+            overrideParts(RoR2_Junk_BrotherGlass.BrotherGlassBody_prefab,
                           new ModelPartConstructor("BrotherBodyMesh", ModelPartFlags.Body, new ModelPartRendererInfo(false, false)),
                           new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon, new ModelPartRendererInfo(true, false)),
                           new ModelPartConstructor("BrotherHammerConcrete/BrotherHammerStib", ModelPartFlags.Weapon, new ModelPartRendererInfo(true, false)));
 
-            OverrideParts("RoR2/Base/Brother/BrotherHurtBody.prefab",
+            overrideParts(RoR2_Base_Brother.BrotherHurtBody_prefab,
                           new ModelPartConstructor("BrotherClothPieces", ModelPartFlags.BodyFeature),
+                          new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon),
                           new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/Base/Captain/CaptainBody.prefab",
+            overrideParts(RoR2_Base_Captain.CaptainBody_prefab,
                           new ModelPartConstructor("CaptainGunArm", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/Junk/ClayMan/ClayBody.prefab",
+            overrideParts(RoR2_Junk_ClayMan.ClayBody_prefab,
                           new ModelPartConstructor("ClaymanArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/lower_arm.l/hand.l/shield/ClaymanShieldMesh", ModelPartFlags.Weapon),
                           new ModelPartConstructor("ClaymanArmature/ROOT/base/stomach/chest/clavicle.r/upper_arm.r/lower_arm.r/hand.r/sword/ClaymanSwordMesh", ModelPartFlags.Weapon));
 
-            OverrideParts("RoR2/Base/ClayBruiser/ClayBruiserBody.prefab",
+            overrideParts(RoR2_Base_ClayBruiser.ClayBruiserBody_prefab,
                           new ModelPartConstructor("ClayBruiserCannonMesh", ModelPartFlags.Weapon));
 
-            OverrideParts("RoR2/Base/Commando/CommandoBody.prefab",
+            overrideParts(RoR2_Base_Commando.CommandoBody_prefab,
                           new ModelPartConstructor("CommandoArmature/ROOT/base/stomach/chest/upper_arm.l/lower_arm.l/hand.l/gun.l/GunMesh.001", ModelPartFlags.Weapon),
                           new ModelPartConstructor("CommandoArmature/ROOT/base/stomach/chest/upper_arm.r/lower_arm.r/hand.r/gun.r/GunMesh", ModelPartFlags.Weapon));
 
-            OverrideParts("RoR2/Base/Croco/CrocoBody.prefab",
+            overrideParts(RoR2_Base_Croco.CrocoBody_prefab,
                           new ModelPartConstructor("CrocoSpineMesh", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/Base/Drones/Drone1Body.prefab",
+            overrideParts(RoR2_Base_Drones.Drone1Body_prefab,
                           new ModelPartConstructor("Drone1BladeActive", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/DLC1/DroneCommander/DroneCommanderBody.prefab",
+            overrideParts(RoR2_DLC1_DroneCommander.DroneCommanderBody_prefab,
                           new ModelPartConstructor("mdlDroneHat", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/Base/ElectricWorm/ElectricWormBody.prefab",
+            overrideParts(RoR2_Base_ElectricWorm.ElectricWormBody_prefab,
                           new ModelPartConstructor("WormArmature/Head/PPVolume", ModelPartFlags.Decoration));
 
             // TODO: This should target 3 separate objects, all with the same parent and the same name. Figure out a way to do this.
-            OverrideParts("RoR2/Base/Drones/EquipmentDroneBody.prefab",
+            overrideParts(RoR2_Base_Drones.EquipmentDroneBody_prefab,
                           new ModelPartConstructor("EquipmentDroneArmature/BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("EquipmentDroneArmature/BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("EquipmentDroneArmature/BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature));
 
             // TODO: This should target 2 separate objects, all with the same parent and the same name. Figure out a way to do this.
-            OverrideParts("RoR2/Base/Drones/FlameDroneBody.prefab",
+            overrideParts(RoR2_Base_Drones.FlameDroneBody_prefab,
                           new ModelPartConstructor("BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BladeOn/DroneBladeActive", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/DLC2/FalseSon/FalseSonBody.prefab",
-                          new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("FSArmature/Root/Hips/Spine1/Spine2/Spine3/SpineEnd/L_Clav/L_Upperarm/L_Forearm/L_Hand/L_Hand_Object/L_Weapon/", ModelPartFlags.Weapon));
+            overrideParts(RoR2_DLC2_FalseSon.FalseSonBody_prefab,
+                          new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon));
 
-            OverrideParts("RoR2/DLC2/FalseSonBoss/FalseSonBossBody.prefab",
-                          new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("FSArmature/Root/Hips/Spine1/Spine2/Spine3/SpineEnd/L_Clav/L_Upperarm/L_Forearm/L_Hand/L_Hand_Object/L_Weapon/", ModelPartFlags.Weapon));
+            overrideParts(RoR2_DLC2_FalseSonBoss.FalseSonBossBody_prefab,
+                          new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon));
 
-            OverrideParts("RoR2/DLC2/FalseSonBoss/FalseSonBossBodyLunarShard.prefab",
-                          new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("FSArmature/Root/Hips/Spine1/Spine2/Spine3/SpineEnd/L_Clav/L_Upperarm/L_Forearm/L_Hand/L_Hand_Object/L_Weapon/", ModelPartFlags.Weapon));
+            overrideParts(RoR2_DLC2_FalseSonBoss.FalseSonBossBodyLunarShard_prefab,
+                          new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon));
 
-            OverrideParts("RoR2/DLC2/FalseSonBoss/FalseSonBossBodyBrokenLunarShard.prefab",
+            overrideParts(RoR2_DLC2_FalseSonBoss.FalseSonBossBodyBrokenLunarShard_prefab,
                           new ModelPartConstructor("L_FalseSon_Weapon", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("FSArmature/Root/Hips/Spine1/Spine2/Spine3/SpineEnd/L_Clav/L_Upperarm/L_Forearm/L_Hand/L_Hand_Object/L_Weapon/", ModelPartFlags.Weapon));
+                          new ModelPartConstructor("FalseSon_LunarSpike3rdPhase", ModelPartFlags.Weapon));
 
-            OverrideParts("RoR2/Base/Golem/GolemBody.prefab",
+            overrideParts(RoR2_Base_Golem.GolemBody_prefab,
                           new ModelPartConstructor("GolemArmature/ROOT/base/pelvis/thigh.l/Debris", ModelPartFlags.Decoration),
                           new ModelPartConstructor("GolemArmature/ROOT/base/pelvis/thigh.r/Debris", ModelPartFlags.Decoration),
                           new ModelPartConstructor("GolemArmature/ROOT/base/stomach/chest/upper_arm.l/Debris", ModelPartFlags.Decoration),
@@ -336,17 +361,19 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("GolemArmature/ROOT/base/stomach/chest/upper_arm.r/Debris", ModelPartFlags.Decoration),
                           new ModelPartConstructor("GolemArmature/ROOT/base/stomach/chest/upper_arm.r/upper_arm.r.001/upper_arm.r.002/Debris", ModelPartFlags.Decoration));
 
-            OverrideParts("RoR2/Base/Grandparent/GrandParentBody.prefab",
-                          new ModelPartConstructor("GrandparentLowMesh", ModelPartFlags.Decoration));
+            overrideParts(RoR2_Base_Grandparent.GrandParentBody_prefab,
+                          new ModelPartConstructor("GrandparentLowMesh", ModelPartFlags.Decoration),
+                          new ModelPartConstructor("GrandparentArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/ConnectorSystem", ModelPartFlags.Decoration),
+                          new ModelPartConstructor("GrandparentArmature/ROOT/base/stomach/chest/clavicle.r/upper_arm.r/ConnectorSystem", ModelPartFlags.Decoration));
 
-            OverrideParts("RoR2/Base/Gravekeeper/GravekeeperBody.prefab",
+            overrideParts(RoR2_Base_Gravekeeper.GravekeeperBody_prefab,
                           new ModelPartConstructor("GravekeeperMaskMesh", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("Sphere", ModelPartFlags.Decoration));
 
-            OverrideParts("RoR2/Junk/HAND/HANDBody.prefab",
+            overrideParts(RoR2_Junk_HAND.HANDBody_prefab,
                           new ModelPartConstructor("HANDArmature/hammerBone/HANDHammerMesh", ModelPartFlags.Weapon));
 
-            OverrideParts("RoR2/Base/Huntress/HuntressBody.prefab",
+            overrideParts(RoR2_Base_Huntress.HuntressBody_prefab,
                           new ModelPartConstructor("BowString", ModelPartFlags.Weapon),
                           new ModelPartConstructor("BowMesh", ModelPartFlags.Weapon),
                           new ModelPartConstructor("HuntressArmature/ROOT/base/BowRoot/BowStringIKTarget/ArrowDisplay/Quad 1", ModelPartFlags.None),
@@ -360,19 +387,19 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("HuntressArmature/ROOT/base/BowRoot/BowStringIKTarget/ClusterArrowDisplay/Quad Cluster 5", ModelPartFlags.None),
                           new ModelPartConstructor("HuntressArmature/ROOT/base/BowRoot/BowStringIKTarget/ClusterArrowDisplay", ModelPartFlags.None));
 
-            OverrideParts("RoR2/Base/Loader/LoaderBody.prefab",
+            overrideParts(RoR2_Base_Loader.LoaderBody_prefab,
                           new ModelPartConstructor("LoaderMechMesh", ModelPartFlags.Decoration));
 
-            OverrideParts("RoR2/Base/Mage/MageBody.prefab",
+            overrideParts(RoR2_Base_Mage.MageBody_prefab,
                           new ModelPartConstructor("MageCapeMesh", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/Base/Merc/MercBody.prefab",
+            overrideParts(RoR2_Base_Merc.MercBody_prefab,
                           new ModelPartConstructor("MercSwordMesh", ModelPartFlags.Weapon),
                           new ModelPartConstructor("MercArmature/ROOT/base/pelvis/mdlMercAltPrisonerFrontCloth", ModelPartFlags.Body),
                           new ModelPartConstructor("MercArmature/ROOT/base/stomach/chest/neck/mdlMercAltPrisonerBackCloth", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("MercArmature/ROOT/base/stomach/chest/neck/head/MercAltPrisonerHead", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/DLC1/Railgunner/RailgunnerBody.prefab",
+            overrideParts(RoR2_DLC1_Railgunner.RailgunnerBody_prefab,
                           new ModelPartConstructor("mdlRailgunBackpackMesh", ModelPartFlags.Decoration),
                           new ModelPartConstructor("mdlRailGunBackpackScreen", ModelPartFlags.Decoration),
                           new ModelPartConstructor("RailGunnerArmature/ROOT/base/stomach/backpack/AllBackpackVFX Root/Idle/Monitor, Charging", ModelPartFlags.None),
@@ -380,40 +407,50 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("mdlRailgunProto", ModelPartFlags.Weapon),
                           new ModelPartConstructor("RailGunnerArmature/ROOT/base/GunRoot/GunBarrel/SMG/SMGBarrel/SMGLaser", ModelPartFlags.Weapon));
 
-            OverrideParts("RoR2/Base/Scav/ScavBody.prefab",
-                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
+            string[] scavBodyPaths = [
+                RoR2_Base_Scav.ScavBody_prefab,
+                RoR2_Base_ScavLunar.ScavLunar1Body_prefab,
+                RoR2_Base_ScavLunar.ScavLunar2Body_prefab,
+                RoR2_Base_ScavLunar.ScavLunar3Body_prefab,
+                RoR2_Base_ScavLunar.ScavLunar4Body_prefab
+            ];
 
-            OverrideParts("RoR2/Base/ScavLunar/ScavLunar1Body.prefab",
-                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
+            foreach (string scavBodyPath in scavBodyPaths)
+            {
+                overrideParts(scavBodyPath,
+                              new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
+                              new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
+            }
 
-            OverrideParts("RoR2/Base/ScavLunar/ScavLunar2Body.prefab",
-                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
+            string[] titanBodyPaths = [
+                RoR2_Base_Titan.TitanBody_prefab,
+                RoR2_Base_Titan.TitanGoldBody_prefab
+            ];
 
-            OverrideParts("RoR2/Base/ScavLunar/ScavLunar3Body.prefab",
-                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
+            foreach (string titanBodyPath in titanBodyPaths)
+            {
+                overrideParts(titanBodyPath,
+                              new ModelPartConstructor("TitanArmature/ROOT/base/stomach/chest/upper_arm.r/lower_arm.r/hand.r/RightFist/Sword", ModelPartFlags.Weapon),
+                              new ModelPartConstructor("TitanArmature/ROOT/base/stomach/chest/Head/EyeGlow", ModelPartFlags.Decoration),
+                              new ModelPartConstructor("TitanArmature/ROOT/base/stomach/Particle System", ModelPartFlags.Decoration));
+            }
 
-            OverrideParts("RoR2/Base/ScavLunar/ScavLunar4Body.prefab",
-                          new ModelPartConstructor("ScavArmature/ROOT/base/WeaponParent/ScavWeaponMesh", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("ScavBackpackMesh", ModelPartFlags.Decoration));
-
-            OverrideParts("RoR2/Base/Titan/TitanGoldBody.prefab",
-                          new ModelPartConstructor("TitanArmature/ROOT/base/stomach/chest/upper_arm.r/lower_arm.r/hand.r/RightFist/Sword", ModelPartFlags.Weapon));
-
-            OverrideParts("RoR2/Base/Treebot/TreebotBody.prefab",
+            overrideParts(RoR2_Base_Treebot.TreebotBody_prefab,
                           new ModelPartConstructor("TreebotFlowerMesh", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("TreebotRootMesh", ModelPartFlags.BodyFeature));
 
-            OverrideParts("RoR2/DLC1/VoidSurvivor/VoidSurvivorBody.prefab",
+            overrideParts(RoR2_DLC1_VoidSurvivor.VoidSurvivorBody_prefab,
                           new ModelPartConstructor("mdlVoidSurvivorMetal", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("metalcollar.001", ModelPartFlags.Body));
 
-            OverrideParts("RoR2/Base/Vulture/VultureBody.prefab",
+            overrideParts(RoR2_Base_Vulture.VultureBody_prefab,
                           new ModelPartConstructor("VultureWingFeatherMesh", ModelPartFlags.Decoration),
                           new ModelPartConstructor("VultureWingFeatherMeshSet2", ModelPartFlags.Decoration));
+
+            overrideParts(RoR2_Base_ImpBoss.ImpBossBody_prefab,
+                          new ModelPartConstructor("DustCenter", ModelPartFlags.Decoration));
+
+            yield return parallelOverridePartsCoroutine;
         }
     }
 }

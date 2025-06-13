@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ModelSwapperSkins.Utils.Comparers
 {
-    public sealed class GameObjectActivationObjectComparer : IEqualityComparer<SkinDef.GameObjectActivation>
+    public sealed class GameObjectActivationObjectComparer : IEqualityComparer<SkinDefParams.GameObjectActivation>
     {
         public static GameObjectActivationObjectComparer Instance { get; } = new GameObjectActivationObjectComparer();
 
@@ -11,12 +11,12 @@ namespace ModelSwapperSkins.Utils.Comparers
         {
         }
 
-        public bool Equals(SkinDef.GameObjectActivation x, SkinDef.GameObjectActivation y)
+        public bool Equals(SkinDefParams.GameObjectActivation x, SkinDefParams.GameObjectActivation y)
         {
             return x.gameObject == y.gameObject;
         }
 
-        public int GetHashCode(SkinDef.GameObjectActivation obj)
+        public int GetHashCode(SkinDefParams.GameObjectActivation obj)
         {
             return obj.gameObject.GetHashCode();
         }

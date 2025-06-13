@@ -1,5 +1,9 @@
 ## Changelog
 
+**?.?.? Changes:**
+
+* Updated for memory optimization patch
+
 **1.2.1 Changes:**
 
 * Updated for SotS

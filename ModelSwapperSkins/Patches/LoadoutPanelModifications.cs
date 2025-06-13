@@ -1,15 +1,17 @@
 ﻿using HarmonyLib;
 using HG;
+using ModelSwapperSkins.Utils.Extensions;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 using RoR2;
+using RoR2.ContentManagement;
 using RoR2.UI;
+using RoR2BepInExPack.GameAssetPaths;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -17,7 +19,6 @@ using UnityEngine.Events;
 
 namespace ModelSwapperSkins.Patches
 {
-    [SuppressMessage("Member Access", "Publicizer001:Accessing a member that was not originally public", Justification = "Patch")]
     static class LoadoutPanelModifications
     {
         static Sprite _fallbackSkinIcon;
@@ -25,12 +26,11 @@ namespace ModelSwapperSkins.Patches
         [SystemInitializer]
         static void Init()
         {
-            Texture2D skinSwatches = Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/texSkinSwatches.png").WaitForCompletion();
-            if (skinSwatches)
+            AssetAsyncReferenceManager<Texture2D>.LoadAsset(new AssetReferenceT<Texture2D>(RoR2_Base_Common.texSkinSwatches_png)).CallOnSuccess(skinSwatches =>
             {
                 _fallbackSkinIcon = Sprite.Create(skinSwatches, new Rect(128f * 6f, 128f * 1f, 128f, 128f), Vector2.zero);
                 _fallbackSkinIcon.name = "fallbackSkinIcon";
-            }
+            });
 
             On.RoR2.UI.LoadoutPanelController.SetDisplayData += LoadoutPanelController_SetDisplayData;
             IL.RoR2.UI.LoadoutPanelController.Row.FromSkin += Row_FromSkin;
@@ -123,7 +123,7 @@ namespace ModelSwapperSkins.Patches
 
             c.Index = 0;
             if (c.TryGotoNext(MoveType.After,
-                              x => x.MatchCallOrCallvirt(SymbolExtensions.GetMethodInfo(() => BodyCatalog.GetBodySkins(default)))))
+                              x => x.MatchCallOrCallvirt(SymbolExtensions.GetMethodInfo(() => SkinCatalog.GetBodySkinDefs(default)))))
             {
                 c.EmitDelegate((SkinDef[] skins) =>
                 {
@@ -142,7 +142,7 @@ namespace ModelSwapperSkins.Patches
                         }
                     }
 
-                    return discardedAny ? normalSkins.ToArray() : skins;
+                    return discardedAny ? [.. normalSkins] : skins;
                 });
             }
             else
@@ -174,7 +174,7 @@ namespace ModelSwapperSkins.Patches
                             {
                                 Loadout loadout = new Loadout();
 
-                                SkinDef[] bodySkins = BodyCatalog.GetBodySkins(bodyIndex);
+                                SkinDef[] bodySkins = SkinCatalog.GetBodySkinDefs(bodyIndex);
 
                                 skinResolver.BaseSkin = bodySkins != null && skinToAssign < bodySkins.Length ? bodySkins[skinToAssign] : null;
 
@@ -317,7 +317,7 @@ namespace ModelSwapperSkins.Patches
                 if (!bodyPrefab)
                     return;
 
-                SkinDef[] skins = BodyCatalog.GetBodySkins(bodyIndex);
+                SkinDef[] skins = SkinCatalog.GetBodySkinDefs(bodyIndex);
 
                 LoadoutPanelController.Row modelRow = new LoadoutPanelController.Row(PanelController, bodyIndex, "LOADOUT_MODEL");
 
@@ -329,7 +329,7 @@ namespace ModelSwapperSkins.Patches
 
                         skinResolver.ModelBodyIndex = modelBodyIndex;
 
-                        SkinDef[] modelBodySkins = BodyCatalog.GetBodySkins(skinResolver.ModelBodyIndex);
+                        SkinDef[] modelBodySkins = SkinCatalog.GetBodySkinDefs(skinResolver.ModelBodyIndex);
 
                         static bool isValidBodySkin(SkinDef skinDef) => skinDef is not ModelSwappedSkinDef;
 
@@ -464,7 +464,7 @@ namespace ModelSwapperSkins.Patches
                 if (bodyIndex == BodyIndex.None)
                     return;
 
-                SkinDef[] skins = BodyCatalog.GetBodySkins(bodyIndex);
+                SkinDef[] skins = SkinCatalog.GetBodySkinDefs(bodyIndex);
 
                 uint selectedSkinIndex = PanelController.currentDisplayData.userProfile.loadout.bodyLoadoutManager.GetSkinIndex(bodyIndex);
                 if (selectedSkinIndex >= skins.Length)
@@ -490,7 +490,7 @@ namespace ModelSwapperSkins.Patches
                 {
                     modelBodyIndex = selectedModelSwapSkin.NewModelBodyPrefab.bodyIndex;
 
-                    SkinDef[] modelBodySkins = BodyCatalog.GetBodySkins(modelBodyIndex);
+                    SkinDef[] modelBodySkins = SkinCatalog.GetBodySkinDefs(modelBodyIndex);
                     int[] buttonIndexLookup = new int[modelBodySkins.Length];
 
                     for (int i = 0; i < modelBodySkins.Length; i++)
@@ -624,7 +624,7 @@ namespace ModelSwapperSkins.Patches
 
                     if (_displayData.userProfile != null && _displayData.bodyIndex != BodyIndex.None)
                     {
-                        SkinDef[] bodySkins = BodyCatalog.GetBodySkins(_displayData.bodyIndex);
+                        SkinDef[] bodySkins = SkinCatalog.GetBodySkinDefs(_displayData.bodyIndex);
                         if (bodySkins != null)
                         {
                             uint skinIndex = _displayData.userProfile.loadout.bodyLoadoutManager.GetSkinIndex(_displayData.bodyIndex);
@@ -731,7 +731,7 @@ namespace ModelSwapperSkins.Patches
                         {
                             if (ModelBodyIndex != BodyIndex.None)
                             {
-                                SkinDef[] bodySkins = BodyCatalog.GetBodySkins(_displayData.bodyIndex);
+                                SkinDef[] bodySkins = SkinCatalog.GetBodySkinDefs(_displayData.bodyIndex);
                                 if (bodySkins != null)
                                 {
                                     foreach (SkinDef skin in bodySkins)

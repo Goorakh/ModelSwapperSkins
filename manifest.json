@@ -1,13 +1,13 @@
 ﻿{
 	"name": "ModelSwapperSkins",
-	"authorName": "Gorakh",
+	"author": "Gorakh",
 	"version_number": "1.5.1",
 	"website_url": "https://github.com/Goorakh/ModelSwapperSkins",
 	"description": "Adds most characters as selectable survivor skins (~80 skins per survivor)",
 	"dependencies": [
 		"bbepis-BepInExPack-5.4.2100",
 		"RiskofThunder-HookGenPatcher-1.2.5",
-		"RiskofThunder-R2API_Core-5.1.2",
+		"RiskofThunder-R2API_Core-5.1.5",
 		"KingEnderBrine-ScrollableLobbyUI-1.9.1",
 		"KingEnderBrine-LobbySkinsFix-1.2.1"
 	]

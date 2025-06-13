@@ -47,7 +47,7 @@ namespace ModelSwapperSkins
 
             _usedModelTransforms.Clear();
 
-            List<CharacterBody> bodies = BodyCatalog.allBodyPrefabBodyBodyComponents.ToList();
+            List<CharacterBody> bodies = [.. BodyCatalog.allBodyPrefabBodyBodyComponents];
             bodies.Sort((a, b) =>
             {
                 static string sanitizeName(string input)
@@ -213,6 +213,12 @@ namespace ModelSwapperSkins
                 }
 
                 skinDef.unlockableDef = unlockableDef;
+
+                SkinDefParams skinParams = ScriptableObject.CreateInstance<SkinDefParams>();
+                skinParams.name = $"{skinDef.name}_params";
+
+                skinDef.skinDefParams = skinParams;
+                skinDef.optimizedSkinDefParams = skinParams;
 
                 skinDef.Initialize(_bodyPartsProvider, bodyModelPartsProvider);
 

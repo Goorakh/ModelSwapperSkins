@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ModelSwapperSkins.Utils.Comparers
 {
-    public class MinionSkinReplacementBodyComparer : IEqualityComparer<SkinDef.MinionSkinReplacement>
+    public class MinionSkinReplacementBodyComparer : IEqualityComparer<SkinDefParams.MinionSkinReplacement>
     {
         public static MinionSkinReplacementBodyComparer Instance { get; } = new MinionSkinReplacementBodyComparer();
 
@@ -11,12 +11,12 @@ namespace ModelSwapperSkins.Utils.Comparers
         {
         }
 
-        public bool Equals(SkinDef.MinionSkinReplacement x, SkinDef.MinionSkinReplacement y)
+        public bool Equals(SkinDefParams.MinionSkinReplacement x, SkinDefParams.MinionSkinReplacement y)
         {
             return x.minionBodyPrefab == y.minionBodyPrefab;
         }
 
-        public int GetHashCode(SkinDef.MinionSkinReplacement obj)
+        public int GetHashCode(SkinDefParams.MinionSkinReplacement obj)
         {
             return obj.minionBodyPrefab.GetHashCode();
         }

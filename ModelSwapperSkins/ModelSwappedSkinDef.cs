@@ -3,12 +3,15 @@ using ModelSwapperSkins.ModelInfos;
 using ModelSwapperSkins.ModelParts;
 using ModelSwapperSkins.Utils;
 using ModelSwapperSkins.Utils.Comparers;
+using ModelSwapperSkins.Utils.Extensions;
 using RoR2;
+using RoR2.ContentManagement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace ModelSwapperSkins
 {
@@ -49,7 +52,9 @@ namespace ModelSwapperSkins
                 }
             }
 
-            gameObjectActivations = new GameObjectActivation[modelPartsProvider.Parts.Length];
+            SkinDefParams skinParams = GetSkinParams().ReferenceOrDirect().WaitForCompletion();
+
+            skinParams.gameObjectActivations = new SkinDefParams.GameObjectActivation[modelPartsProvider.Parts.Length];
 
             for (int i = 0; i < modelPartsProvider.Parts.Length; i++)
             {
@@ -62,10 +67,10 @@ namespace ModelSwapperSkins
                 {
                     SkinDef baseSkin = baseSkinsApplyOrder[j];
 
-                    int baseObjectActivationIndex = Array.FindIndex(baseSkin.gameObjectActivations, a => a.gameObject == partObject);
+                    int baseObjectActivationIndex = Array.FindIndex(skinParams.gameObjectActivations, a => a.gameObject == partObject);
                     if (baseObjectActivationIndex >= 0)
                     {
-                        bool basePartActive = baseSkin.gameObjectActivations[baseObjectActivationIndex].shouldActivate;
+                        bool basePartActive = skinParams.gameObjectActivations[baseObjectActivationIndex].shouldActivate;
                         if ((shouldActivate && basePartActive) != shouldActivate)
                         {
                             Log.Debug($"Model part {modelPart.Path} for {this} active override: {shouldActivate}->{basePartActive}");
@@ -77,7 +82,7 @@ namespace ModelSwapperSkins
                     }
                 }
 
-                gameObjectActivations[i] = new GameObjectActivation
+                skinParams.gameObjectActivations[i] = new SkinDefParams.GameObjectActivation
                 {
                     gameObject = partObject,
                     shouldActivate = shouldActivate
@@ -86,31 +91,49 @@ namespace ModelSwapperSkins
 
             if (baseSkins == null || baseSkins.Length == 0)
             {
-                rendererInfos = modelPartsProvider.GetComponent<CharacterModel>().baseRendererInfos;
+                skinParams.rendererInfos = modelPartsProvider.GetComponent<CharacterModel>().baseRendererInfos;
             }
             else
             {
-                HashSet<MinionSkinReplacement> combinedMinionSkinReplacements = new HashSet<MinionSkinReplacement>(MinionSkinReplacementBodyComparer.Instance);
-                HashSet<ProjectileGhostReplacement> combinedProjectileGhostReplacements = new HashSet<ProjectileGhostReplacement>(ProjectileGhostReplacementProjectileComparer.Instance);
+                HashSet<SkinDefParams.MinionSkinReplacement> combinedMinionSkinReplacements = new HashSet<SkinDefParams.MinionSkinReplacement>(MinionSkinReplacementBodyComparer.Instance);
+                HashSet<SkinDefParams.ProjectileGhostReplacement> combinedProjectileGhostReplacements = new HashSet<SkinDefParams.ProjectileGhostReplacement>(ProjectileGhostReplacementProjectileComparer.Instance);
 
                 foreach (SkinDef baseSkin in baseSkins)
                 {
                     if (!baseSkin)
                         continue;
 
-                    if (baseSkin.minionSkinReplacements != null && baseSkin.minionSkinReplacements.Length > 0)
+                    SkinDefParams.MinionSkinReplacement[] minionSkinReplacements = [];
+                    SkinDefParams.ProjectileGhostReplacement[] projectileGhostReplacements = [];
+
+                    (AssetReferenceT<SkinDefParams> assetRef, SkinDefParams directRef) = baseSkin.GetSkinParams();
+                    if (directRef || assetRef.RuntimeKeyIsValid())
                     {
-                        combinedMinionSkinReplacements.UnionWith(baseSkin.minionSkinReplacements);
+                        SkinDefParams baseSkinParams = (assetRef, directRef).ReferenceOrDirect().WaitForCompletion();
+                        minionSkinReplacements = baseSkinParams.minionSkinReplacements;
+                        projectileGhostReplacements = baseSkinParams.projectileGhostReplacements;
+                    }
+                    else
+                    {
+#pragma warning disable CS0618 // Type or member is obsolete
+                        minionSkinReplacements = [.. baseSkin.minionSkinReplacements];
+                        projectileGhostReplacements = [.. baseSkin.projectileGhostReplacements];
+#pragma warning restore CS0618 // Type or member is obsolete
                     }
 
-                    if (baseSkin.projectileGhostReplacements != null && baseSkin.projectileGhostReplacements.Length > 0)
+                    if (minionSkinReplacements.Length > 0)
                     {
-                        combinedProjectileGhostReplacements.UnionWith(baseSkin.projectileGhostReplacements);
+                        combinedMinionSkinReplacements.UnionWith(minionSkinReplacements);
+                    }
+
+                    if (projectileGhostReplacements.Length > 0)
+                    {
+                        combinedProjectileGhostReplacements.UnionWith(projectileGhostReplacements);
                     }
                 }
 
-                minionSkinReplacements = combinedMinionSkinReplacements.ToArray();
-                projectileGhostReplacements = combinedProjectileGhostReplacements.ToArray();
+                skinParams.minionSkinReplacements = [.. combinedMinionSkinReplacements];
+                skinParams.projectileGhostReplacements = [.. combinedProjectileGhostReplacements];
             }
 
             bool isGupVariant = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GupBody")
@@ -154,7 +177,7 @@ namespace ModelSwapperSkins
         {
             if (modelTransform.TryGetComponent(out CharacterModel characterModel))
             {
-                List<CharacterModel.LightInfo> lights = characterModel.baseLightInfos.ToList();
+                List<CharacterModel.LightInfo> lights = [.. characterModel.baseLightInfos];
 
                 bool anyChange = false;
                 for (int i = lights.Count - 1; i >= 0; i--)
@@ -168,18 +191,18 @@ namespace ModelSwapperSkins
 
                 if (anyChange)
                 {
-                    characterModel.baseLightInfos = lights.ToArray();
+                    characterModel.baseLightInfos = [.. lights];
                 }
             }
         }
 
-        public Transform InstantiateModel(Transform modelTransform)
+        public IEnumerator InstantiateModelAsync(Transform modelTransform, List<AssetReferenceT<Material>> loadedMaterials, List<AssetReferenceT<Mesh>> loadedMeshes, AsyncReferenceHandleUnloadType unloadType)
         {
             Transform skinModelTransfom = GameObject.Instantiate(NewModelTransformPrefab, modelTransform);
 
             if (ModelSkin)
             {
-                ModelSkin.Apply(skinModelTransfom.gameObject);
+                yield return ModelSkin.ApplyAsync(skinModelTransfom.gameObject, loadedMaterials, loadedMeshes, unloadType);
             }
 
             foreach (HurtBox hurtBox in skinModelTransfom.GetComponentsInChildren<HurtBox>(true))
@@ -256,7 +279,7 @@ namespace ModelSwapperSkins
 
             foreach (AkEvent ak in skinModelTransfom.GetComponentsInChildren<AkEvent>(true))
             {
-                ak.enabled = false;
+                Destroy(ak);
             }
 
             foreach (StriderLegController striderLegController in skinModelTransfom.GetComponentsInChildren<StriderLegController>())
@@ -360,9 +383,7 @@ namespace ModelSwapperSkins
 
                     skinModelLightInfos.AddRange(skinModel.baseLightInfos);
 
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
                     mainModel.mainSkinnedMeshRenderer = skinModel.mainSkinnedMeshRenderer;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
                 }
                 else
                 {
@@ -431,7 +452,10 @@ namespace ModelSwapperSkins
                 }
             }
 
-            return skinModelTransfom;
+            if (modelTransform.TryGetComponent(out ModelSwappedSkinReference modelSwappedSkinReference))
+            {
+                modelSwappedSkinReference.SkinModelObject = skinModelTransfom.gameObject;
+            }
         }
     }
 }

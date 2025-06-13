@@ -1,5 +1,10 @@
-﻿using RoR2;
+﻿using HG;
+using RoR2;
+using RoR2.ContentManagement;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace ModelSwapperSkins.Patches
 {
@@ -8,52 +13,30 @@ namespace ModelSwapperSkins.Patches
         [SystemInitializer]
         static void Init()
         {
-            On.RoR2.SkinDef.Apply += SkinDef_Apply;
+            On.RoR2.SkinDef.ApplyAsync += SkinDef_ApplyAsync;
         }
 
-        static void SkinDef_Apply(On.RoR2.SkinDef.orig_Apply orig, SkinDef self, GameObject modelObject)
+        static IEnumerator SkinDef_ApplyAsync(On.RoR2.SkinDef.orig_ApplyAsync orig, SkinDef self, GameObject modelObject, List<AssetReferenceT<Material>> loadedMaterials, List<AssetReferenceT<Mesh>> loadedMeshes, AsyncReferenceHandleUnloadType unloadType)
         {
-            if (modelObject.TryGetComponent(out SkinModelObjectTracker existingModelObjectTracker))
+            if (modelObject.TryGetComponent(out ModelSwappedSkinReference existingModelObjectTracker))
             {
-                existingModelObjectTracker.AppliedSkin.RemoveFrom(modelObject.transform, existingModelObjectTracker.SkinModelObject);
+                if (existingModelObjectTracker.AppliedSkin && existingModelObjectTracker.SkinModelObject)
+                {
+                    existingModelObjectTracker.AppliedSkin.RemoveFrom(modelObject.transform, existingModelObjectTracker.SkinModelObject);
+                }
 
-                GameObject.Destroy(existingModelObjectTracker);
+                Object.Destroy(existingModelObjectTracker);
             }
 
-            orig(self, modelObject);
-
-            if (!modelObject.TryGetComponent(out AppliedSkinTracker appliedSkinTracker))
-                appliedSkinTracker = modelObject.AddComponent<AppliedSkinTracker>();
-
-            appliedSkinTracker.AppliedSkin = self;
+            yield return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
 
             if (self is ModelSwappedSkinDef modelSwappedSkin)
             {
-                Transform skinModelTransform = modelSwappedSkin.InstantiateModel(modelObject.transform);
-
-                SkinModelObjectTracker modelObjectTracker = modelObject.AddComponent<SkinModelObjectTracker>();
-                modelObjectTracker.SkinModelObject = skinModelTransform.gameObject;
+                ModelSwappedSkinReference modelObjectTracker = modelObject.EnsureComponent<ModelSwappedSkinReference>();
                 modelObjectTracker.AppliedSkin = modelSwappedSkin;
+
+                yield return modelSwappedSkin.InstantiateModelAsync(modelObject.transform, loadedMaterials, loadedMeshes, unloadType);
             }
-        }
-
-        class SkinModelObjectTracker : MonoBehaviour
-        {
-            public ModelSwappedSkinDef AppliedSkin;
-            public GameObject SkinModelObject;
-
-            void OnDestroy()
-            {
-                if (SkinModelObject)
-                {
-                    Destroy(SkinModelObject);
-                }
-            }
-        }
-
-        public class AppliedSkinTracker : MonoBehaviour
-        {
-            public SkinDef AppliedSkin;
         }
     }
 }

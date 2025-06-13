@@ -1,4 +1,5 @@
-﻿using ModelSwapperSkins.Patches;
+﻿using HG;
+using ModelSwapperSkins.Patches;
 using RoR2;
 using System;
 using UnityEngine;
@@ -49,7 +50,7 @@ namespace ModelSwapperSkins.BoneMapping
                     };
 
                 case BoneExclusionRuleType.ModelSkin:
-                    SkinDef appliedSkin = currentBones.TryGetComponent(out CreateModelOnApplySkin.AppliedSkinTracker appliedSkinTracker) ? appliedSkinTracker.AppliedSkin : null;
+                    SkinDef appliedSkin = currentBones.TryGetComponent(out ModelSkinController skinController) ? ArrayUtils.GetSafe(skinController.skins, skinController.currentSkinIndex) : null;
 
                     if (appliedSkin is ModelSwappedSkinDef && appliedSkin.baseSkins != null && appliedSkin.baseSkins.Length > 0)
                     {

@@ -1,5 +1,4 @@
 ﻿using RoR2;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,7 +28,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "mainBody.1":
                     return new BoneInfo(BoneType.Head)
                     {
-                        Scale = 3f
+                        Scale = 0.7f
                     };
                 case "LegBack.1.L":
                 case "LegBack.1.R":

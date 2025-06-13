@@ -118,10 +118,11 @@ namespace ModelSwapperSkins.BoneMapping
                         case "DevotedLemurianBruiserBody":
                         case "EnforcerBody": // Literally just a cube
                         case "GolemBodyInvincible": // Just Stone Golem
-                        case "SniperBody": // Broken texture commando model
-                        case "VoidMegaCrabBody": // No easy mappings, blacklist for now
-                        case "VoidMegaCrabAllyBody": // No easy mappings, blacklist for now
                         case "HalcyoniteBody": // No easy mappings, blacklist for now
+                        case "ITBrotherBody": // Just normal mithrix model
+                        case "SniperBody": // Broken texture commando model
+                        case "VoidMegaCrabAllyBody": // No easy mappings, blacklist for now
+                        case "VoidMegaCrabBody": // No easy mappings, blacklist for now
                             continue;
                     }
 
@@ -166,18 +167,20 @@ namespace ModelSwapperSkins.BoneMapping
 
             BonesProvider bonesProvider = modelTransform.gameObject.AddComponent<BonesProvider>();
 
-            List<Bone> bones = TransformUtils.GetAllChildrenRecursive(modelTransform).Select(boneTransform =>
+            List<Bone> bones = [];
+
+            foreach (Transform boneTransform in TransformUtils.GetAllChildrenRecursive(modelTransform))
             {
                 BoneInfo boneInfo = rules.GetBoneInfo(modelTransform, boneTransform);
                 if (boneInfo.Type == BoneType.None)
-                    return null;
+                    continue;
 
-                return new Bone(boneInfo, modelTransform, boneTransform);
-            }).Where(b => b != null).ToList();
+                bones.Add(new Bone(boneInfo, modelTransform, boneTransform));
+            }
 
             bones.AddRange(rules.GetAdditionalBones(modelTransform, bones));
 
-            bonesProvider.Bones = bones.ToArray();
+            bonesProvider.Bones = [.. bones];
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab.gameObject);
             if (survivorDef && survivorDef.displayPrefab)

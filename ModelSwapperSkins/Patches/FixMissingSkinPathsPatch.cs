@@ -1,6 +1,9 @@
-﻿using HG;
-using RoR2;
+﻿using RoR2;
+using RoR2.ContentManagement;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace ModelSwapperSkins.Patches
 {
@@ -11,45 +14,58 @@ namespace ModelSwapperSkins.Patches
         [SystemInitializer]
         static void Init()
         {
-            On.RoR2.SkinDef.RuntimeSkin.Apply += RuntimeSkin_Apply;
+            On.RoR2.SkinDef.RuntimeSkin.ApplyAsync += RuntimeSkin_ApplyAsync;
         }
 
-        static void RuntimeSkin_Apply(On.RoR2.SkinDef.RuntimeSkin.orig_Apply orig, object self, GameObject modelObject)
+        static IEnumerator RuntimeSkin_ApplyAsync(On.RoR2.SkinDef.RuntimeSkin.orig_ApplyAsync orig, SkinDef.RuntimeSkin self, GameObject modelObject, List<AssetReferenceT<Material>> loadedMaterials, List<AssetReferenceT<Mesh>> loadedMeshes, AsyncReferenceHandleUnloadType unloadType)
         {
             if (self is SkinDef.RuntimeSkin skin)
             {
                 Transform modelTransform = modelObject.transform;
 
-                if (skin.gameObjectActivationTemplates != null)
+                if (skin.gameObjectActivationTemplates.src != null && skin.gameObjectActivationTemplates.Length > 0)
                 {
-                    for (int i = skin.gameObjectActivationTemplates.Length - 1; i >= 0; i--)
+                    List<SkinDef.GameObjectActivationTemplate> gameObjectActivationTemplates = [.. skin.gameObjectActivationTemplates];
+                    bool activationTemplatesModified = false;
+                    for (int i = gameObjectActivationTemplates.Count - 1; i >= 0; i--)
                     {
-                        if (!modelTransform.Find(skin.gameObjectActivationTemplates[i].path))
+                        if (!modelTransform.Find(gameObjectActivationTemplates[i].transformPath))
                         {
-#if DEBUG
-                            Log.Debug($"Removing invalid gameObjectActivationTemplates path \"{skin.gameObjectActivationTemplates[i].path}\"");
-#endif
-                            ArrayUtils.ArrayRemoveAtAndResize(ref skin.gameObjectActivationTemplates, i);
+                            Log.Debug($"Removing invalid gameObjectActivationTemplates path \"{skin.gameObjectActivationTemplates[i].transformPath}\"");
+                            gameObjectActivationTemplates.RemoveAt(i);
+                            activationTemplatesModified = true;
                         }
+                    }
+
+                    if (activationTemplatesModified)
+                    {
+                        skin.gameObjectActivationTemplates = gameObjectActivationTemplates.ToArray();
                     }
                 }
 
-                if (skin.meshReplacementTemplates != null)
+                if (skin.meshReplacementTemplates.src != null && skin.meshReplacementTemplates.Length > 0)
                 {
-                    for (int i = skin.meshReplacementTemplates.Length - 1; i >= 0; i--)
+                    List<SkinDef.MeshReplacementTemplate> meshReplacementTemplates = [.. skin.meshReplacementTemplates];
+                    bool meshReplacementsModified = false;
+
+                    for (int i = meshReplacementTemplates.Count - 1; i >= 0; i--)
                     {
-                        if (!modelTransform.Find(skin.meshReplacementTemplates[i].path))
+                        if (!modelTransform.Find(meshReplacementTemplates[i].transformPath))
                         {
-#if DEBUG
-                            Log.Debug($"Removing invalid meshReplacementTemplates path \"{skin.meshReplacementTemplates[i].path}\"");
-#endif
-                            ArrayUtils.ArrayRemoveAtAndResize(ref skin.meshReplacementTemplates, i);
+                            Log.Debug($"Removing invalid meshReplacementTemplates path \"{skin.meshReplacementTemplates[i].transformPath}\"");
+                            meshReplacementTemplates.RemoveAt(i);
+                            meshReplacementsModified = true;
                         }
+                    }
+
+                    if (meshReplacementsModified)
+                    {
+                        skin.meshReplacementTemplates = meshReplacementTemplates.ToArray();
                     }
                 }
             }
 
-            orig(self, modelObject);
+            return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
         }
     }
 }

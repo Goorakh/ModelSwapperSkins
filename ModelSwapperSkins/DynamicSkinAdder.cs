@@ -3,19 +3,25 @@ using ModelSwapperSkins.BoneMapping;
 using ModelSwapperSkins.ModelParts;
 using ModelSwapperSkins.Utils;
 using RoR2;
+using RoR2.ContentManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace ModelSwapperSkins
 {
     public static class DynamicSkinAdder
     {
+#if DEBUG
+        const bool AllowNonSurvivorSkinAdditions = false;
+#else
+        const bool AllowNonSurvivorSkinAdditions = false;
+#endif
+
         public delegate void AddSkinDelegate(CharacterBody bodyPrefab, List<SkinDef> skins);
         public static event AddSkinDelegate AddSkins;
-
-        static bool _skinBakeDisabled = false;
 
         [SystemInitializer(typeof(SurvivorCatalog), typeof(BodyCatalog), typeof(ModelPartsInitializer), typeof(BoneInitializer))]
         static void Init()
@@ -24,17 +30,6 @@ namespace ModelSwapperSkins
             {
                 Log.Error("SkinCatalog already initialized");
             }
-
-            // Bake is called from Awake, before we've had a chance to set all the fields, it will be called manually later instead
-            void SkinDef_Bake(On.RoR2.SkinDef.orig_Bake orig, SkinDef self)
-            {
-                if (_skinBakeDisabled)
-                    return;
-
-                orig(self);
-            }
-
-            On.RoR2.SkinDef.Bake += SkinDef_Bake;
 
             HashSet<CharacterBody> failedSetupBodies = [];
 
@@ -56,18 +51,11 @@ namespace ModelSwapperSkins
                 if (failedSetupBodies.Contains(body))
                     continue;
 
-                // Prevent non-survivors from getting skins
-                // This check is removed in debug builds to help with alignment
-                // Maybe enable in release builds if it's verified to be safe/compatible with other mods?
-#if !DEBUG
-                if (SurvivorCatalog.GetSurvivorIndexFromBodyIndex(body.bodyIndex) == SurvivorIndex.None)
+                if (!AllowNonSurvivorSkinAdditions && SurvivorCatalog.GetSurvivorIndexFromBodyIndex(body.bodyIndex) == SurvivorIndex.None)
                     continue;
-#endif
 
                 addSkinsTo(body);
             }
-
-            On.RoR2.SkinDef.Bake -= SkinDef_Bake;
         }
 
         static void addSkinsTo(CharacterBody body)
@@ -88,16 +76,17 @@ namespace ModelSwapperSkins
             ModelSkinController modelSkinController = modelTransform.GetComponent<ModelSkinController>();
             if (!modelSkinController)
             {
-#if DEBUG
-                modelSkinController = modelTransform.gameObject.AddComponent<ModelSkinController>();
-                modelSkinController.skins = [];
-#else
-                Log.Warning($"{body.name} model is missing ModelSkinController");
-                return;
-#endif
+                if (AllowNonSurvivorSkinAdditions)
+                {
+                    modelSkinController = modelTransform.gameObject.AddComponent<ModelSkinController>();
+                    modelSkinController.skins = [];
+                }
+                else
+                {
+                    Log.Warning($"{body.name} model is missing ModelSkinController");
+                    return;
+                }
             }
-
-            _skinBakeDisabled = true;
 
             try
             {
@@ -108,51 +97,33 @@ namespace ModelSwapperSkins
                 Log.Error_NoCallerPrefix($"Failed to generate skins for {body.name}: {e}");
                 return;
             }
-            finally
-            {
-                _skinBakeDisabled = false;
-            }
 
             if (newSkins.Count > 0)
             {
-                for (int i = newSkins.Count - 1; i >= 0; i--)
+                for (int i = 0; i < newSkins.Count; i++)
                 {
-                    SkinDef skin = newSkins[i];
-
-                    skin.baseSkins ??= [];
-                    skin.rendererInfos ??= [];
-                    skin.gameObjectActivations ??= [];
-                    skin.meshReplacements ??= [];
-                    skin.projectileGhostReplacements ??= [];
-                    skin.minionSkinReplacements ??= [];
-
-                    if (!skin.rootObject)
-                        skin.rootObject = modelTransform.gameObject;
-
-                    try
+                    if (!newSkins[i].rootObject)
                     {
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-                        skin.Bake();
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Warning_NoCallerPrefix($"Failed to create skin {skin.name} for {body.name}: {e}");
-
-                        GameObject.Destroy(newSkins[i]);
-                        newSkins.RemoveAt(i);
+                        newSkins[i].rootObject = modelTransform.gameObject;
                     }
                 }
 
                 ArrayUtil.Append(ref modelSkinController.skins, newSkins);
 
+                SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(body.gameObject);
+                if (survivorDef && survivorDef.displayPrefab)
+                {
+                    if (survivorDef.displayPrefab.TryGetComponent(out ModelSkinController displayPrefabSkinController))
+                    {
+                        ArrayUtil.Append(ref displayPrefabSkinController.skins, newSkins);
+                    }
+                }
+
                 BodyIndex bodyIndex = body.bodyIndex;
                 if (bodyIndex != BodyIndex.None)
                 {
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-                    SkinDef[][] skins = BodyCatalog.skins;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-                    if ((int)bodyIndex < skins.Length)
+                    SkinDef[][] skins = SkinCatalog.skinsByBody;
+                    if ((uint)bodyIndex < skins.Length)
                     {
                         ArrayUtil.Append(ref skins[(int)bodyIndex], newSkins);
                     }
@@ -200,14 +171,23 @@ namespace ModelSwapperSkins
                         continue;
                     }
 
-                    List<SkinDef.GameObjectActivation> gameObjectActivations = new List<SkinDef.GameObjectActivation>(skin.gameObjectActivations);
+                    AssetOrDirectReference<SkinDefParams> skinParamsReference = new AssetOrDirectReference<SkinDefParams>();
+                    {
+                        (AssetReferenceT<SkinDefParams> assetRef, SkinDefParams directRef) = skin.GetSkinParams();
+                        skinParamsReference.directRef = directRef;
+                        skinParamsReference.address = assetRef;
+                    }
+
+                    SkinDefParams skinDefParams = skinParamsReference.WaitForCompletion();
+
+                    List<SkinDefParams.GameObjectActivation> gameObjectActivations = [.. skinDefParams.gameObjectActivations];
 
                     bool gameObjectActivationsChanged = false;
 
                     foreach (ModelPart modelPart in modelParts)
                     {
                         bool partAlreadyExists = false;
-                        foreach (SkinDef.GameObjectActivation gameObjectActivation in gameObjectActivations)
+                        foreach (SkinDefParams.GameObjectActivation gameObjectActivation in gameObjectActivations)
                         {
                             string activationPath = Util.BuildPrefabTransformPath(skin.rootObject.transform, gameObjectActivation.gameObject.transform);
                             if (activationPath == modelPart.Path)
@@ -224,7 +204,7 @@ namespace ModelSwapperSkins
                             {
                                 Log.Debug($"Appending model part {modelPart.Path} object activation to regular skin {skin.name}, default enabled: {partTransform.gameObject.activeSelf}");
 
-                                gameObjectActivations.Add(new SkinDef.GameObjectActivation
+                                gameObjectActivations.Add(new SkinDefParams.GameObjectActivation
                                 {
                                     gameObject = partTransform.gameObject,
                                     shouldActivate = partTransform.gameObject.activeSelf
@@ -237,12 +217,10 @@ namespace ModelSwapperSkins
 
                     if (gameObjectActivationsChanged)
                     {
-                        skin.gameObjectActivations = gameObjectActivations.ToArray();
+                        skinDefParams.gameObjectActivations = [.. gameObjectActivations];
 
                         // Force re-baking
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-                        skin.runtimeSkin = null;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
+                        skin._runtimeSkin = null;
                     }
                 }
             }
@@ -250,9 +228,7 @@ namespace ModelSwapperSkins
             {
                 modelSkinController = modelTransform.gameObject.AddComponent<ModelSkinController>();
 
-                _skinBakeDisabled = true;
                 SkinDef defaultSkin = ScriptableObject.CreateInstance<SkinDef>();
-                _skinBakeDisabled = false;
 
                 defaultSkin.name = $"skin{bodyPrefab.name}Default";
 
@@ -260,7 +236,13 @@ namespace ModelSwapperSkins
 
                 defaultSkin.baseSkins = [];
 
-                List<CharacterModel.RendererInfo> rendererInfos = new List<CharacterModel.RendererInfo>(characterModel.baseRendererInfos);
+                SkinDefParams defaultSkinParams = ScriptableObject.CreateInstance<SkinDefParams>();
+                defaultSkinParams.name = $"{defaultSkin.name}_params";
+
+                defaultSkin.skinDefParams = defaultSkinParams;
+                defaultSkin.optimizedSkinDefParams = defaultSkinParams;
+
+                List<CharacterModel.RendererInfo> rendererInfos = [.. characterModel.baseRendererInfos];
 
                 for (int i = rendererInfos.Count - 1; i >= 0; i--)
                 {
@@ -311,27 +293,21 @@ namespace ModelSwapperSkins
                     }
                 }
 
-                defaultSkin.rendererInfos = rendererInfos.ToArray();
+                defaultSkinParams.rendererInfos = [.. rendererInfos];
 
-                defaultSkin.gameObjectActivations = Array.ConvertAll(modelParts, p => new SkinDef.GameObjectActivation
+                defaultSkinParams.gameObjectActivations = Array.ConvertAll(modelParts, p => new SkinDefParams.GameObjectActivation
                 {
                     gameObject = p.Transform.gameObject,
                     shouldActivate = p.Transform.gameObject.activeSelf
                 });
-
-                defaultSkin.meshReplacements = [];
-                defaultSkin.projectileGhostReplacements = [];
-                defaultSkin.minionSkinReplacements = [];
 
                 modelSkinController.skins = [defaultSkin];
 
                 BodyIndex bodyIndex = bodyPrefab.bodyIndex;
                 if (bodyIndex != BodyIndex.None)
                 {
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-                    SkinDef[][] skins = BodyCatalog.skins;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-                    if ((int)bodyIndex < skins.Length)
+                    SkinDef[][] skins = SkinCatalog.skinsByBody;
+                    if ((uint)bodyIndex < skins.Length)
                     {
                         ArrayUtils.ArrayAppend(ref skins[(int)bodyIndex], defaultSkin);
                     }

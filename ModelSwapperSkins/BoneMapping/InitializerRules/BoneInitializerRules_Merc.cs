@@ -1,5 +1,8 @@
 ﻿using HG;
+using ModelSwapperSkins.Utils.Extensions;
 using RoR2;
+using RoR2.ContentManagement;
+using RoR2BepInExPack.GameAssetPaths;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -8,7 +11,16 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
     public sealed class BoneInitializerRules_Merc : BoneInitializerRules_AutoName
     {
-        static readonly SkinDef _prisonerSkin = Addressables.LoadAssetAsync<SkinDef>("RoR2/Base/Merc/skinMercAltPrisoner.asset").WaitForCompletion();
+        static SkinDef _prisonerSkin;
+
+        [SystemInitializer]
+        static void Init()
+        {
+            AssetAsyncReferenceManager<SkinDef>.LoadAsset(new AssetReferenceT<SkinDef>(RoR2_Base_Merc.skinMercAltPrisoner_asset)).CallOnSuccess(prisonerSkin =>
+            {
+                _prisonerSkin = prisonerSkin;
+            });
+        }
 
         public static new BoneInitializerRules_Merc Instance { get; } = new BoneInitializerRules_Merc();
 
@@ -67,7 +79,11 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case BoneType.Neck14:
                 case BoneType.Neck15:
                 case BoneType.Neck16:
-                    ArrayUtils.ArrayAppend(ref bone.ExclusionRules, new BoneExclusionRule(_prisonerSkin, ModelSkinExclusionRuleType.ExcludeIfApplied));
+                    if (_prisonerSkin)
+                    {
+                        ArrayUtils.ArrayAppend(ref bone.ExclusionRules, new BoneExclusionRule(_prisonerSkin, ModelSkinExclusionRuleType.ExcludeIfApplied));
+                    }
+
                     break;
             }
 

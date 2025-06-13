@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ModelSwapperSkins.Utils
 {
@@ -11,7 +10,10 @@ namespace ModelSwapperSkins.Utils
             if (other is null)
                 return;
 
-            Append(ref array, other.ToArray());
+            if (other is ICollection otherCollection && otherCollection.Count == 0)
+                return;
+
+            array = [.. array, .. other];
         }
 
         public static void Append<T>(ref T[] array, T[] other)
@@ -25,10 +27,7 @@ namespace ModelSwapperSkins.Utils
             if (other == null || other.Length == 0)
                 return;
 
-            int oldLength = array.Length;
-
-            Array.Resize(ref array, oldLength + other.Length);
-            Array.Copy(other, 0, array, oldLength, other.Length);
+            array = [.. array, .. other];
         }
     }
 }
