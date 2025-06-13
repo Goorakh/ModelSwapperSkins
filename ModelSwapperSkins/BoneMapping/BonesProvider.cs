@@ -59,7 +59,7 @@ namespace ModelSwapperSkins.BoneMapping
 
                 if (bone.BoneTransform.TryGetComponent(out MatchBoneTransform existingBoneMatcher))
                 {
-                    Log.Warning($"Duplicate bone match for {bone.ModelPath}, attempting to match {matchingBone.ModelPath} ({matchingBone.Info.Type}), but {existingBoneMatcher.TargetBone.ModelPath} ({existingBoneMatcher.TargetBone.Info.Type})");
+                    Log.Warning($"Duplicate bone match for {bone.ModelPath}, attempting to match {matchingBone.ModelPath} ({matchingBone.Info.Type}), but {existingBoneMatcher.TargetBone.ModelPath} ({existingBoneMatcher.TargetBone.Info.Type}) is already mapped to {existingBoneMatcher.Bone.ModelPath}");
                     continue;
                 }
 

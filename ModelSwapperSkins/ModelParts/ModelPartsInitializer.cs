@@ -393,6 +393,7 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("MageCapeMesh", ModelPartFlags.BodyFeature));
 
             overrideParts(RoR2_Base_Merc.MercBody_prefab,
+                          new ModelPartConstructor("MercMesh", ModelPartFlags.Body),
                           new ModelPartConstructor("MercSwordMesh", ModelPartFlags.Weapon),
                           new ModelPartConstructor("MercArmature/ROOT/base/pelvis/mdlMercAltPrisonerFrontCloth", ModelPartFlags.Body),
                           new ModelPartConstructor("MercArmature/ROOT/base/stomach/chest/neck/mdlMercAltPrisonerBackCloth", ModelPartFlags.BodyFeature),

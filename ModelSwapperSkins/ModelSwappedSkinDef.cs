@@ -63,22 +63,44 @@ namespace ModelSwapperSkins
                 GameObject partObject = modelPart.Transform.gameObject;
                 bool shouldActivate = modelPart.ShouldShow(true);
 
+                bool partFoundInBaseSkin = false;
                 for (int j = baseSkinsApplyOrder.Count - 1; j >= 0; j--)
                 {
                     SkinDef baseSkin = baseSkinsApplyOrder[j];
 
-                    int baseObjectActivationIndex = Array.FindIndex(skinParams.gameObjectActivations, a => a.gameObject == partObject);
+                    SkinDefParams.GameObjectActivation[] baseGameObjectActivations = [];
+
+                    AssetOrDirectReference<SkinDefParams> baseSkinParamsRef = baseSkin.GetSkinParams().ReferenceOrDirect();
+                    if (baseSkinParamsRef.directRef || baseSkinParamsRef.address.RuntimeKeyIsValid())
+                    {
+                        SkinDefParams baseSkinParams = baseSkinParamsRef.WaitForCompletion();
+                        baseGameObjectActivations = baseSkinParams.gameObjectActivations;
+                    }
+                    else
+                    {
+#pragma warning disable CS0618 // Type or member is obsolete
+                        baseGameObjectActivations = [.. baseSkin.gameObjectActivations];
+#pragma warning restore CS0618 // Type or member is obsolete
+                    }
+
+                    int baseObjectActivationIndex = Array.FindIndex(baseGameObjectActivations, a => a.gameObject == partObject);
                     if (baseObjectActivationIndex >= 0)
                     {
-                        bool basePartActive = skinParams.gameObjectActivations[baseObjectActivationIndex].shouldActivate;
-                        if ((shouldActivate && basePartActive) != shouldActivate)
-                        {
-                            Log.Debug($"Model part {modelPart.Path} for {this} active override: {shouldActivate}->{basePartActive}");
-                        }
+                        bool basePartActive = baseGameObjectActivations[baseObjectActivationIndex].shouldActivate;
 
                         shouldActivate &= basePartActive;
+                        partFoundInBaseSkin = true;
 
                         break;
+                    }
+                }
+
+                if (!partFoundInBaseSkin)
+                {
+                    if (shouldActivate && !partObject.activeSelf)
+                    {
+                        Log.Debug($"{name}: Disabling model part object activation {modelPart.Path}: unreferenced object disabled in prefab");
+                        shouldActivate = false;
                     }
                 }
 
@@ -106,10 +128,10 @@ namespace ModelSwapperSkins
                     SkinDefParams.MinionSkinReplacement[] minionSkinReplacements = [];
                     SkinDefParams.ProjectileGhostReplacement[] projectileGhostReplacements = [];
 
-                    (AssetReferenceT<SkinDefParams> assetRef, SkinDefParams directRef) = baseSkin.GetSkinParams();
-                    if (directRef || assetRef.RuntimeKeyIsValid())
+                    AssetOrDirectReference<SkinDefParams> skinParamsRef = baseSkin.GetSkinParams().ReferenceOrDirect();
+                    if (skinParamsRef.IsValid())
                     {
-                        SkinDefParams baseSkinParams = (assetRef, directRef).ReferenceOrDirect().WaitForCompletion();
+                        SkinDefParams baseSkinParams = skinParamsRef.WaitForCompletion();
                         minionSkinReplacements = baseSkinParams.minionSkinReplacements;
                         projectileGhostReplacements = baseSkinParams.projectileGhostReplacements;
                     }
@@ -136,41 +158,30 @@ namespace ModelSwapperSkins
                 skinParams.projectileGhostReplacements = [.. combinedProjectileGhostReplacements];
             }
 
-            bool isGupVariant = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GupBody")
-                              || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GeepBody")
-                              || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GipBody");
-
-            bool isVoidRaidCrab = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("MiniVoidRaidCrabBodyBase");
-
-            bool isNullifier = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("NullifierBody")
-                               || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("NullifierAllyBody");
-
-            bool isCaptain = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("CaptainBody");
-
-            bool isEngi = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("EngiBody");
-
-            bool isHermitCrab = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("HermitCrabBody");
-
-            bool isImp = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ImpBody");
-
-            bool isImpBoss = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ImpBossBody");
-
-            bool isLarva = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("AcidLarvaBody");
-
-            bool isMiniMushroom = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("MiniMushroomBody");
-
-            bool isTreebot = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("TreebotBody");
-
-            bool isScav = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ScavBody")
-                          || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ScavLunar1Body")
-                          || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ScavLunar2Body")
-                          || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ScavLunar3Body")
-                          || NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("ScavLunar4Body");
-            
-            KeepSkinModelAnimatorActive = isGupVariant || isVoidRaidCrab || isNullifier ||
-                                          isCaptain || isEngi || isHermitCrab ||
-                                          isImp || isImpBoss || isLarva ||
-                                          isMiniMushroom || isTreebot || isScav;
+            switch (BodyCatalog.GetBodyName(NewModelBodyPrefab.bodyIndex))
+            {
+                case "AcidLarvaBody":
+                case "CaptainBody":
+                case "EngiBody":
+                case "GeepBody":
+                case "GipBody":
+                case "GupBody":
+                case "HermitCrabBody":
+                case "ImpBody":
+                case "ImpBossBody":
+                case "MiniMushroomBody":
+                case "MiniVoidRaidCrabBodyBase":
+                case "NullifierAllyBody":
+                case "NullifierBody":
+                case "ScavBody":
+                case "ScavLunar1Body":
+                case "ScavLunar2Body":
+                case "ScavLunar3Body":
+                case "ScavLunar4Body":
+                case "TreebotBody":
+                    KeepSkinModelAnimatorActive = true;
+                    break;
+            }
         }
 
         public void RemoveFrom(Transform modelTransform, GameObject skinModelObject)
@@ -452,7 +463,7 @@ namespace ModelSwapperSkins
                 }
             }
 
-            if (modelTransform.TryGetComponent(out ModelSwappedSkinReference modelSwappedSkinReference))
+            if (modelTransform.TryGetComponent(out ModelSwappedSkinController modelSwappedSkinReference))
             {
                 modelSwappedSkinReference.SkinModelObject = skinModelTransfom.gameObject;
             }

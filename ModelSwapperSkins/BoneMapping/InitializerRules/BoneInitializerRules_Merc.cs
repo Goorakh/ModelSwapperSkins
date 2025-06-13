@@ -1,5 +1,4 @@
 ﻿using HG;
-using ModelSwapperSkins.Utils.Extensions;
 using RoR2;
 using RoR2.ContentManagement;
 using RoR2BepInExPack.GameAssetPaths;
@@ -11,16 +10,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
     public sealed class BoneInitializerRules_Merc : BoneInitializerRules_AutoName
     {
-        static SkinDef _prisonerSkin;
-
-        [SystemInitializer]
-        static void Init()
-        {
-            AssetAsyncReferenceManager<SkinDef>.LoadAsset(new AssetReferenceT<SkinDef>(RoR2_Base_Merc.skinMercAltPrisoner_asset)).CallOnSuccess(prisonerSkin =>
-            {
-                _prisonerSkin = prisonerSkin;
-            });
-        }
+        // This cannot be loaded async, because getBoneInfo requires it to be assigned before executing
+        static readonly SkinDef _prisonerSkin = AssetAsyncReferenceManager<SkinDef>.LoadAsset(new AssetReferenceT<SkinDef>(RoR2_Base_Merc.skinMercAltPrisoner_asset)).WaitForCompletion();
 
         public static new BoneInitializerRules_Merc Instance { get; } = new BoneInitializerRules_Merc();
 
@@ -83,6 +74,10 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     {
                         ArrayUtils.ArrayAppend(ref bone.ExclusionRules, new BoneExclusionRule(_prisonerSkin, ModelSkinExclusionRuleType.ExcludeIfApplied));
                     }
+                    else
+                    {
+                        Log.Warning("Prisoner skin is not loaded");
+                    }
 
                     break;
             }
@@ -102,6 +97,12 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 Bone baseBone = existingBones.Find(b => b.Info.Type == boneType);
                 if (baseBone == null)
                     yield break;
+
+                if (!_prisonerSkin)
+                {
+                    Log.Warning("Prisoner skin is not loaded");
+                    yield break;
+                }
 
                 yield return new Bone(baseBone)
                 {

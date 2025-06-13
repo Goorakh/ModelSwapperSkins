@@ -139,6 +139,7 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("LemurianBruiserBody", new ModelInfo(25f));
             SetModelInfo("LunarExploderBody", new ModelInfo(5f));
             SetModelInfo("MageBody", new ModelInfo(1.7f));
+            SetModelInfo("MercBody", new ModelInfo(2f));
             SetModelInfo("MiniMushroomBody", new ModelInfo(4.5f));
             SetModelInfo("MiniVoidRaidCrabBodyBase", new ModelInfo(250f));
             SetModelInfo("NullifierAllyBody", new ModelInfo(10f));
