@@ -86,9 +86,7 @@ namespace ModelSwapperSkins.ModelParts
                     ModelPart existingPart = partsProvider.Parts[existingPartIndex];
                     if (part.Flags != existingPart.Flags)
                     {
-#if DEBUG
                         Log.Debug($"Override model part type {existingPart.Flags}->{part.Flags} at {part.Path} for {modelTransform.name} ({bodyPrefab.name})");
-#endif
                         existingPart.Flags = part.Flags;
                     }
                     else
@@ -103,9 +101,7 @@ namespace ModelSwapperSkins.ModelParts
                 {
                     ArrayUtil.Append(ref partsProvider.Parts, newPartsList);
 
-#if DEBUG
                     Log.Debug($"Appended {newPartsList.Count} part(s) to {modelTransform.name} ({bodyPrefab.name})");
-#endif
                 }
             }
             else
@@ -118,9 +114,7 @@ namespace ModelSwapperSkins.ModelParts
             int numRemovedParts = partsList.RemoveAll(p => p.Flags == ModelPartFlags.None);
             if (numRemovedParts > 0)
             {
-#if DEBUG
                 Log.Debug($"Removed {numRemovedParts} part(s) from {modelTransform.name} ({bodyPrefab.name})");
-#endif
                 partsProvider.Parts = partsList.ToArray();
             }
 
@@ -193,9 +187,7 @@ namespace ModelSwapperSkins.ModelParts
                                 }
                                 else
                                 {
-#if DEBUG
                                     Log.Debug($"Invalid renderer in {characterModel} ({bodyPrefab}): {rendererInfo.renderer} is not in the model hierarchy");
-#endif
                                 }
                             }
                         }
@@ -213,9 +205,7 @@ namespace ModelSwapperSkins.ModelParts
                                 }
                                 else
                                 {
-#if DEBUG
                                     Log.Debug($"Invalid light in {characterModel} ({bodyPrefab}): {lightInfo.light} is not in the model hierarchy");
-#endif
                                 }
                             }
                         }

@@ -150,9 +150,7 @@ namespace ModelSwapperSkins
 
             if (!hasEnoughBonesToMatchWith(bodyBonesProvider))
             {
-#if DEBUG
                 Log.Debug($"Not creating {body.name} skin for {_bodyPrefab.name}: Not enough matching bones");
-#endif
                 return false;
             }
 

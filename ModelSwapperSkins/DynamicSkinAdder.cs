@@ -188,9 +188,7 @@ namespace ModelSwapperSkins
                 modelParts = [];
             }
 
-#if DEBUG
             Log.Debug($"{bodyPrefab.name} model parts: [{string.Join(", ", modelParts.Select(p => p.Path))}]");
-#endif
 
             if (modelTransform.TryGetComponent(out ModelSkinController modelSkinController))
             {
@@ -224,16 +222,7 @@ namespace ModelSwapperSkins
                             Transform partTransform = skin.rootObject.transform.Find(modelPart.Path);
                             if (partTransform)
                             {
-#if DEBUG
-                                if (partTransform.gameObject.activeSelf)
-                                {
-                                    Log.Debug($"Appending model part {modelPart.Path} object activation to regular skin {skin.name}");
-                                }
-                                else
-                                {
-                                    Log.Debug($"Appending default disabled model part {modelPart.Path} object activation to regular skin {skin.name}");
-                                }
-#endif
+                                Log.Debug($"Appending model part {modelPart.Path} object activation to regular skin {skin.name}, default enabled: {partTransform.gameObject.activeSelf}");
 
                                 gameObjectActivations.Add(new SkinDef.GameObjectActivation
                                 {
@@ -286,9 +275,7 @@ namespace ModelSwapperSkins
                 {
                     if (part.RendererInfo.HasValue && part.Transform.TryGetComponent(out Renderer renderer))
                     {
-#if DEBUG
                         Log.Debug($"Adding model part {part.Path} renderer ({renderer}) to generated default skin {defaultSkin.name}");
-#endif
 
                         Material[] materials = renderer.sharedMaterials;
                         if (materials.Length <= 0)

@@ -134,9 +134,7 @@ namespace ModelSwapperSkins.BoneMapping
                     }
                 }
 
-#if DEBUG
                 Log.Debug($"Using bone intializer rules {initializerRules} for {body.name}");
-#endif
 
                 initializeBones(body, initializerRules);
             }
@@ -152,9 +150,7 @@ namespace ModelSwapperSkins.BoneMapping
 
             if (!bodyPrefab.TryGetComponent(out ModelLocator modelLocator))
             {
-#if DEBUG
                 Log.Debug($"{bodyPrefab} has no ModelLocator component");
-#endif
                 return;
             }
 
@@ -194,9 +190,7 @@ namespace ModelSwapperSkins.BoneMapping
                 }
             }
 
-#if DEBUG
             Log.Debug($"Added BonesProvider component ({bonesProvider.Bones.Length} bone(s)) to {modelTransform.name} ({bodyPrefab.name})");
-#endif
         }
     }
 }
