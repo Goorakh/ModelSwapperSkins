@@ -35,8 +35,7 @@ namespace ModelSwapperSkins.Patches
                 {
                     if (renderer.TryGetComponent(out AdditionalRendererInfoProvider rendererInfoProvider))
                     {
-                        AdditionalRendererInfo rendererInfo = rendererInfoProvider.AdditionalRendererInfo;
-                        ArrayUtil.Append(ref materials, rendererInfo.Materials);
+                        ArrayUtil.Append(ref materials, rendererInfoProvider.AdditionalMaterials);
                     }
 
                     return materials;

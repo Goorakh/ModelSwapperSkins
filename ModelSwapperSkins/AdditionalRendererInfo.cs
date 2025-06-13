@@ -1,30 +1,17 @@
-﻿using ModelSwapperSkins.Utils;
-using System;
+﻿using HG;
+using ModelSwapperSkins.Utils;
 using UnityEngine;
 
 namespace ModelSwapperSkins
 {
     public class AdditionalRendererInfoProvider : MonoBehaviour
     {
-        public AdditionalRendererInfo AdditionalRendererInfo;
+        public Material[] AdditionalMaterials = [];
 
         public static void AddMaterials(Renderer renderer, Material[] additionalMaterials)
         {
-            if (renderer.TryGetComponent(out AdditionalRendererInfoProvider rendererInfoProvider))
-            {
-                ArrayUtil.Append(ref rendererInfoProvider.AdditionalRendererInfo.Materials, additionalMaterials);
-            }
-            else
-            {
-                rendererInfoProvider = renderer.gameObject.AddComponent<AdditionalRendererInfoProvider>();
-                rendererInfoProvider.AdditionalRendererInfo.Materials = additionalMaterials;
-            }
+            AdditionalRendererInfoProvider rendererInfoProvider = renderer.gameObject.EnsureComponent<AdditionalRendererInfoProvider>();
+            ArrayUtil.Append(ref rendererInfoProvider.AdditionalMaterials, additionalMaterials);
         }
-    }
-
-    [Serializable]
-    public struct AdditionalRendererInfo
-    {
-        public Material[] Materials;
     }
 }

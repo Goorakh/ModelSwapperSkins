@@ -1,4 +1,5 @@
-﻿using HG.Coroutines;
+﻿using HG;
+using HG.Coroutines;
 using ModelSwapperSkins.Utils;
 using RoR2;
 using RoR2.ContentManagement;
@@ -143,9 +144,7 @@ namespace ModelSwapperSkins.ModelParts
                 CharacterModel displayPrefabCharacterModel = survivorDef.displayPrefab.GetComponentInChildren<CharacterModel>();
                 if (displayPrefabCharacterModel)
                 {
-                    if (!displayPrefabCharacterModel.TryGetComponent(out ModelPartsProvider displayModelPartsProvider))
-                        displayModelPartsProvider = displayPrefabCharacterModel.gameObject.AddComponent<ModelPartsProvider>();
-
+                    ModelPartsProvider displayModelPartsProvider = displayPrefabCharacterModel.gameObject.EnsureComponent<ModelPartsProvider>();
                     partsProvider.CopyTo(displayModelPartsProvider);
                 }
             }

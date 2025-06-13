@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using HG;
+using RoR2;
 using System;
 using UnityEngine;
 
@@ -69,9 +70,7 @@ namespace ModelSwapperSkins.ModelInfos
                 return;
             }
 
-            if (!modelTransform.TryGetComponent(out ModelInfoProvider modelInfoProvider))
-                modelInfoProvider = modelTransform.gameObject.AddComponent<ModelInfoProvider>();
-
+            ModelInfoProvider modelInfoProvider = modelTransform.gameObject.EnsureComponent<ModelInfoProvider>();
             modelInfoProvider.ModelInfo = modelInfo;
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab.gameObject);
@@ -80,9 +79,7 @@ namespace ModelSwapperSkins.ModelInfos
                 CharacterModel displayPrefabCharacterModel = survivorDef.displayPrefab.GetComponentInChildren<CharacterModel>();
                 if (displayPrefabCharacterModel)
                 {
-                    if (!displayPrefabCharacterModel.TryGetComponent(out ModelInfoProvider displayModelInfoProvider))
-                        displayModelInfoProvider = displayPrefabCharacterModel.gameObject.AddComponent<ModelInfoProvider>();
-
+                    ModelInfoProvider displayModelInfoProvider = displayPrefabCharacterModel.gameObject.EnsureComponent<ModelInfoProvider>();
                     modelInfoProvider.CopyTo(displayModelInfoProvider);
                 }
             }

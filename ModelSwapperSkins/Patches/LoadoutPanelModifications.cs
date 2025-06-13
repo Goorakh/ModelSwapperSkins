@@ -77,11 +77,7 @@ namespace ModelSwapperSkins.Patches
         {
             if (shouldModifyLoadoutPanel(self))
             {
-                if (!self.TryGetComponent(out LoadoutPanelSkinResolver skinResolver))
-                {
-                    skinResolver = self.gameObject.AddComponent<LoadoutPanelSkinResolver>();
-                }
-
+                LoadoutPanelSkinResolver skinResolver = self.gameObject.EnsureComponent<LoadoutPanelSkinResolver>();
                 skinResolver.DisplayData = displayData;
             }
 

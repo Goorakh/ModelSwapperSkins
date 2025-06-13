@@ -319,9 +319,7 @@ namespace ModelSwapperSkins
                 CharacterModel survivorDisplayCharacterModel = survivorDef.displayPrefab.GetComponentInChildren<CharacterModel>();
                 if (survivorDisplayCharacterModel)
                 {
-                    if (!survivorDisplayCharacterModel.TryGetComponent(out ModelSkinController survivorDisplaySkinController))
-                        survivorDisplaySkinController = survivorDisplayCharacterModel.gameObject.AddComponent<ModelSkinController>();
-
+                    ModelSkinController survivorDisplaySkinController = survivorDisplayCharacterModel.gameObject.EnsureComponent<ModelSkinController>();
                     survivorDisplaySkinController.skins = modelSkinController.skins;
                 }
             }
