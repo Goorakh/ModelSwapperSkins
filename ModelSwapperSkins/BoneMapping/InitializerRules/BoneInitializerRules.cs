@@ -14,15 +14,15 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
         public BoneInfo GetBoneInfo(Transform modelTransform, Transform potentialBoneTransform)
         {
             BoneInfo result = getBoneInfo(modelTransform, potentialBoneTransform);
-#if DEBUG
+
             if (result.Type == BoneType.None)
             {
-                if (!potentialBoneTransform.GetComponent<RoR2.HurtBox>())
+                if (!potentialBoneTransform.GetComponent<HurtBox>())
                 {
                     Log.Debug($"Unhandled bone in {modelTransform.name}: {TransformUtils.GetObjectPath(potentialBoneTransform, modelTransform)}");
                 }
             }
-#endif
+
             return result;
         }
 

@@ -18,7 +18,7 @@ namespace ModelSwapperSkins
             }
             else
             {
-                // Log.Error($"Lang folder not found: {langFolderPath}");
+                Log.Error($"Lang folder not found: {langFolderPath}");
             }
         }
     }
