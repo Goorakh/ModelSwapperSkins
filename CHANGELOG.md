@@ -1,5 +1,9 @@
 ## Changelog
 
+**?.?.? Changes:**
+
+* Better compatibility with pre-memory optimization update skin and character mods
+
 **1.5.3 Changes:**
 
 * Updated for memory optimization patch.

@@ -2,13 +2,13 @@
 using ModelSwapperSkins.BoneMapping;
 using ModelSwapperSkins.ModelParts;
 using ModelSwapperSkins.Utils;
+using ModelSwapperSkins.Utils.Extensions;
 using RoR2;
 using RoR2.ContentManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace ModelSwapperSkins
 {
@@ -171,16 +171,20 @@ namespace ModelSwapperSkins
                         continue;
                     }
 
-                    AssetOrDirectReference<SkinDefParams> skinParamsReference = new AssetOrDirectReference<SkinDefParams>();
-                    {
-                        (AssetReferenceT<SkinDefParams> assetRef, SkinDefParams directRef) = skin.GetSkinParams();
-                        skinParamsReference.directRef = directRef;
-                        skinParamsReference.address = assetRef;
-                    }
-
+                    AssetOrDirectReference<SkinDefParams> skinParamsReference = skin.GetSkinParams().ReferenceOrDirect();
                     SkinDefParams skinDefParams = skinParamsReference.WaitForCompletion();
 
-                    List<SkinDefParams.GameObjectActivation> gameObjectActivations = [.. skinDefParams.gameObjectActivations];
+                    List<SkinDefParams.GameObjectActivation> gameObjectActivations;
+                    if (skinDefParams)
+                    {
+                        gameObjectActivations = [.. skinDefParams.gameObjectActivations];
+                    }
+                    else
+                    {
+#pragma warning disable CS0618 // Type or member is obsolete
+                        gameObjectActivations = [.. skin.gameObjectActivations];
+#pragma warning restore CS0618 // Type or member is obsolete
+                    }
 
                     bool gameObjectActivationsChanged = false;
 
@@ -217,7 +221,16 @@ namespace ModelSwapperSkins
 
                     if (gameObjectActivationsChanged)
                     {
-                        skinDefParams.gameObjectActivations = [.. gameObjectActivations];
+                        if (skinDefParams)
+                        {
+                            skinDefParams.gameObjectActivations = [.. gameObjectActivations];
+                        }
+                        else
+                        {
+#pragma warning disable CS0618 // Type or member is obsolete
+                            skin.gameObjectActivations = [.. gameObjectActivations.Select(g => new SkinDef.GameObjectActivation { gameObject = g.gameObject, shouldActivate = g.shouldActivate })];
+#pragma warning restore CS0618 // Type or member is obsolete
+                        }
 
                         // Force re-baking
                         skin._runtimeSkin = null;
@@ -230,7 +243,9 @@ namespace ModelSwapperSkins
 
                 SkinDef defaultSkin = ScriptableObject.CreateInstance<SkinDef>();
 
-                defaultSkin.name = $"skin{bodyPrefab.name}Default";
+                string name = $"skin{bodyPrefab.name}Default";
+                defaultSkin.name = name;
+                defaultSkin.nameToken = name.ToUpper();
 
                 defaultSkin.rootObject = modelTransform.gameObject;
 
@@ -250,6 +265,19 @@ namespace ModelSwapperSkins
                     if (!renderer || !renderer.transform.IsChildOf(defaultSkin.rootObject.transform))
                     {
                         rendererInfos.RemoveAt(i);
+                    }
+                }
+
+                List<SkinDefParams.MeshReplacement> meshReplacements = [];
+                foreach (SkinnedMeshRenderer skinnedMeshRenderer in modelTransform.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    if (skinnedMeshRenderer.sharedMesh)
+                    {
+                        meshReplacements.Add(new SkinDefParams.MeshReplacement
+                        {
+                            renderer = skinnedMeshRenderer,
+                            mesh = skinnedMeshRenderer.sharedMesh
+                        });
                     }
                 }
 
@@ -294,6 +322,8 @@ namespace ModelSwapperSkins
                 }
 
                 defaultSkinParams.rendererInfos = [.. rendererInfos];
+
+                defaultSkinParams.meshReplacements = [.. meshReplacements];
 
                 defaultSkinParams.gameObjectActivations = Array.ConvertAll(modelParts, p => new SkinDefParams.GameObjectActivation
                 {

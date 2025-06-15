@@ -128,10 +128,9 @@ namespace ModelSwapperSkins
                     SkinDefParams.MinionSkinReplacement[] minionSkinReplacements = [];
                     SkinDefParams.ProjectileGhostReplacement[] projectileGhostReplacements = [];
 
-                    AssetOrDirectReference<SkinDefParams> skinParamsRef = baseSkin.GetSkinParams().ReferenceOrDirect();
-                    if (skinParamsRef.IsValid())
+                    SkinDefParams baseSkinParams = baseSkin.GetSkinParams().ReferenceOrDirect().WaitForCompletion();
+                    if (baseSkinParams)
                     {
-                        SkinDefParams baseSkinParams = skinParamsRef.WaitForCompletion();
                         minionSkinReplacements = baseSkinParams.minionSkinReplacements;
                         projectileGhostReplacements = baseSkinParams.projectileGhostReplacements;
                     }
