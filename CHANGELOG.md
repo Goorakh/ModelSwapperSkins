@@ -1,5 +1,9 @@
 ## Changelog
 
+**?.?.? Changes:**
+
+* Fixed skins not showing in character select
+
 **1.5.4 Changes:**
 
 * Better compatibility with pre-memory optimization update skin and character mods
