@@ -13,7 +13,7 @@ namespace ModelSwapperSkins
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "Gorakh";
         public const string PluginName = "ModelSwapperSkins";
-        public const string PluginVersion = "1.5.4";
+        public const string PluginVersion = "1.5.5";
 
         void Awake()
         {
