@@ -462,6 +462,11 @@ namespace ModelSwapperSkins.ModelParts
             overrideParts(RoR2_DLC2_Child.ChildBody_prefab,
                           new ModelPartConstructor("meshChild", ModelPartFlags.Body));
 
+            overrideParts(RoR2_DLC1_EliteVoid.VoidInfestorBody_prefab,
+                          new ModelPartConstructor("mdlVoidAffixEyes", ModelPartFlags.Body),
+                          new ModelPartConstructor("mdlVoidAffixFlesh", ModelPartFlags.Body),
+                          new ModelPartConstructor("mdlVoidAffixMetal", ModelPartFlags.Body));
+
             yield return parallelOverridePartsCoroutine;
         }
     }

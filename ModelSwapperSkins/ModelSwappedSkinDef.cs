@@ -6,6 +6,7 @@ using ModelSwapperSkins.Utils.Comparers;
 using ModelSwapperSkins.Utils.Extensions;
 using RoR2;
 using RoR2.ContentManagement;
+using RoR2.EntityLogic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -178,6 +179,7 @@ namespace ModelSwapperSkins
                 case "ScavLunar3Body":
                 case "ScavLunar4Body":
                 case "TreebotBody":
+                case "VoidInfestorBody":
                     KeepSkinModelAnimatorActive = true;
                     break;
             }
@@ -215,9 +217,29 @@ namespace ModelSwapperSkins
                 yield return ModelSkin.ApplyAsync(skinModelTransfom.gameObject, loadedMaterials, loadedMeshes, unloadType);
             }
 
+            bool isInfestor = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("VoidInfestorBody");
+
             foreach (HurtBox hurtBox in skinModelTransfom.GetComponentsInChildren<HurtBox>(true))
             {
+                if (isInfestor)
+                {
+                    foreach (StartEvent startEvent in hurtBox.GetComponents<StartEvent>())
+                    {
+                        startEvent.enabled = false;
+                    }
+
+                    foreach (DelayedEvent delayedEvent in hurtBox.GetComponents<DelayedEvent>())
+                    {
+                        delayedEvent.enabled = false;
+                    }
+                }
+
                 hurtBox.enabled = false;
+            }
+
+            foreach (HitBox hitBox in skinModelTransfom.GetComponentsInChildren<HitBox>(true))
+            {
+                hitBox.enabled = false;
             }
 
             foreach (Collider collider in skinModelTransfom.GetComponentsInChildren<Collider>(true))

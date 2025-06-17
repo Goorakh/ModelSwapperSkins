@@ -148,6 +148,7 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("ToolbotBody", new ModelInfo(20f));
             SetModelInfo("TreebotBody", new ModelInfo(5f));
             SetModelInfo("VerminBody", new ModelInfo(5f));
+            SetModelInfo("VoidInfestorBody", new ModelInfo(4f));
 
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {

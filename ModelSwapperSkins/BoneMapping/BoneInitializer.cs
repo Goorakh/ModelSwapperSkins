@@ -83,6 +83,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_Toolbot.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Treebot.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Vermin.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_VoidInfestor.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_VoidJailer.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_VoidSurvivor.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Vulture.Instance);

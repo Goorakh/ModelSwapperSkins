@@ -5,6 +5,7 @@
 * Added:
   * CHEF skins
   * Child skins
+  * Void Infestor skins
 
 * Fixed
   * Ominous floating light behind Mithrix skins
