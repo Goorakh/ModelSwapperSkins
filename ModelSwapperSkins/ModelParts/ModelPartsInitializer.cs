@@ -290,17 +290,20 @@ namespace ModelSwapperSkins.ModelParts
             overrideParts(RoR2_Base_Brother.BrotherBody_prefab,
                           new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon),
                           new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature),
-                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/neck/head/eyeball/BrotherEye/EyeTrail", ModelPartFlags.Decoration));
+                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/neck/head/eyeball/BrotherEye/EyeTrail", ModelPartFlags.Decoration),
+                          new ModelPartConstructor("BrotherArmature/ROOT/2HWeaponBase", ModelPartFlags.Weapon));
 
             overrideParts(RoR2_Junk_BrotherGlass.BrotherGlassBody_prefab,
                           new ModelPartConstructor("BrotherBodyMesh", ModelPartFlags.Body, new ModelPartRendererInfo(false, false)),
                           new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon, new ModelPartRendererInfo(true, false)),
-                          new ModelPartConstructor("BrotherHammerConcrete/BrotherHammerStib", ModelPartFlags.Weapon, new ModelPartRendererInfo(true, false)));
+                          new ModelPartConstructor("BrotherHammerConcrete/BrotherHammerStib", ModelPartFlags.Weapon, new ModelPartRendererInfo(true, false)),
+                          new ModelPartConstructor("BrotherArmature/ROOT/2HWeaponBase", ModelPartFlags.Weapon));
 
             overrideParts(RoR2_Base_Brother.BrotherHurtBody_prefab,
                           new ModelPartConstructor("BrotherClothPieces", ModelPartFlags.BodyFeature),
                           new ModelPartConstructor("BrotherHammerConcrete", ModelPartFlags.Weapon),
-                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature));
+                          new ModelPartConstructor("BrotherArmature/ROOT/base/stomach/chest/clavicle.l/upper_arm.l/BrotherShoulderArmor", ModelPartFlags.BodyFeature),
+                          new ModelPartConstructor("BrotherArmature/ROOT/2HWeaponBase", ModelPartFlags.Weapon));
 
             overrideParts(RoR2_Base_Captain.CaptainBody_prefab,
                           new ModelPartConstructor("CaptainGunArm", ModelPartFlags.BodyFeature));

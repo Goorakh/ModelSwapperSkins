@@ -3,7 +3,10 @@
 **?.?.? Changes:**
 
 * Added:
-  * Chef skins
+  * CHEF skins
+
+* Fixed
+  * Ominous floating light behind Mithrix skins
 
 **1.5.5 Changes:**
 
