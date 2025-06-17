@@ -4,6 +4,7 @@
 
 * Added:
   * CHEF skins
+  * Child skins
 
 * Fixed
   * Ominous floating light behind Mithrix skins

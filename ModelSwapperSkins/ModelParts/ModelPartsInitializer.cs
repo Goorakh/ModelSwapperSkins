@@ -459,6 +459,9 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("meshChefPizzaCutter", ModelPartFlags.Weapon),
                           new ModelPartConstructor("meshlChefCleaver", ModelPartFlags.Weapon));
 
+            overrideParts(RoR2_DLC2_Child.ChildBody_prefab,
+                          new ModelPartConstructor("meshChild", ModelPartFlags.Body));
+
             yield return parallelOverridePartsCoroutine;
         }
     }
