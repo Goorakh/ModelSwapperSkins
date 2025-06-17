@@ -450,6 +450,12 @@ namespace ModelSwapperSkins.ModelParts
             overrideParts(RoR2_Base_ImpBoss.ImpBossBody_prefab,
                           new ModelPartConstructor("DustCenter", ModelPartFlags.Decoration));
 
+            overrideParts(RoR2_DLC2_Chef.ChefBody_prefab,
+                          new ModelPartConstructor("meshChef", ModelPartFlags.Body),
+                          new ModelPartConstructor("meshChefIceBox", ModelPartFlags.Body),
+                          new ModelPartConstructor("meshChefPizzaCutter", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("meshlChefCleaver", ModelPartFlags.Weapon));
+
             yield return parallelOverridePartsCoroutine;
         }
     }

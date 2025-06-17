@@ -82,11 +82,13 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     return new BoneInfo(BoneType.Stomach);
                 case "chest":
                 case "chest_jnt":
+                case "chest_m":
                     return new BoneInfo(BoneType.Chest);
                 case "neck":
                 case "neck.1":
                 case "neck1":
                 case "neck_jnt":
+                case "neck_m":
                     return new BoneInfo(BoneType.Neck1);
                 case "neck.2":
                 case "neck2":
@@ -135,6 +137,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     return new BoneInfo(BoneType.Neck16);
                 case "head":
                 case "head_jnt":
+                case "head_m":
                     return new BoneInfo(BoneType.Head);
                 case "jaw":
                     return new BoneInfo(BoneType.Jaw);
@@ -152,6 +155,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     return new BoneInfo(BoneType.Tongue4);
                 case "clavicle.l":
                 case "shoulder.l":
+                case "shoulder_l":
                 case "l_clav":
                 case "l_shoulder":
                 case "l_shoulder_jnt":
@@ -197,18 +201,21 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "finger2.1.l":
                 case "finger2.l":
                 case "middle1.l":
+                case "middlefinger1_l":
                 case "l_middle_01":
                 case "l_middle_1_jnt":
                     return new BoneInfo(BoneType.MiddleFinger1L);
                 case "finger2.2.l":
                 case "finger2.l.001":
                 case "middle2.l":
+                case "middlefinger2_l":
                 case "l_middle_02":
                 case "l_middle_2_jnt":
                     return new BoneInfo(BoneType.MiddleFinger2L);
                 case "finger2.3.l":
                 case "finger2.l.002":
                 case "middle3.l":
+                case "middlefinger3_l":
                 case "l_middle_03":
                 case "l_middle_3_jnt":
                     return new BoneInfo(BoneType.MiddleFinger3L);
@@ -248,12 +255,14 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "thumb.1.l":
                 case "thumb1.l":
                 case "thumb.l":
+                case "thumbfinger1_l":
                 case "l_thumb_01":
                 case "l_thumb_1_jnt":
                     return new BoneInfo(BoneType.Thumb1L);
                 case "thumb.2.l":
                 case "thumb.l.001":
                 case "thumb2.l":
+                case "thumbfinger2_l":
                 case "l_thumb_02":
                 case "l_thumb_2_jnt":
                     return new BoneInfo(BoneType.Thumb2L);
@@ -262,6 +271,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     return new BoneInfo(BoneType.Thumb2L_end);
                 case "clavicle.r":
                 case "shoulder.r":
+                case "shoulder_r":
                 case "r_clav":
                 case "r_shoulder":
                 case "r_shoulder_jnt":
