@@ -10,6 +10,7 @@
 * Fixed
   * Ominous floating light behind Mithrix skins
   * Void Fiend right arm rotation
+  * Railgunner stomach rotation
 
 **1.5.5 Changes:**
 

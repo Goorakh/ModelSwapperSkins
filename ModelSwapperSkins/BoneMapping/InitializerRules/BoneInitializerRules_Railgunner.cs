@@ -30,6 +30,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                         bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
                         break;
                     case BoneType.Stomach:
+                        bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
                         bone.Scale *= 0.7f;
                         break;
                     case BoneType.Chest:
