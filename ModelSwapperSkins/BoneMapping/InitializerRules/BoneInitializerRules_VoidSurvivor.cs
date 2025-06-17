@@ -129,6 +129,9 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case BoneType.ArmUpperR:
                     boneInfo.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
                     break;
+                case BoneType.ArmLowerR:
+                    boneInfo.RotationOffset *= Quaternion.Euler(0f, 180f, 0f);
+                    break;
             }
 
             return boneInfo;

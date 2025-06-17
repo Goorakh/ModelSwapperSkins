@@ -8,6 +8,7 @@
 
 * Fixed
   * Ominous floating light behind Mithrix skins
+  * Void Fiend right arm rotation
 
 **1.5.5 Changes:**
 
