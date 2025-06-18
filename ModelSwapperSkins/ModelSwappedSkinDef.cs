@@ -72,7 +72,7 @@ namespace ModelSwapperSkins
                     SkinDefParams.GameObjectActivation[] baseGameObjectActivations = [];
 
                     AssetOrDirectReference<SkinDefParams> baseSkinParamsRef = baseSkin.GetSkinParams().ReferenceOrDirect();
-                    if (baseSkinParamsRef.directRef || baseSkinParamsRef.address.RuntimeKeyIsValid())
+                    if (baseSkinParamsRef.directRef || (baseSkinParamsRef.address != null && baseSkinParamsRef.address.RuntimeKeyIsValid()))
                     {
                         SkinDefParams baseSkinParams = baseSkinParamsRef.WaitForCompletion();
                         baseGameObjectActivations = baseSkinParams.gameObjectActivations;
