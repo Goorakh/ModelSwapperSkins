@@ -90,7 +90,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_VoidJailer.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_VoidSurvivor.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Vulture.Instance);
-
+            //
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
                 string bodyName = BodyCatalog.GetBodyName(body.bodyIndex);
