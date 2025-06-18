@@ -117,16 +117,6 @@ namespace ModelSwapperSkins
                     ModelSkinController displayPrefabSkinController = displayPrefabCharacterModel.gameObject.EnsureComponent<ModelSkinController>();
                     ArrayUtil.Append(ref displayPrefabSkinController.skins, newSkins);
                 }
-
-                BodyIndex bodyIndex = body.bodyIndex;
-                if (bodyIndex != BodyIndex.None)
-                {
-                    SkinDef[][] skins = SkinCatalog.skinsByBody;
-                    if ((uint)bodyIndex < skins.Length)
-                    {
-                        ArrayUtil.Append(ref skins[(int)bodyIndex], newSkins);
-                    }
-                }
             }
 
             Log.Info_NoCallerPrefix($"Created {newSkins.Count} skin(s) for {body.name}");
@@ -323,16 +313,6 @@ namespace ModelSwapperSkins
                 });
 
                 modelSkinController.skins = [defaultSkin];
-
-                BodyIndex bodyIndex = bodyPrefab.bodyIndex;
-                if (bodyIndex != BodyIndex.None)
-                {
-                    SkinDef[][] skins = SkinCatalog.skinsByBody;
-                    if ((uint)bodyIndex < skins.Length)
-                    {
-                        ArrayUtils.ArrayAppend(ref skins[(int)bodyIndex], defaultSkin);
-                    }
-                }
             }
 
             if (survivorDef && survivorDef.displayPrefab)
