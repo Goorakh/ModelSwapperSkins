@@ -19,30 +19,32 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
         protected override BoneInfo getBoneInfo(Transform modelTransform, Transform potentialBoneTransform)
         {
             BoneInfo bone = base.getBoneInfo(modelTransform, potentialBoneTransform);
-            if (bone.Type != BoneType.None)
-            {
-                switch (bone.Type)
-                {
-                    case BoneType.Toe1L:
-                        bone.RotationOffset *= Quaternion.Euler(0f, 90f, 0f);
-                        break;
-                    case BoneType.Toe1R:
-                        bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
-                        break;
-                    case BoneType.Stomach:
-                        bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
-                        bone.Scale *= 0.7f;
-                        break;
-                    case BoneType.Chest:
-                        bone.PositionOffset += new Vector3(0f, -0.15f, 0f);
-                        bone.Scale *= 0.7f;
-                        break;
-                    case BoneType.Head:
-                        bone.PositionOffset += new Vector3(0f, -0.125f, 0f);
-                        break;
-                }
 
-                return bone;
+            switch (bone.Type)
+            {
+                case BoneType.LegLowerL:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
+                    break;
+                case BoneType.Toe1L:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 90f, 0f);
+                    break;
+                case BoneType.LegLowerR:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 90f, 0f);
+                    break;
+                case BoneType.Toe1R:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
+                    break;
+                case BoneType.Stomach:
+                    bone.RotationOffset *= Quaternion.Euler(0f, 270f, 0f);
+                    bone.Scale *= 0.7f;
+                    break;
+                case BoneType.Chest:
+                    bone.PositionOffset += new Vector3(0f, -0.15f, 0f);
+                    bone.Scale *= 0.7f;
+                    break;
+                case BoneType.Head:
+                    bone.PositionOffset += new Vector3(0f, -0.125f, 0f);
+                    break;
             }
 
             return bone;
