@@ -114,8 +114,11 @@ namespace ModelSwapperSkins
                 if (survivorDef && survivorDef.displayPrefab)
                 {
                     CharacterModel displayPrefabCharacterModel = survivorDef.displayPrefab.GetComponentInChildren<CharacterModel>();
-                    ModelSkinController displayPrefabSkinController = displayPrefabCharacterModel.gameObject.EnsureComponent<ModelSkinController>();
-                    ArrayUtil.Append(ref displayPrefabSkinController.skins, newSkins);
+                    if (displayPrefabCharacterModel)
+                    {
+                        ModelSkinController displayPrefabSkinController = displayPrefabCharacterModel.gameObject.EnsureComponent<ModelSkinController>();
+                        ArrayUtil.Append(ref displayPrefabSkinController.skins, newSkins);
+                    }
                 }
             }
 
