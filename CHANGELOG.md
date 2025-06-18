@@ -11,6 +11,7 @@
   * Ominous floating light behind Mithrix skins
   * Void Fiend right arm rotation
   * Railgunner stomach rotation
+  * Loader shoulder rotation
 
 **1.5.5 Changes:**
 
