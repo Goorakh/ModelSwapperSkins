@@ -28,7 +28,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
 
         public virtual IEnumerable<Bone> GetAdditionalBones(Transform modelTransform, List<Bone> existingBones)
         {
-            yield break;
+            return [];
         }
     }
 }
