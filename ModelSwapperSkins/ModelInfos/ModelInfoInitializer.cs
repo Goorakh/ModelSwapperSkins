@@ -175,11 +175,11 @@ namespace ModelSwapperSkins.ModelInfos
             {
                 if (TryGetModelInfo(bodyPrefab, out ModelInfo modelInfo))
                 {
-                    Debug.Log($"{bodyPrefab.name} height scale: {modelInfo.HeightScale}");
+                    Debug.Log($"{BodyCatalog.GetBodyName(bodyPrefab.bodyIndex)} height scale: {modelInfo.HeightScale}");
                 }
                 else
                 {
-                    Debug.Log($"{bodyPrefab.name} has no model info provider");
+                    Debug.Log($"{BodyCatalog.GetBodyName(bodyPrefab.bodyIndex)} has no model info provider");
                 }
             }
             else
