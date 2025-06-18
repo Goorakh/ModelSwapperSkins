@@ -354,12 +354,14 @@ namespace ModelSwapperSkins
             {
                 bool isVulture = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("VultureBody");
                 bool isGraveKeeper = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("GravekeeperBody");
+                bool isRoboBallBoss = NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("RoboBallBossBody") ||
+                                      NewModelBodyPrefab.bodyIndex == BodyCatalog.FindBodyIndex("SuperRoboBallBossBody");
 
                 foreach (DynamicBone dynamicBone in skinModelTransfom.GetComponentsInChildren<DynamicBone>())
                 {
                     dynamicBone.enabled = false;
 
-                    bool shouldDisableBone = isVulture ||
+                    bool shouldDisableBone = isVulture || isRoboBallBoss ||
                                             (isGraveKeeper && dynamicBone.m_Root && dynamicBone.m_Root.name == "head");
 
                     if (!shouldDisableBone)

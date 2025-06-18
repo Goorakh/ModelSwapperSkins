@@ -145,6 +145,8 @@ namespace ModelSwapperSkins.ModelInfos
             SetModelInfo("NullifierAllyBody", new ModelInfo(10f));
             SetModelInfo("NullifierBody", new ModelInfo(10f));
             SetModelInfo("RailgunnerBody", new ModelInfo(2f));
+            SetModelInfo("RoboBallBossBody", new ModelInfo(2.5f));
+            SetModelInfo("SuperRoboBallBossBody", new ModelInfo(2.5f));
             SetModelInfo("ToolbotBody", new ModelInfo(20f));
             SetModelInfo("TreebotBody", new ModelInfo(5f));
             SetModelInfo("VerminBody", new ModelInfo(5f));

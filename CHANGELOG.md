@@ -7,6 +7,8 @@
   * Child skins
   * Void Infestor skins
   * Halcyonite skins
+  * Solus Control Unit skins
+  * Allow Worship Unit skins
 
 * Fixed
   * Ominous floating light behind Mithrix skins
