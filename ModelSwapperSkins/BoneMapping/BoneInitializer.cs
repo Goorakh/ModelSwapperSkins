@@ -60,6 +60,7 @@ namespace ModelSwapperSkins.BoneMapping
             AddCustomBoneInitializerRules(BoneInitializerRules_Gravekeeper.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_GreaterWisp.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Gup.Instance);
+            AddCustomBoneInitializerRules(BoneInitializerRules_Halcyonite.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Heretic.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_HermitCrab.Instance);
             AddCustomBoneInitializerRules(BoneInitializerRules_Huntress.Instance);
@@ -122,7 +123,6 @@ namespace ModelSwapperSkins.BoneMapping
                         case "DevotedLemurianBruiserBody":
                         case "EnforcerBody": // Literally just a cube
                         case "GolemBodyInvincible": // Just Stone Golem
-                        case "HalcyoniteBody": // No easy mappings, blacklist for now
                         case "ITBrotherBody": // Just normal mithrix model
                         case "SniperBody": // Broken texture commando model
                         case "VoidMegaCrabAllyBody": // No easy mappings, blacklist for now

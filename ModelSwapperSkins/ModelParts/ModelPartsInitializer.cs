@@ -467,6 +467,10 @@ namespace ModelSwapperSkins.ModelParts
                           new ModelPartConstructor("mdlVoidAffixFlesh", ModelPartFlags.Body),
                           new ModelPartConstructor("mdlVoidAffixMetal", ModelPartFlags.Body));
 
+            overrideParts(RoR2_DLC2_Halcyonite.HalcyoniteBody_prefab,
+                          new ModelPartConstructor("Halcyonite_G/Halcyonite_Mesh_G/meshHalcyoniteBody", ModelPartFlags.Body),
+                          new ModelPartConstructor("Halcyonite_G/Halcyonite_Mesh_G/meshHalcyoniteSword", ModelPartFlags.Weapon));
+
             yield return parallelOverridePartsCoroutine;
         }
     }

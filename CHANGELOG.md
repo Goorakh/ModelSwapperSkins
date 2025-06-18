@@ -6,6 +6,7 @@
   * CHEF skins
   * Child skins
   * Void Infestor skins
+  * Halcyonite skins
 
 * Fixed
   * Ominous floating light behind Mithrix skins
