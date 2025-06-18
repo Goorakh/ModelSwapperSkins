@@ -96,7 +96,7 @@ namespace ModelSwapperSkins.ModelParts
                     {
                         if (part.Flags == ModelPartFlags.None)
                         {
-                            Log.Warning($"Adding already non-existing part {part.Path} with flags None for {modelTransform.name} ({bodyPrefab.name})");
+                            Log.Warning($"Adding already non-existing part {part.Path} with flags None for {modelTransform.name} ({BodyCatalog.GetBodyName(BodyCatalog.FindBodyIndex(bodyPrefab))})");
                             return true;
                         }
 
@@ -106,12 +106,12 @@ namespace ModelSwapperSkins.ModelParts
                     ModelPart existingPart = partsProvider.Parts[existingPartIndex];
                     if (part.Flags != existingPart.Flags)
                     {
-                        Log.Debug($"Override model part type {existingPart.Flags}->{part.Flags} at {part.Path} for {modelTransform.name} ({bodyPrefab.name})");
+                        Log.Debug($"Override model part type {existingPart.Flags}->{part.Flags} at {part.Path} for {modelTransform.name} ({BodyCatalog.GetBodyName(BodyCatalog.FindBodyIndex(bodyPrefab))})");
                         existingPart.Flags = part.Flags;
                     }
                     else
                     {
-                        Log.Info($"Unnecessary override of model part {part.Path} ({part.Flags}) for {modelTransform.name} ({bodyPrefab.name})");
+                        Log.Info($"Unnecessary override of model part {part.Path} ({part.Flags}) for {modelTransform.name} ({BodyCatalog.GetBodyName(BodyCatalog.FindBodyIndex(bodyPrefab))})");
                     }
 
                     return true;
@@ -121,7 +121,7 @@ namespace ModelSwapperSkins.ModelParts
                 {
                     ArrayUtil.Append(ref partsProvider.Parts, newPartsList);
 
-                    Log.Debug($"Appended {newPartsList.Count} part(s) to {modelTransform.name} ({bodyPrefab.name})");
+                    Log.Debug($"Appended {newPartsList.Count} part(s) to {modelTransform.name} ({BodyCatalog.GetBodyName(BodyCatalog.FindBodyIndex(bodyPrefab))})");
                 }
             }
             else
@@ -134,7 +134,7 @@ namespace ModelSwapperSkins.ModelParts
             int numRemovedParts = partsList.RemoveAll(p => p.Flags == ModelPartFlags.None);
             if (numRemovedParts > 0)
             {
-                Log.Debug($"Removed {numRemovedParts} part(s) from {modelTransform.name} ({bodyPrefab.name})");
+                Log.Debug($"Removed {numRemovedParts} part(s) from {modelTransform.name} ({BodyCatalog.GetBodyName(BodyCatalog.FindBodyIndex(bodyPrefab))})");
                 partsProvider.Parts = [.. partsList];
             }
 

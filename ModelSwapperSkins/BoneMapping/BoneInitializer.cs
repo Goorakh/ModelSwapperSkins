@@ -94,16 +94,18 @@ namespace ModelSwapperSkins.BoneMapping
             foreach (CharacterBody body in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
                 CharacterBody boneSourceBody = body;
+                string bodyName = BodyCatalog.GetBodyName(boneSourceBody.bodyIndex);
 
                 if (Chainloader.PluginInfos.ContainsKey("com.CherryDye.MonsterMash"))
                 {
-                    if (boneSourceBody.name.StartsWith("PC"))
+                    if (bodyName.StartsWith("PC"))
                     {
-                        string baseBodyName = boneSourceBody.name.Substring(2);
+                        string baseBodyName = bodyName.Substring(2);
                         BodyIndex baseBodyIndex = BodyCatalog.FindBodyIndex(baseBodyName);
                         if (baseBodyIndex != BodyIndex.None)
                         {
                             boneSourceBody = BodyCatalog.GetBodyPrefabBodyComponent(baseBodyIndex);
+                            bodyName = BodyCatalog.GetBodyName(boneSourceBody.bodyIndex);
                         }
                     }
                 }
@@ -112,7 +114,7 @@ namespace ModelSwapperSkins.BoneMapping
 
                 if (initializerRules == DefaultBoneRules)
                 {
-                    switch (body.name)
+                    switch (bodyName)
                     {
                         case "AncientWispBody": // Weird parenting issues, blacklist for now
                         case "BeetleBody": // Has no bones, is animated by black magic
@@ -131,16 +133,16 @@ namespace ModelSwapperSkins.BoneMapping
                             continue;
                     }
 
-                    if (body.name.EndsWith("_opt"))
+                    if (bodyName.EndsWith("_opt"))
                     {
-                        if (BodyCatalog.FindBodyIndex(body.name.Remove(body.name.Length - 4)) != BodyIndex.None)
+                        if (BodyCatalog.FindBodyIndex(bodyName.Remove(body.name.Length - 4)) != BodyIndex.None)
                         {
                             continue;
                         }
                     }
                 }
 
-                Log.Debug($"Using bone intializer rules {initializerRules} for {body.name}");
+                Log.Debug($"Using bone intializer rules {initializerRules} for {bodyName}");
 
                 initializeBones(body, initializerRules);
             }
@@ -198,7 +200,7 @@ namespace ModelSwapperSkins.BoneMapping
                 }
             }
 
-            Log.Debug($"Added BonesProvider component ({bonesProvider.Bones.Length} bone(s)) to {modelTransform.name} ({bodyPrefab.name})");
+            Log.Debug($"Added BonesProvider component ({bonesProvider.Bones.Length} bone(s)) to {modelTransform.name} ({BodyCatalog.GetBodyName(bodyPrefab.bodyIndex)})");
         }
     }
 }

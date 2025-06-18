@@ -150,7 +150,7 @@ namespace ModelSwapperSkins
 
             if (!hasEnoughBonesToMatchWith(bodyBonesProvider))
             {
-                Log.Debug($"Not creating {body.name} skin for {_bodyPrefab.name}: Not enough matching bones");
+                Log.Debug($"Not creating {BodyCatalog.GetBodyName(body.bodyIndex)} skin for {BodyCatalog.GetBodyName(_bodyPrefab.bodyIndex)}: Not enough matching bones");
                 return false;
             }
 
@@ -172,14 +172,14 @@ namespace ModelSwapperSkins
                 ModelSwappedSkinDef skinDef = ScriptableObject.CreateInstance<ModelSwappedSkinDef>();
 
                 StringBuilder nameBuilder = HG.StringBuilderPool.RentStringBuilder();
-                nameBuilder.Append("skin").Append(_bodyPrefab.name);
+                nameBuilder.Append("skin").Append(BodyCatalog.GetBodyName(_bodyPrefab.bodyIndex));
 
                 if (baseSkin)
                 {
                     nameBuilder.Append('_').Append(baseSkin.name);
                 }
 
-                nameBuilder.Append('_').Append(body.name);
+                nameBuilder.Append('_').Append(BodyCatalog.GetBodyName(body.bodyIndex));
 
                 if (modelSkin)
                 {

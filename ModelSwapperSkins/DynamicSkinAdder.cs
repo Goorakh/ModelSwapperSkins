@@ -41,7 +41,7 @@ namespace ModelSwapperSkins
                 }
                 catch (Exception e)
                 {
-                    Log.Error_NoCallerPrefix($"Failed to generate default skin for {bodyPrefab.name}: {e}");
+                    Log.Error_NoCallerPrefix($"Failed to generate default skin for {BodyCatalog.GetBodyName(bodyPrefab.bodyIndex)}: {e}");
                     failedSetupBodies.Add(bodyPrefab);
                 }
             }
@@ -83,7 +83,7 @@ namespace ModelSwapperSkins
                 }
                 else
                 {
-                    Log.Warning($"{body.name} model is missing ModelSkinController");
+                    Log.Warning($"{BodyCatalog.GetBodyName(body.bodyIndex)} model is missing ModelSkinController");
                     return;
                 }
             }
@@ -94,7 +94,7 @@ namespace ModelSwapperSkins
             }
             catch (Exception e)
             {
-                Log.Error_NoCallerPrefix($"Failed to generate skins for {body.name}: {e}");
+                Log.Error_NoCallerPrefix($"Failed to generate skins for {BodyCatalog.GetBodyName(body.bodyIndex)}: {e}");
                 return;
             }
 
@@ -122,7 +122,7 @@ namespace ModelSwapperSkins
                 }
             }
 
-            Log.Info_NoCallerPrefix($"Created {newSkins.Count} skin(s) for {body.name}");
+            Log.Info_NoCallerPrefix($"Created {newSkins.Count} skin(s) for {BodyCatalog.GetBodyName(body.bodyIndex)}");
         }
 
         static void addDefaultSkinIfMissing(CharacterBody bodyPrefab)
@@ -151,7 +151,7 @@ namespace ModelSwapperSkins
                 modelParts = [];
             }
 
-            Log.Debug($"{bodyPrefab.name} model parts: [{string.Join(", ", modelParts.Select(p => p.Path))}]");
+            Log.Debug($"{BodyCatalog.GetBodyName(bodyPrefab.bodyIndex)} model parts: [{string.Join(", ", modelParts.Select(p => p.Path))}]");
 
             if (modelTransform.TryGetComponent(out ModelSkinController modelSkinController))
             {
@@ -159,7 +159,7 @@ namespace ModelSwapperSkins
                 {
                     if (skin.rootObject != modelTransform.gameObject)
                     {
-                        Log.Warning($"Incorrect skin root object for {skin.name} on {bodyPrefab.name}");
+                        Log.Warning($"Incorrect skin root object for {skin.name} on {BodyCatalog.GetBodyName(bodyPrefab.bodyIndex)}");
                         continue;
                     }
 
@@ -235,7 +235,7 @@ namespace ModelSwapperSkins
 
                 SkinDef defaultSkin = ScriptableObject.CreateInstance<SkinDef>();
 
-                string name = $"skin{bodyPrefab.name}Default";
+                string name = $"skin{BodyCatalog.GetBodyName(bodyPrefab.bodyIndex)}Default";
                 defaultSkin.name = name;
                 defaultSkin.nameToken = name.ToUpper();
 
