@@ -1,7 +1,7 @@
 ﻿using HG;
 using RoR2;
 using RoR2.ContentManagement;
-using RoR2BepInExPack.GameAssetPaths;
+using RoR2BepInExPack.GameAssetPathsBetter;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

@@ -7,7 +7,7 @@
 	"dependencies": [
 		"bbepis-BepInExPack-5.4.2100",
 		"RiskofThunder-HookGenPatcher-1.2.5",
-		"RiskofThunder-R2API_Core-5.1.5",
+		"RiskofThunder-R2API_Core-5.1.6",
 		"KingEnderBrine-ScrollableLobbyUI-1.9.1",
 		"KingEnderBrine-LobbySkinsFix-1.2.1"
 	]

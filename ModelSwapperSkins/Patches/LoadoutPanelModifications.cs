@@ -8,7 +8,7 @@ using MonoMod.RuntimeDetour;
 using RoR2;
 using RoR2.ContentManagement;
 using RoR2.UI;
-using RoR2BepInExPack.GameAssetPaths;
+using RoR2BepInExPack.GameAssetPathsBetter;
 using System;
 using System.Collections;
 using System.Collections.Generic;
