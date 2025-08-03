@@ -169,12 +169,12 @@ namespace ModelSwapperSkins
                     List<SkinDefParams.GameObjectActivation> gameObjectActivations;
                     if (skinDefParams)
                     {
-                        gameObjectActivations = [.. skinDefParams.gameObjectActivations];
+                        gameObjectActivations = skinDefParams.gameObjectActivations != null ? [.. skinDefParams.gameObjectActivations] : [];
                     }
                     else
                     {
 #pragma warning disable CS0618 // Type or member is obsolete
-                        gameObjectActivations = [.. skin.gameObjectActivations];
+                        gameObjectActivations = skin.gameObjectActivations != null ? [.. skin.gameObjectActivations] : [];
 #pragma warning restore CS0618 // Type or member is obsolete
                     }
 
@@ -249,7 +249,7 @@ namespace ModelSwapperSkins
                 defaultSkin.skinDefParams = defaultSkinParams;
                 defaultSkin.optimizedSkinDefParams = defaultSkinParams;
 
-                List<CharacterModel.RendererInfo> rendererInfos = [.. characterModel.baseRendererInfos];
+                List<CharacterModel.RendererInfo> rendererInfos = characterModel.baseRendererInfos != null ? [.. characterModel.baseRendererInfos] : [];
 
                 for (int i = rendererInfos.Count - 1; i >= 0; i--)
                 {

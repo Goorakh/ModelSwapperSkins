@@ -1,5 +1,9 @@
 ## Changelog
 
+**?.?.? Changes:**
+
+* Compatibility fixes
+
 **1.6.0 Changes:**
 
 * Added:
