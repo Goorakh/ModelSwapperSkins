@@ -68,9 +68,6 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                     case "Thumb2":
                         boneInfo = new BoneInfo(BoneType.Thumb2L);
                         break;
-                    case "ThumbEnd":
-                        boneInfo = new BoneInfo(BoneType.Thumb2L_end);
-                        break;
                 }
             }
 

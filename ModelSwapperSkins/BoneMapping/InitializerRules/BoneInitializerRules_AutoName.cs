@@ -266,9 +266,6 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "l_thumb_02":
                 case "l_thumb_2_jnt":
                     return new BoneInfo(BoneType.Thumb2L);
-                case "thumb.2.l_end":
-                case "thumb.l_end":
-                    return new BoneInfo(BoneType.Thumb2L_end);
                 case "clavicle.r":
                 case "shoulder.r":
                 case "shoulder_r":
