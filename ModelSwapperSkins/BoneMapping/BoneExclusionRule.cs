@@ -1,6 +1,4 @@
-﻿using HG;
-using ModelSwapperSkins.Patches;
-using RoR2;
+﻿using RoR2;
 using System;
 using UnityEngine;
 
@@ -30,6 +28,9 @@ namespace ModelSwapperSkins.BoneMapping
 
         public BoneExclusionRule(SkinDef modelSkin, ModelSkinExclusionRuleType skinExclusionRule)
         {
+            if (!modelSkin)
+                throw new ArgumentNullException(nameof(modelSkin));
+
             _ruleType = BoneExclusionRuleType.ModelSkin;
             _subRuleType = (int)skinExclusionRule;
             _modelSkin = modelSkin;
@@ -59,8 +60,8 @@ namespace ModelSwapperSkins.BoneMapping
                     
                     return appliedSkin && (ModelSkinExclusionRuleType)_subRuleType switch
                     {
-                        ModelSkinExclusionRuleType.ExcludeIfApplied => appliedSkin == _modelSkin,
-                        ModelSkinExclusionRuleType.ExcludeIfNotApplied => appliedSkin != _modelSkin,
+                        ModelSkinExclusionRuleType.ExcludeIfApplied => appliedSkin.skinIndex == _modelSkin.skinIndex,
+                        ModelSkinExclusionRuleType.ExcludeIfNotApplied => appliedSkin.skinIndex != _modelSkin.skinIndex,
                         _ => throw new NotImplementedException($"Model skin rule type {(ModelSkinExclusionRuleType)_subRuleType} is not implemented"),
                     };
 
