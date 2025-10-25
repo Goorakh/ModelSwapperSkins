@@ -11,23 +11,30 @@ namespace ModelSwapperSkins.Utils
             if (obj == root)
                 return obj.name;
 
-            StringBuilder sb = new StringBuilder();
-
-            do
+            StringBuilder sb = HG.StringBuilderPool.RentStringBuilder();
+            try
             {
-                if (sb.Length == 0)
-                {
-                    sb.Append(obj.name);
-                }
-                else
-                {
-                    sb.Insert(0, obj.name + "/");
-                }
 
-                obj = obj.parent;
-            } while (obj != null && obj != root);
+                do
+                {
+                    if (sb.Length == 0)
+                    {
+                        sb.Append(obj.name);
+                    }
+                    else
+                    {
+                        sb.Insert(0, obj.name + "/");
+                    }
 
-            return sb.ToString();
+                    obj = obj.parent;
+                } while (obj != null && obj != root);
+
+                return sb.ToString();
+            }
+            finally
+            {
+                sb = HG.StringBuilderPool.ReturnStringBuilder(sb);
+            }
         }
 
         public static IEnumerable<Transform> GetAllChildrenRecursive(Transform root)
