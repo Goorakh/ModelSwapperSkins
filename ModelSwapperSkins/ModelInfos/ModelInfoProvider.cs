@@ -2,7 +2,7 @@
 
 namespace ModelSwapperSkins.ModelInfos
 {
-    public class ModelInfoProvider : MonoBehaviour
+    public sealed class ModelInfoProvider : MonoBehaviour
     {
         public ModelInfo ModelInfo;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ModelSwapperSkins.BoneMapping
 {
     [Serializable]
-    public record BoneInfo(BoneType Type, Vector3 PositionOffset, Quaternion RotationOffset, float Scale, BoneExclusionRule[] ExclusionRules)
+    public sealed record class BoneInfo(BoneType Type, Vector3 PositionOffset, Quaternion RotationOffset, float Scale, BoneExclusionRule[] ExclusionRules)
     {
         public static BoneInfo None { get; } = new BoneInfo(BoneType.None);
 

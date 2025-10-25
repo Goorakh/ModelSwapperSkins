@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ModelSwapperSkins.Utils.Comparers
 {
-    public class ProjectileGhostReplacementProjectileComparer : IEqualityComparer<SkinDefParams.ProjectileGhostReplacement>
+    public sealed class ProjectileGhostReplacementProjectileComparer : IEqualityComparer<SkinDefParams.ProjectileGhostReplacement>
     {
         public static ProjectileGhostReplacementProjectileComparer Instance { get; } = new ProjectileGhostReplacementProjectileComparer();
 

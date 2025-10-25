@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ModelSwapperSkins.Utils.Comparers
 {
-    public class MinionSkinReplacementBodyComparer : IEqualityComparer<SkinDefParams.MinionSkinReplacement>
+    public sealed class MinionSkinReplacementBodyComparer : IEqualityComparer<SkinDefParams.MinionSkinReplacement>
     {
         public static MinionSkinReplacementBodyComparer Instance { get; } = new MinionSkinReplacementBodyComparer();
 

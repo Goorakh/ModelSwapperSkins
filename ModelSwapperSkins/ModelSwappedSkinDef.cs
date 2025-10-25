@@ -16,7 +16,7 @@ using UnityEngine.AddressableAssets;
 
 namespace ModelSwapperSkins
 {
-    public class ModelSwappedSkinDef : SkinDef
+    public sealed class ModelSwappedSkinDef : SkinDef
     {
         public CharacterBody NewModelBodyPrefab;
         public Transform NewModelTransformPrefab;

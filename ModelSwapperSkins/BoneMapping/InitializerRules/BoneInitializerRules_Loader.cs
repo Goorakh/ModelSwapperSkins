@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping.InitializerRules
 {
-    public class BoneInitializerRules_Loader : BoneInitializerRules_AutoName
+    public sealed class BoneInitializerRules_Loader : BoneInitializerRules_AutoName
     {
         public static new BoneInitializerRules_Loader Instance { get; } = new BoneInitializerRules_Loader();
 

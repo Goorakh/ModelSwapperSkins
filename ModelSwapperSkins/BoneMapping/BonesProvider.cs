@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ModelSwapperSkins.BoneMapping
 {
-    public class BonesProvider : MonoBehaviour
+    public sealed class BonesProvider : MonoBehaviour
     {
         [SerializeField]
         BoneType[] _matchableBoneTypes;

@@ -2,7 +2,7 @@
 
 namespace ModelSwapperSkins
 {
-    public class ModelSwappedSkinController : MonoBehaviour
+    public sealed class ModelSwappedSkinController : MonoBehaviour
     {
         public ModelSwappedSkinDef AppliedSkin;
         public GameObject SkinModelObject;

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace ModelSwapperSkins
 {
-    public class BodySkinsInitializer
+    public sealed class BodySkinsInitializer
     {
         readonly CharacterBody _bodyPrefab;
 

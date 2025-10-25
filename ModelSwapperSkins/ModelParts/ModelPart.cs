@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ModelSwapperSkins.ModelParts
 {
     [Serializable]
-    public class ModelPart
+    public sealed class ModelPart
     {
         public ModelPartFlags Flags;
         public Transform Transform;

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ModelSwapperSkins.BoneMapping
 {
     [Serializable]
-    public class Bone : ICloneable
+    public sealed class Bone : ICloneable
     {
         public BoneInfo Info;
         public Transform BoneTransform;

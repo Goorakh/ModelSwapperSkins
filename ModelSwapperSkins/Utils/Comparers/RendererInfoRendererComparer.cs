@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ModelSwapperSkins.Utils.Comparers
 {
-    public class RendererInfoRendererComparer : IEqualityComparer<CharacterModel.RendererInfo>
+    public sealed class RendererInfoRendererComparer : IEqualityComparer<CharacterModel.RendererInfo>
     {
         public static RendererInfoRendererComparer Instance { get; } = new RendererInfoRendererComparer();
 

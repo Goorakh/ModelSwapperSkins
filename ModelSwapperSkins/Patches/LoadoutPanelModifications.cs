@@ -273,7 +273,7 @@ namespace ModelSwapperSkins.Patches
             tryRebuildLoadoutPanel(self);
         }
 
-        class LoadoutPanelModelSkinsHandler : MonoBehaviour
+        sealed class LoadoutPanelModelSkinsHandler : MonoBehaviour
         {
             public LoadoutPanelController PanelController { get; set; }
 
@@ -593,7 +593,7 @@ namespace ModelSwapperSkins.Patches
             }
         }
 
-        class LoadoutPanelSkinResolver : MonoBehaviour
+        sealed class LoadoutPanelSkinResolver : MonoBehaviour
         {
             LoadoutPanelController.DisplayData _displayData = new LoadoutPanelController.DisplayData
             {

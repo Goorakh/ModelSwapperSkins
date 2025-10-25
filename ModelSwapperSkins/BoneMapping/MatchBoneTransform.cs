@@ -10,7 +10,7 @@ namespace ModelSwapperSkins.BoneMapping
     }
 
     [DisallowMultipleComponent]
-    public class MatchBoneTransform : MonoBehaviour
+    public sealed class MatchBoneTransform : MonoBehaviour
     {
         Transform _boneTransform;
         Bone _bone;

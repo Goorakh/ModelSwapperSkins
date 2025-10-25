@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace ModelSwapperSkins.ModelParts
 {
-    public class ModelPartsProvider : MonoBehaviour
+    public sealed class ModelPartsProvider : MonoBehaviour
     {
         public ModelPart[] Parts = [];
 

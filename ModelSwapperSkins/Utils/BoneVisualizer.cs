@@ -47,7 +47,7 @@ namespace ModelSwapperSkins.Utils
             }
         }
 
-        class ModelBonesDrawer : MonoBehaviour
+        sealed class ModelBonesDrawer : MonoBehaviour
         {
             static readonly Mesh _lineMesh;
 
