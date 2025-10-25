@@ -5,7 +5,7 @@ namespace ModelSwapperSkins
 {
     public static class BodyIconCache
     {
-        record IconKey(Texture2D bodyPortrait);
+        sealed record IconKey(Texture2D bodyPortrait);
 
         static readonly Dictionary<IconKey, Sprite> _cachedIcons = [];
 
