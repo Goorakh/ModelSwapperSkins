@@ -227,6 +227,8 @@ namespace ModelSwapperSkins
                         // Force re-baking
                         skin._runtimeSkin = null;
                     }
+
+                    skinParamsReference.Reset();
                 }
             }
             else

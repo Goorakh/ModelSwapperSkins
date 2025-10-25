@@ -53,7 +53,8 @@ namespace ModelSwapperSkins
                 }
             }
 
-            SkinDefParams skinParams = GetSkinParams().ReferenceOrDirect().WaitForCompletion();
+            AssetOrDirectReference<SkinDefParams> skinParamsRef = GetSkinParams().ReferenceOrDirect();
+            SkinDefParams skinParams = skinParamsRef.WaitForCompletion();
 
             skinParams.gameObjectActivations = new SkinDefParams.GameObjectActivation[modelPartsProvider.Parts.Length];
 
@@ -83,6 +84,8 @@ namespace ModelSwapperSkins
                         baseGameObjectActivations = [.. baseSkin.gameObjectActivations];
 #pragma warning restore CS0618 // Type or member is obsolete
                     }
+
+                    baseSkinParamsRef.Reset();
 
                     int baseObjectActivationIndex = Array.FindIndex(baseGameObjectActivations, a => a.gameObject == partObject);
                     if (baseObjectActivationIndex >= 0)
@@ -129,7 +132,8 @@ namespace ModelSwapperSkins
                     SkinDefParams.MinionSkinReplacement[] minionSkinReplacements = [];
                     SkinDefParams.ProjectileGhostReplacement[] projectileGhostReplacements = [];
 
-                    SkinDefParams baseSkinParams = baseSkin.GetSkinParams().ReferenceOrDirect().WaitForCompletion();
+                    AssetOrDirectReference<SkinDefParams> baseSkinParamsRef = baseSkin.GetSkinParams().ReferenceOrDirect();
+                    SkinDefParams baseSkinParams = baseSkinParamsRef.WaitForCompletion();
                     if (baseSkinParams)
                     {
                         minionSkinReplacements = baseSkinParams.minionSkinReplacements;
@@ -152,11 +156,15 @@ namespace ModelSwapperSkins
                     {
                         combinedProjectileGhostReplacements.UnionWith(projectileGhostReplacements);
                     }
+
+                    baseSkinParamsRef.Reset();
                 }
 
                 skinParams.minionSkinReplacements = [.. combinedMinionSkinReplacements];
                 skinParams.projectileGhostReplacements = [.. combinedProjectileGhostReplacements];
             }
+
+            skinParamsRef.Reset();
 
             switch (BodyCatalog.GetBodyName(NewModelBodyPrefab.bodyIndex))
             {
