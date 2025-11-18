@@ -14,10 +14,10 @@ namespace ModelSwapperSkins.Patches
         [SystemInitializer]
         static void Init()
         {
-            On.RoR2.SkinDef.RuntimeSkin.ApplyAsync += RuntimeSkin_ApplyAsync;
+            On.RoR2.SkinDef.RuntimeSkin.ApplyAsync_GameObject_List1_List1_List1_AsyncReferenceHandleUnloadType += RuntimeSkin_ApplyAsync_GameObject_List1_List1_List1_AsyncReferenceHandleUnloadType;
         }
 
-        static IEnumerator RuntimeSkin_ApplyAsync(On.RoR2.SkinDef.RuntimeSkin.orig_ApplyAsync orig, SkinDef.RuntimeSkin self, GameObject modelObject, List<AssetReferenceT<Material>> loadedMaterials, List<AssetReferenceT<Mesh>> loadedMeshes, AsyncReferenceHandleUnloadType unloadType)
+        static IEnumerator RuntimeSkin_ApplyAsync_GameObject_List1_List1_List1_AsyncReferenceHandleUnloadType(On.RoR2.SkinDef.RuntimeSkin.orig_ApplyAsync_GameObject_List1_List1_List1_AsyncReferenceHandleUnloadType orig, SkinDef.RuntimeSkin self, GameObject modelObject, List<AssetReferenceT<Material>> loadedMaterials, List<AssetReferenceT<Mesh>> loadedMeshes, List<AssetReferenceT<GameObject>> loadedGameObjects, AsyncReferenceHandleUnloadType unloadType)
         {
             if (self is SkinDef.RuntimeSkin skin)
             {
@@ -65,7 +65,7 @@ namespace ModelSwapperSkins.Patches
                 }
             }
 
-            return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
+            return orig(self, modelObject, loadedMaterials, loadedMeshes, loadedGameObjects, unloadType);
         }
     }
 }

@@ -1,5 +1,13 @@
 ## Changelog
 
+**1.7.0 Changes:**
+
+* Updated for Alloyed Collective
+
+* Added:
+  * Drifter skins
+  * Operator skins
+
 **1.6.1 Changes:**
 
 * Compatibility fixes

@@ -34,21 +34,28 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "thigh1.l":
                 case "l_thigh":
                 case "l_thigh_jnt":
+                case "hip_l":
+                case "thighl":
                     return new BoneInfo(BoneType.LegUpperL);
                 case "calf.l":
                 case "shin1.l":
                 case "l_shin":
                 case "l_calf_jnt":
+                case "knee_l":
+                case "calfl":
                     return new BoneInfo(BoneType.LegLowerL);
                 case "foot.l":
                 case "footl":
                 case "l_foot":
                 case "l_foot_jnt":
+                case "ankle_l":
                     return new BoneInfo(BoneType.FootL);
                 case "toe.l":
                 case "toe1.l":
                 case "l_toe":
                 case "l_toet_jnt":
+                case "toes_l":
+                case "toel":
                     return new BoneInfo(BoneType.Toe1L);
                 case "toe2.l":
                     return new BoneInfo(BoneType.Toe2L);
@@ -58,21 +65,28 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "thigh1.r":
                 case "r_thigh":
                 case "r_thigh_jnt":
+                case "hip_r":
+                case "thighr":
                     return new BoneInfo(BoneType.LegUpperR);
                 case "calf.r":
                 case "shin1.r":
                 case "r_shin":
                 case "r_calf_jnt":
+                case "knee_r":
+                case "calfr":
                     return new BoneInfo(BoneType.LegLowerR);
                 case "foot.r":
                 case "footr":
                 case "r_foot":
                 case "r_foot_jnt":
+                case "ankle_r":
                     return new BoneInfo(BoneType.FootR);
                 case "toe.r":
                 case "toe1.r":
                 case "r_toe":
                 case "r_toet_jnt":
+                case "toes_r":
+                case "toer":
                     return new BoneInfo(BoneType.Toe1R);
                 case "toe2.r":
                     return new BoneInfo(BoneType.Toe2R);
@@ -165,6 +179,7 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "upperarm.l":
                 case "l_arm_jnt":
                 case "l_upperarm":
+                case "upper_arml":
                     return new BoneInfo(BoneType.ArmUpperL);
                 case "lower_arm.l":
                 case "lowerarm.l":
@@ -172,11 +187,14 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "forearm1.l":
                 case "l_forearm":
                 case "l_forearm_jnt":
+                case "elbow_l":
+                case "lower_arml":
                     return new BoneInfo(BoneType.ArmLowerL);
                 case "hand.l":
                 case "handl":
                 case "l_hand":
                 case "l_hand_jnt":
+                case "wirst_l":
                     return new BoneInfo(BoneType.HandL);
                 case "palml":
                     return new BoneInfo(BoneType.HandPalmL);
@@ -185,18 +203,24 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "index1.l":
                 case "l_index_01":
                 case "l_index_1_jnt":
+                case "finger1_1_l":
+                case "finger_pointer_l":
                     return new BoneInfo(BoneType.IndexFinger1L);
                 case "finger1.2.l":
                 case "finger1.l.001":
                 case "index2.l":
                 case "l_index_02":
                 case "l_index_2_jnt":
+                case "finger1_2_l":
+                case "finger_pointer_l_01":
                     return new BoneInfo(BoneType.IndexFinger2L);
                 case "finger1.3.l":
                 case "finger1.l.002":
                 case "index3.l":
                 case "l_index_03":
                 case "l_index_3_jnt":
+                case "finger1_3_l":
+                case "finger_pointer_l_02":
                     return new BoneInfo(BoneType.IndexFinger3L);
                 case "finger2.1.l":
                 case "finger2.l":
@@ -204,6 +228,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "middlefinger1_l":
                 case "l_middle_01":
                 case "l_middle_1_jnt":
+                case "finger2_1_l":
+                case "finger_middle_l":
                     return new BoneInfo(BoneType.MiddleFinger1L);
                 case "finger2.2.l":
                 case "finger2.l.001":
@@ -211,6 +237,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "middlefinger2_l":
                 case "l_middle_02":
                 case "l_middle_2_jnt":
+                case "finger2_2_l":
+                case "finger_middle_l_01":
                     return new BoneInfo(BoneType.MiddleFinger2L);
                 case "finger2.3.l":
                 case "finger2.l.002":
@@ -218,39 +246,50 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "middlefinger3_l":
                 case "l_middle_03":
                 case "l_middle_3_jnt":
+                case "finger2_3_l":
+                case "finger_middle_l_02":
                     return new BoneInfo(BoneType.MiddleFinger3L);
                 case "finger3.1.l":
                 case "finger3.l":
                 case "ring1.l":
                 case "l_ring_01":
                 case "l_ring_1_jnt":
+                case "finger3_1_l":
+                case "finger_ring_l":
                     return new BoneInfo(BoneType.RingFinger1L);
                 case "finger3.2.l":
                 case "finger3.l.001":
                 case "ring2.l":
                 case "l_ring_02":
                 case "l_ring_2_jnt":
+                case "finger3_2_l":
+                case "finger_ring_l_01":
                     return new BoneInfo(BoneType.RingFinger2L);
                 case "finger3.3.l":
                 case "finger3.l.002":
                 case "ring3.l":
                 case "l_ring_03":
                 case "l_ring_3_jnt":
+                case "finger3_3_l":
+                case "finger_ring_l_02":
                     return new BoneInfo(BoneType.RingFinger3L);
                 case "finger4.1.l":
                 case "pinky1.l":
                 case "l_pinky_01":
                 case "l_pinky_1_jnt":
+                case "finger_pinkie_l":
                     return new BoneInfo(BoneType.PinkyFinger1L);
                 case "finger4.2.l":
                 case "pinky2.l":
                 case "l_pinky_02":
                 case "l_pinky_2_jnt":
+                case "finger_pinkie_l_01":
                     return new BoneInfo(BoneType.PinkyFinger2L);
                 case "finger4.3.l":
                 case "pinky3.l":
                 case "l_pinky_03":
                 case "l_pinky_3_jnt":
+                case "finger_pinkie_l_02":
                     return new BoneInfo(BoneType.PinkyFinger3L);
                 case "thumb.1.l":
                 case "thumb1.l":
@@ -258,6 +297,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "thumbfinger1_l":
                 case "l_thumb_01":
                 case "l_thumb_1_jnt":
+                case "thumb1_l":
+                case "finger_thumb_l":
                     return new BoneInfo(BoneType.Thumb1L);
                 case "thumb.2.l":
                 case "thumb.l.001":
@@ -265,6 +306,8 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "thumbfinger2_l":
                 case "l_thumb_02":
                 case "l_thumb_2_jnt":
+                case "thumb2_l":
+                case "finger_thumb_l_01":
                     return new BoneInfo(BoneType.Thumb2L);
                 case "clavicle.r":
                 case "shoulder.r":
@@ -285,82 +328,107 @@ namespace ModelSwapperSkins.BoneMapping.InitializerRules
                 case "forearm.r":
                 case "r_forearm":
                 case "r_forearm_jnt":
+                case "elbow_r":
                     return new BoneInfo(BoneType.ArmLowerR);
                 case "hand.r":
                 case "handr":
                 case "r_hand":
                 case "r_hand_jnt":
+                case "wrist_r":
                     return new BoneInfo(BoneType.HandR);
                 case "finger1.1.r":
                 case "finger.1.1.r":
                 case "finger1.r":
                 case "index1.r":
                 case "r_index_01":
+                case "finger1_1_r":
+                case "finger_pointer_r":
                     return new BoneInfo(BoneType.IndexFinger1R);
                 case "finger1.2.r":
                 case "finger.1.2.r":
                 case "finger1.r.001":
                 case "index2.r":
                 case "r_index_02":
+                case "finger1_2_r":
+                case "finger_pointer_r_01":
                     return new BoneInfo(BoneType.IndexFinger2R);
                 case "finger1.3.r":
                 case "finger1.r.002":
                 case "index3.r":
                 case "r_index_03":
+                case "finger1_3_r":
+                case "finger_pointer_r_02":
                     return new BoneInfo(BoneType.IndexFinger3R);
                 case "finger2.1.r":
                 case "finger.2.1.r":
                 case "finger2.r":
                 case "middle1.r":
                 case "r_middle_01":
+                case "finger2_1_r":
+                case "finger_middle_r":
                     return new BoneInfo(BoneType.MiddleFinger1R);
                 case "finger2.2.r":
                 case "finger.2.2.r":
                 case "finger2.r.001":
                 case "middle2.r":
                 case "r_middle_02":
+                case "finger2_2_r":
+                case "finger_middle_r_01":
                     return new BoneInfo(BoneType.MiddleFinger2R);
                 case "finger2.3.r":
                 case "finger2.r.002":
                 case "middle3.r":
                 case "r_middle_03":
+                case "finger2_3_r":
+                case "finger_middle_r_02":
                     return new BoneInfo(BoneType.MiddleFinger3R);
                 case "finger3.1.r":
                 case "finger3.r":
                 case "ring1.r":
                 case "r_ring_01":
+                case "finger3_1_r":
+                case "finger_ring_r":
                     return new BoneInfo(BoneType.RingFinger1R);
                 case "finger3.2.r":
                 case "finger3.r.001":
                 case "ring2.r":
                 case "r_ring_02":
+                case "finger3_2_r":
+                case "finger_ring_r_01":
                     return new BoneInfo(BoneType.RingFinger2R);
                 case "finger3.3.r":
                 case "finger3.r.002":
                 case "ring3.r":
                 case "r_ring_03":
+                case "finger3_3_r":
+                case "finger_ring_r_02":
                     return new BoneInfo(BoneType.RingFinger3R);
                 case "finger4.1.r":
                 case "pinky1.r":
                 case "r_pinky_01":
+                case "finger_pinky_r":
                     return new BoneInfo(BoneType.PinkyFinger1R);
                 case "finger4.2.r":
                 case "pinky2.r":
                 case "r_pinky_02":
+                case "finger_pinky_r_01":
                     return new BoneInfo(BoneType.PinkyFinger2R);
                 case "finger4.3.r":
                 case "pinky3.r":
                 case "r_pinky_03":
+                case "finger_pinky_r_02":
                     return new BoneInfo(BoneType.PinkyFinger3R);
                 case "r_thumb_01":
                 case "thumb.1.r":
                 case "thumb1.r":
                 case "thumb.r":
+                case "thumb1_r":
                     return new BoneInfo(BoneType.Thumb1R);
                 case "r_thumb_02":
                 case "thumb.2.r":
                 case "thumb.r.001":
                 case "thumb2.r":
+                case "thumb2_r":
                     return new BoneInfo(BoneType.Thumb2R);
                 case "tail1":
                 case "tail.1":

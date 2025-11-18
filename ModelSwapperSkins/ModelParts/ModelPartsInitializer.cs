@@ -443,6 +443,19 @@ namespace ModelSwapperSkins.ModelParts
             overrideParts("HalcyoniteBody",
                           new ModelPartConstructor("Halcyonite_G/Halcyonite_Mesh_G/meshHalcyoniteBody", ModelPartFlags.Body),
                           new ModelPartConstructor("Halcyonite_G/Halcyonite_Mesh_G/meshHalcyoniteSword", ModelPartFlags.Weapon));
+
+            overrideParts("DrifterBody",
+                          new ModelPartConstructor("meshBag", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("meshJunk", ModelPartFlags.Decoration),
+                          new ModelPartConstructor("meshDrifter", ModelPartFlags.Body));
+
+            overrideParts("DroneTechBody",
+                          new ModelPartConstructor("DroneTech_Body", ModelPartFlags.Body),
+                          new ModelPartConstructor("DroneTech_Gun", ModelPartFlags.Weapon),
+                          new ModelPartConstructor("Operator_Glow_01", ModelPartFlags.Body),
+                          new ModelPartConstructor("Operator_Glow_02", ModelPartFlags.Body),
+                          new ModelPartConstructor("Operator_Glow_03", ModelPartFlags.Body),
+                          new ModelPartConstructor("Operator_Glow_04", ModelPartFlags.Body));
         }
     }
 }
